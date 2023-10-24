@@ -1,0 +1,56 @@
+JFDML JFormDesigner: "8.2.0.0.331" Java: "11.0.10" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :p:26:p, par t {seq t {par l {comp label1:::p::p, comp label2::t:p::p}, space s:::p, par l {comp address:::p:191:p, comp account:::p:191:p}}, seq t {comp label3:::p::p, space s:::p, par l {comp password:::p:191:p, seq l {space :p:48:p, comp loginBtn:::p:79:p}}}}, space :::p, comp registerLabel:::p::p, space ::57:x}}"
+			"$verticalGroup": "par l {seq l {space :p:61:p, par b {comp label1::b:p::p, comp address::b:p::p}, space :::p, par b {comp label2::b:p::p, comp account::b:p::p, comp registerLabel::b:p::p}, space s:::p, par b {comp label3::b:p::p, comp password::b:p::p}, space :::p, comp loginBtn:::p:49:p, space ::43:x}}"
+		} ) {
+			name: "loginJFrame"
+			"title": "Chat"
+			"defaultCloseOperation": 3
+			"resizable": false
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "服务器地址："
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label2"
+				"text": "账号："
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label3"
+				"text": "密码："
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "address"
+				"text": "127.0.0.1:5678"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "account"
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 1
+				}
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "loginBtn"
+				"text": "登录"
+				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "loginBtnClicked", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JPasswordField" ) {
+				name: "password"
+				"enabled": false
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "registerLabel"
+				"text": "注册账号"
+				"foreground": sfield java.awt.Color blue
+				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "registerLabelClicked", true ) )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 45, 0 )
+			"size": new java.awt.Dimension( 420, 295 )
+		} )
+	}
+}

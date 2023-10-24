@@ -1,7 +1,7 @@
 package io.github.wj0410.chatroom.server;
 
+import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.ui.ServerUI;
-import io.github.wj0410.chatroom.server.util.UIUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

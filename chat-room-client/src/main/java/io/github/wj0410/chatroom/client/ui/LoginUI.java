@@ -1,5 +1,5 @@
 /*
- * Created by JFormDesigner on Tue Oct 24 11:56:00 CST 2023
+ * Created by JFormDesigner on Tue Oct 24 12:31:27 CST 2023
  */
 
 package io.github.wj0410.chatroom.client.ui;
@@ -13,9 +13,13 @@ import javax.swing.LayoutStyle;
 /**
  * @author wangjie
  */
-public class Login  {
+public class LoginUI  {
 
-    private void button1MouseClicked(MouseEvent e) {
+    private void loginBtnClicked(MouseEvent e) {
+        // TODO add your code here
+    }
+
+    private void registerLabelClicked(MouseEvent e) {
         // TODO add your code here
     }
 
@@ -27,13 +31,15 @@ public class Login  {
         label3 = new JLabel();
         address = new JTextField();
         account = new JTextField();
-        button1 = new JButton();
+        loginBtn = new JButton();
         password = new JPasswordField();
+        registerLabel = new JLabel();
 
         //======== loginJFrame ========
         {
-            loginJFrame.setTitle("\u767b\u5f55");
+            loginJFrame.setTitle("Chat");
             loginJFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            loginJFrame.setResizable(false);
             Container loginJFrameContentPane = loginJFrame.getContentPane();
 
             //---- label1 ----
@@ -46,19 +52,29 @@ public class Login  {
             label3.setText("\u5bc6\u7801\uff1a");
 
             //---- address ----
-            address.setText("47.98.35.95:5678");
+            address.setText("127.0.0.1:5678");
 
-            //---- button1 ----
-            button1.setText("\u8fde\u63a5");
-            button1.addMouseListener(new MouseAdapter() {
+            //---- loginBtn ----
+            loginBtn.setText("\u767b\u5f55");
+            loginBtn.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    button1MouseClicked(e);
+                    loginBtnClicked(e);
                 }
             });
 
             //---- password ----
             password.setEnabled(false);
+
+            //---- registerLabel ----
+            registerLabel.setText("\u6ce8\u518c\u8d26\u53f7");
+            registerLabel.setForeground(Color.blue);
+            registerLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    registerLabelClicked(e);
+                }
+            });
 
             GroupLayout loginJFrameContentPaneLayout = new GroupLayout(loginJFrameContentPane);
             loginJFrameContentPane.setLayout(loginJFrameContentPaneLayout);
@@ -66,7 +82,7 @@ public class Login  {
                 loginJFrameContentPaneLayout.createParallelGroup()
                     .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                             .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
                                 .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
                                     .addComponent(label1)
@@ -77,14 +93,15 @@ public class Login  {
                                     .addComponent(account, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)))
                             .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
                                 .addComponent(label3)
+                                .addGap(18, 18, 18)
                                 .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
+                                    .addComponent(password, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
                                     .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                                        .addGap(65, 65, 65)
-                                        .addComponent(button1, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(password, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(76, Short.MAX_VALUE))
+                                        .addGap(48, 48, 48)
+                                        .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(registerLabel)
+                        .addContainerGap(57, Short.MAX_VALUE))
             );
             loginJFrameContentPaneLayout.setVerticalGroup(
                 loginJFrameContentPaneLayout.createParallelGroup()
@@ -93,17 +110,18 @@ public class Login  {
                         .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                             .addComponent(label1)
                             .addComponent(address, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                             .addComponent(label2)
-                            .addComponent(account, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                            .addComponent(account, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(registerLabel))
                         .addGap(18, 18, 18)
                         .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                             .addComponent(label3)
                             .addComponent(password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button1, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(36, Short.MAX_VALUE))
+                        .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(43, Short.MAX_VALUE))
             );
             loginJFrame.pack();
             loginJFrame.setLocationRelativeTo(loginJFrame.getOwner());
@@ -118,7 +136,8 @@ public class Login  {
     private JLabel label3;
     private JTextField address;
     public JTextField account;
-    private JButton button1;
+    private JButton loginBtn;
     private JPasswordField password;
+    private JLabel registerLabel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

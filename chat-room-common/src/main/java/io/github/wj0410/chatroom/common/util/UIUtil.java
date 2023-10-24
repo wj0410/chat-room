@@ -1,4 +1,4 @@
-package io.github.wj0410.chatroom.server.util;
+package io.github.wj0410.chatroom.common.util;
 
 import javax.swing.*;
 import javax.swing.text.*;

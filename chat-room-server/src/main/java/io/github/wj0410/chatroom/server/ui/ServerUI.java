@@ -4,9 +4,8 @@
 
 package io.github.wj0410.chatroom.server.ui;
 
+import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.Server;
-import io.github.wj0410.chatroom.server.util.ChatUtils;
-import io.github.wj0410.chatroom.server.util.UIUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.awt.*;
@@ -14,8 +13,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.StyledDocument;
 
 /**
  * @author wangjie
