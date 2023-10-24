@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq t {space :::p, par l {comp scrollPane2:::::x, comp scrollPane4:::::x}, space :::p, comp scrollPane3:::p:142:p, space :::p}}"
-			"$verticalGroup": "par l {seq l {space :::p, par l {comp scrollPane3::::407:x, seq {comp scrollPane4::::274:x, space :::p, comp scrollPane2:::p:127:p}}, space :::p}}"
+			"$horizontalGroup": "par l {seq l {comp scrollPane3:::p:150:p, space :::p, par l {comp scrollPane4:::::x, comp scrollPane2:::::x}, space :::p}}"
+			"$verticalGroup": "par l {seq t {space :::p, par t {comp scrollPane3:::::x, seq {space :0:0:x, comp scrollPane4:::p:257:p, space :::p, comp scrollPane2:::p:173:p}}, space :p:26:p}}"
 		} ) {
 			name: "chatJFrame"
 			"title": "聊天室"
@@ -40,8 +40,8 @@ new FormModel {
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 15, 25 )
-			"size": new java.awt.Dimension( 570, 450 )
+			"location": new java.awt.Point( 90, 30 )
+			"size": new java.awt.Dimension( 620, 475 )
 		} )
 	}
 }
