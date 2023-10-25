@@ -34,7 +34,7 @@ public class BindClientHandler extends ChannelInboundHandlerAdapter {
             log.info("服务端接收到客户端的绑定信息：{}", bindRequest.toString());
             ServerUtil.addClient(ctx, bindRequest);
             if (server.getServerUI() != null) {
-                UIUtil.drawConsole(server.getServerUI().getConsolePane(), String.format("客户端 %s 连接了...", UIUtil.formatClientName(ServerUtil.getClientModelMap().get(ctx))));
+                UIUtil.drawConsole(server.getServerUI().getConsolePane(), String.format("客户端 %s 连接了...",ServerUtil.getFormatClient(ctx)));
                 server.getServerUI().flushClientOnlineList();
             }
         } else {

@@ -26,9 +26,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<MessageRequest> {
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+        String formatClient = ServerUtil.getFormatClient(ctx);
         ServerUtil.removeClient(ctx);
         if (server.getServerUI() != null) {
-            UIUtil.drawConsole(server.getServerUI().getConsolePane(), String.format("客户端 %s 下线了...", ServerUtil.getFormatClient(ctx)));
+            UIUtil.drawConsole(server.getServerUI().getConsolePane(), String.format("客户端 %s 下线了...", formatClient));
             server.getServerUI().flushClientOnlineList();
         }
 

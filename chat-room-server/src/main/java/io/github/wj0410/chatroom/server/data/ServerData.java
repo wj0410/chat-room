@@ -12,16 +12,18 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ServerData {
 
-    protected static ConcurrentHashMap<ChannelHandlerContext, ClientModel> getClientModelMap() {
+    /**
+     * key : clientId
+     */
+    private static ConcurrentHashMap<String, ClientModel> clientModelMap = new ConcurrentHashMap<>();
+
+    private static LinkedList<ClientModel> clientOnlineList = new LinkedList<>();
+
+    protected static ConcurrentHashMap<String, ClientModel> getClientModelMap() {
         return clientModelMap;
     }
 
     protected static LinkedList<ClientModel> getClientOnlineList() {
         return clientOnlineList;
     }
-
-    private static ConcurrentHashMap<ChannelHandlerContext, ClientModel> clientModelMap = new ConcurrentHashMap<>();
-
-    private static LinkedList<ClientModel> clientOnlineList = new LinkedList<>();
-
 }

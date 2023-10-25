@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ServerUtil extends ServerData {
 
-    public static ConcurrentHashMap<ChannelHandlerContext, ClientModel> getClientModelMap() {
+    public static ConcurrentHashMap<String, ClientModel> getClientModelMap() {
         return ServerData.getClientModelMap();
     }
 
@@ -32,16 +32,17 @@ public class ServerUtil extends ServerData {
         clientModel.setUserName(bindRequest.getUserName());
         clientModel.setCtx(ctx);
         ServerData.getClientOnlineList().add(clientModel);
-        ServerData.getClientModelMap().put(ctx, clientModel);
+        ServerData.getClientModelMap().put(getClientId(ctx), clientModel);
     }
 
     public static void removeClient(ChannelHandlerContext ctx) {
-        ServerData.getClientOnlineList().remove(ServerData.getClientModelMap().get(ctx));
-        ServerData.getClientModelMap().remove(ctx);
+        String clientId = getClientId(ctx);
+        ServerData.getClientOnlineList().remove(ServerData.getClientModelMap().get(clientId));
+        ServerData.getClientModelMap().remove(clientId);
     }
 
     public static ClientModel getClientModel(ChannelHandlerContext ctx) {
-        return ServerData.getClientModelMap().get(ctx);
+        return ServerData.getClientModelMap().get(getClientId(ctx));
     }
 
     public static String getClientId(ChannelHandlerContext ctx) {

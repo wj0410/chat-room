@@ -21,7 +21,7 @@ public class UIUtil {
     }
 
     public static String formatClientName(ClientModel clientModel) {
-        return String.format(" %s ---- %s ", clientModel.getClientId(), clientModel.getUserName());
+        return String.format(" [clientId:%s] %s ", clientModel.getClientId(), clientModel.getUserName());
     }
 
     /**
