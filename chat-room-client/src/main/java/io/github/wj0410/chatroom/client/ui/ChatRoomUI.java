@@ -4,6 +4,8 @@
 
 package io.github.wj0410.chatroom.client.ui;
 
+import io.github.wj0410.chatroom.client.Client;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -13,11 +15,23 @@ import javax.swing.LayoutStyle;
 /**
  * @author wangjie
  */
-public class ChatRoomUI  {
+public class ChatRoomUI {
+    private Client client;
 
-    private void chatJFrameWindowClosing(WindowEvent e) {
-        // TODO add your code here
+    public ChatRoomUI(Client client) {
+        this.client = client;
+        this.client.setChatRoomUI(this);
+        this.initComponents();
     }
+
+    public void show() {
+        this.chatJFrame.setVisible(true);
+    }
+
+    public void hide() {
+        this.chatJFrame.setVisible(false);
+    }
+
 
     private void textArea3KeyPressed(KeyEvent e) {
         // TODO add your code here
@@ -27,6 +41,15 @@ public class ChatRoomUI  {
         // TODO add your code here
     }
 
+    /**
+     * 关闭聊天室
+     * 程序退出
+     *
+     * @param e
+     */
+    private void chatRoomJFrameWindowClosing(WindowEvent e) {
+        client.shutDown();
+    }
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         chatJFrame = new JFrame();
@@ -43,7 +66,7 @@ public class ChatRoomUI  {
             chatJFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    chatJFrameWindowClosing(e);
+                    chatRoomJFrameWindowClosing(e);
                 }
             });
             Container chatJFrameContentPane = chatJFrame.getContentPane();
@@ -88,7 +111,8 @@ public class ChatRoomUI  {
             chatJFrameContentPaneLayout.setHorizontalGroup(
                 chatJFrameContentPaneLayout.createParallelGroup()
                     .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                        .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
+                        .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
                             .addComponent(scrollPane4)
@@ -98,11 +122,10 @@ public class ChatRoomUI  {
             chatJFrameContentPaneLayout.setVerticalGroup(
                 chatJFrameContentPaneLayout.createParallelGroup()
                     .addGroup(GroupLayout.Alignment.TRAILING, chatJFrameContentPaneLayout.createSequentialGroup()
-                        .addContainerGap()
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(chatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                             .addComponent(scrollPane3)
                             .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(scrollPane4, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)))

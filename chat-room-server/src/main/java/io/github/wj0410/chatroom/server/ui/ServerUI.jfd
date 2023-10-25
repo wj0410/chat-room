@@ -4,10 +4,10 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:24:p, comp label1:::p::p, space u:::p, comp portText:::p:79:p, space u:::p, comp runBtn:::p::p, space :::p, comp shutdownBtn:::p::p, space :p:82:p, comp label2:::p::p, space u:::p, comp online_count:::p::p, space ::318:x}, seq t {space :::p, comp scrollPane1::::741:x, space :::p}}"
-			"$verticalGroup": "par l {seq t {space :p:26:p, par b {comp label1::b:p::p, comp portText::b:::x, comp runBtn::b:p::p, comp shutdownBtn::b:p::p, comp label2::b:p::p, comp online_count::b:p::p}, space :p:42:p, comp scrollPane1::::443:x, space :::p}}"
+			"$horizontalGroup": "par l {seq {par l {seq {space :p:24:p, comp label1:::p::p, space u:::p, comp portText:::p:79:p, space u:::p, comp runBtn:::p::p, space :::p, comp shutdownBtn:::p::p, space :p:82:p, comp label2:::p::p, space u:::p, comp onlineCount:::p::p, space ::93:x, comp scrollPane3:::p:219:p}, seq {space :::p, comp scrollPane1::::741:x}}, space :::p}}"
+			"$verticalGroup": "par l {seq {par l {seq {space :p:26:p, par b {comp label1::b:p::p, comp portText::b:::x, comp runBtn::b:p::p, comp shutdownBtn::b:p::p, comp label2::b:p::p, comp onlineCount::b:p::p}, space :p:42:p}, seq l {space :::p, comp scrollPane3:::p:89:p, space :::x}}, comp scrollPane1::::437:x, space :::p}}"
 		} ) {
-			name: "mainJFrame"
+			name: "serverJFrame"
 			"title": "Server"
 			"defaultCloseOperation": 3
 			"autoRequestFocus": false
@@ -42,8 +42,15 @@ new FormModel {
 				"text": "在线人数："
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "online_count"
+				name: "onlineCount"
 				"text": "0"
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane3"
+				add( new FormComponent( "javax.swing.JList" ) {
+					name: "onlineList"
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "onlineListMouseClicked", true ) )
+				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 10, 0 )

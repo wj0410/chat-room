@@ -10,6 +10,9 @@ import java.awt.*;
  */
 public class UIUtil {
 
+    public static void alertSuccess(String str) {
+        JOptionPane.showMessageDialog(null, str);
+    }
     public static void alertError(String str) {
         JOptionPane.showMessageDialog(null, str, "提示", JOptionPane.ERROR_MESSAGE);
     }

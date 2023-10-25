@@ -6,10 +6,15 @@ package io.github.wj0410.chatroom.server.ui;
 
 import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.Server;
+import io.github.wj0410.chatroom.server.data.ServerData;
+import io.github.wj0410.chatroom.server.model.ClientModel;
+import io.netty.channel.Channel;
 import org.apache.commons.lang.StringUtils;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
+import java.util.Map;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
@@ -18,27 +23,31 @@ import javax.swing.LayoutStyle;
  * @author wangjie
  */
 public class ServerUI {
-    private static Server server;
+
+    private Server server;
+
+    public ServerUI() {
+        this.initComponents();
+    }
 
     public static void main(String[] args) {
         ServerUI serverUI = new ServerUI();
-        serverUI.run();
+        serverUI.show();
     }
 
-    /**
-     * 运行
-     */
-    public void run() {
-        this.initComponents();
-        this.mainJFrame.setVisible(true);
+    public void flushClientOnlineList() {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (ClientModel clientModel : ServerData.clientOnlineList) {
+            model.addElement(clientModel.getClientId());
+        }
+        onlineList.setModel(model);
+        this.onlineCount.setText(String.valueOf(ServerData.clientOnlineList.size()));
     }
 
-    /**
-     * 启动
-     *
-     * @param e
-     * @throws Exception
-     */
+    public void show() {
+        this.serverJFrame.setVisible(true);
+    }
+
     private void runBtnClicked(MouseEvent e) {
         String port = this.portText.getText();
         if (StringUtils.isBlank(port)) {
@@ -46,34 +55,41 @@ public class ServerUI {
             return;
         }
         try {
-            if (ServerUI.server != null) {
+            if (this.server != null) {
                 UIUtil.alertError("服务端已启动！");
                 return;
             }
-            Server server = new Server(Integer.parseInt(port));
-            ServerUI.server = server;
+            this.server = new Server(Integer.parseInt(port));
             server.start(this);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    /**
-     * 停止
-     *
-     * @param e
-     */
     private void shutdownBtnClicked(MouseEvent e) {
         server.shutDown();
+    }
+
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
     }
 
     public JTextPane getConsolePane() {
         return this.consolePane;
     }
 
+    private void onlineListMouseClicked(MouseEvent e) {
+        // TODO add your code here
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
-        mainJFrame = new JFrame();
+        serverJFrame = new JFrame();
         scrollPane1 = new JScrollPane();
         consolePane = new JTextPane();
         portText = new JTextField();
@@ -81,14 +97,16 @@ public class ServerUI {
         runBtn = new JButton();
         shutdownBtn = new JButton();
         label2 = new JLabel();
-        online_count = new JLabel();
+        onlineCount = new JLabel();
+        scrollPane3 = new JScrollPane();
+        onlineList = new JList();
 
-        //======== mainJFrame ========
+        //======== serverJFrame ========
         {
-            mainJFrame.setTitle("Server");
-            mainJFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            mainJFrame.setAutoRequestFocus(false);
-            Container mainJFrameContentPane = mainJFrame.getContentPane();
+            serverJFrame.setTitle("Server");
+            serverJFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            serverJFrame.setAutoRequestFocus(false);
+            Container serverJFrameContentPane = serverJFrame.getContentPane();
 
             //======== scrollPane1 ========
             {
@@ -126,55 +144,77 @@ public class ServerUI {
             //---- label2 ----
             label2.setText("\u5728\u7ebf\u4eba\u6570\uff1a");
 
-            //---- online_count ----
-            online_count.setText("0");
+            //---- onlineCount ----
+            onlineCount.setText("0");
 
-            GroupLayout mainJFrameContentPaneLayout = new GroupLayout(mainJFrameContentPane);
-            mainJFrameContentPane.setLayout(mainJFrameContentPaneLayout);
-            mainJFrameContentPaneLayout.setHorizontalGroup(
-                mainJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(mainJFrameContentPaneLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(label1)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(portText, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(runBtn)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(shutdownBtn)
-                        .addGap(82, 82, 82)
-                        .addComponent(label2)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(online_count)
-                        .addContainerGap(318, Short.MAX_VALUE))
-                    .addGroup(GroupLayout.Alignment.TRAILING, mainJFrameContentPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
-                        .addContainerGap())
+            //======== scrollPane3 ========
+            {
+
+                //---- onlineList ----
+                onlineList.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        onlineListMouseClicked(e);
+                    }
+                });
+                scrollPane3.setViewportView(onlineList);
+            }
+
+            GroupLayout serverJFrameContentPaneLayout = new GroupLayout(serverJFrameContentPane);
+            serverJFrameContentPane.setLayout(serverJFrameContentPaneLayout);
+            serverJFrameContentPaneLayout.setHorizontalGroup(
+                    serverJFrameContentPaneLayout.createParallelGroup()
+                            .addGroup(serverJFrameContentPaneLayout.createSequentialGroup()
+                                    .addGroup(serverJFrameContentPaneLayout.createParallelGroup()
+                                            .addGroup(serverJFrameContentPaneLayout.createSequentialGroup()
+                                                    .addGap(24, 24, 24)
+                                                    .addComponent(label1)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(portText, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(runBtn)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(shutdownBtn)
+                                                    .addGap(82, 82, 82)
+                                                    .addComponent(label2)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(onlineCount)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                                                    .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(serverJFrameContentPaneLayout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)))
+                                    .addContainerGap())
             );
-            mainJFrameContentPaneLayout.setVerticalGroup(
-                mainJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(GroupLayout.Alignment.TRAILING, mainJFrameContentPaneLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(mainJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(label1)
-                            .addComponent(portText)
-                            .addComponent(runBtn)
-                            .addComponent(shutdownBtn)
-                            .addComponent(label2)
-                            .addComponent(online_count))
-                        .addGap(42, 42, 42)
-                        .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
-                        .addContainerGap())
+            serverJFrameContentPaneLayout.setVerticalGroup(
+                    serverJFrameContentPaneLayout.createParallelGroup()
+                            .addGroup(serverJFrameContentPaneLayout.createSequentialGroup()
+                                    .addGroup(serverJFrameContentPaneLayout.createParallelGroup()
+                                            .addGroup(serverJFrameContentPaneLayout.createSequentialGroup()
+                                                    .addGap(26, 26, 26)
+                                                    .addGroup(serverJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                                            .addComponent(label1)
+                                                            .addComponent(portText)
+                                                            .addComponent(runBtn)
+                                                            .addComponent(shutdownBtn)
+                                                            .addComponent(label2)
+                                                            .addComponent(onlineCount))
+                                                    .addGap(42, 42, 42))
+                                            .addGroup(serverJFrameContentPaneLayout.createSequentialGroup()
+                                                    .addContainerGap()
+                                                    .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                                    .addContainerGap())
             );
-            mainJFrame.pack();
-            mainJFrame.setLocationRelativeTo(mainJFrame.getOwner());
+            serverJFrame.pack();
+            serverJFrame.setLocationRelativeTo(serverJFrame.getOwner());
         }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
-    private JFrame mainJFrame;
+    private JFrame serverJFrame;
     private JScrollPane scrollPane1;
     private JTextPane consolePane;
     private JTextField portText;
@@ -182,6 +222,8 @@ public class ServerUI {
     private JButton runBtn;
     private JButton shutdownBtn;
     private JLabel label2;
-    private JLabel online_count;
+    private JLabel onlineCount;
+    private JScrollPane scrollPane3;
+    private JList onlineList;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }
