@@ -1,5 +1,7 @@
 package io.github.wj0410.chatroom.common.util;
 
+import io.github.wj0410.chatroom.common.model.ClientModel;
+
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
@@ -13,8 +15,13 @@ public class UIUtil {
     public static void alertSuccess(String str) {
         JOptionPane.showMessageDialog(null, str);
     }
+
     public static void alertError(String str) {
         JOptionPane.showMessageDialog(null, str, "提示", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static String formatClientName(ClientModel clientModel) {
+        return String.format(" %s ---- %s ", clientModel.getClientId(), clientModel.getUserName());
     }
 
     /**

@@ -1,8 +1,10 @@
 package io.github.wj0410.chatroom.server.data;
 
-import io.github.wj0410.chatroom.server.model.ClientModel;
+import io.github.wj0410.chatroom.common.model.ClientModel;
+import io.netty.channel.ChannelHandlerContext;
 
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author wangjie
@@ -10,5 +12,16 @@ import java.util.LinkedList;
  */
 public class ServerData {
 
-    public static LinkedList<ClientModel> clientOnlineList = new LinkedList<>();
+    protected static ConcurrentHashMap<ChannelHandlerContext, ClientModel> getClientModelMap() {
+        return clientModelMap;
+    }
+
+    protected static LinkedList<ClientModel> getClientOnlineList() {
+        return clientOnlineList;
+    }
+
+    private static ConcurrentHashMap<ChannelHandlerContext, ClientModel> clientModelMap = new ConcurrentHashMap<>();
+
+    private static LinkedList<ClientModel> clientOnlineList = new LinkedList<>();
+
 }

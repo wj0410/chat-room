@@ -4,17 +4,14 @@
 
 package io.github.wj0410.chatroom.server.ui;
 
+import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.Server;
-import io.github.wj0410.chatroom.server.data.ServerData;
-import io.github.wj0410.chatroom.server.model.ClientModel;
-import io.netty.channel.Channel;
+import io.github.wj0410.chatroom.server.util.ServerUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.LinkedList;
-import java.util.Map;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle;
@@ -37,11 +34,11 @@ public class ServerUI {
 
     public void flushClientOnlineList() {
         DefaultListModel<String> model = new DefaultListModel<>();
-        for (ClientModel clientModel : ServerData.clientOnlineList) {
-            model.addElement(clientModel.getClientId());
+        for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
+            model.addElement(UIUtil.formatClientName(clientModel));
         }
-        onlineList.setModel(model);
-        this.onlineCount.setText(String.valueOf(ServerData.clientOnlineList.size()));
+        this.onlineList.setModel(model);
+        this.onlineCount.setText(String.valueOf(ServerUtil.getClientOnlineList().size()));
     }
 
     public void show() {
@@ -81,10 +78,6 @@ public class ServerUI {
 
     public JTextPane getConsolePane() {
         return this.consolePane;
-    }
-
-    private void onlineListMouseClicked(MouseEvent e) {
-        // TODO add your code here
     }
 
     private void initComponents() {
@@ -149,14 +142,6 @@ public class ServerUI {
 
             //======== scrollPane3 ========
             {
-
-                //---- onlineList ----
-                onlineList.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        onlineListMouseClicked(e);
-                    }
-                });
                 scrollPane3.setViewportView(onlineList);
             }
 

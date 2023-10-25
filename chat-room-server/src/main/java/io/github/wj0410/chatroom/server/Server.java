@@ -1,22 +1,21 @@
 package io.github.wj0410.chatroom.server;
 
-import io.github.wj0410.chatroom.common.constant.CommonConstants;
 import io.github.wj0410.chatroom.common.decoder.BindRequestDecoder;
 import io.github.wj0410.chatroom.common.decoder.MessageRequestDecoder;
 import io.github.wj0410.chatroom.common.encoder.BindRequestEncoder;
 import io.github.wj0410.chatroom.common.encoder.MessageRequestEncoder;
-import io.github.wj0410.chatroom.common.message.BindRequest;
 import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.handler.BindClientHandler;
 import io.github.wj0410.chatroom.server.handler.ServerHandler;
 import io.github.wj0410.chatroom.server.ui.ServerUI;
-import io.github.wj0410.chatroom.server.util.ServerUtil;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.AttributeKey;
 
 /**
  * @author wangjie
