@@ -31,22 +31,8 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
         if (ServerHolder.serverUI != null) {
             UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), String.format("客户端 %s 连接了...", ServerUtil.formatClientAccount(ctx)));
             ServerHolder.serverUI.flushClientOnlineList();
+            // 给所有客户端发送同步在线列表消息
+            ServerUtil.sendSyncOnlineMessage();
         }
-        // 服务端向所有客户端发送同步在线列表消息
-        SyncOnlineMessage syncOnlineMessage = new SyncOnlineMessage();
-        LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
-        LinkedList<ClientModel> newList = new LinkedList<>();
-        for (ClientModel clientModel : clientOnlineList) {
-            ClientModel client = new ClientModel();
-            BeanUtils.copyProperties(clientModel,client);
-            client.setCtx(null);
-            newList.add(client);
-        }
-        syncOnlineMessage.setClientOnlineList(newList);
-        String syncOnlineMessageJsonStr = MessageUtil.createSyncOnlineMessageJsonStr(syncOnlineMessage);
-        for (ClientModel clientModel : clientOnlineList) {
-            clientModel.getCtx().writeAndFlush(syncOnlineMessageJsonStr);
-        }
-        log.info("服务端向所有客户端发送同步在线列表消息：{}", syncOnlineMessageJsonStr);
     }
 }

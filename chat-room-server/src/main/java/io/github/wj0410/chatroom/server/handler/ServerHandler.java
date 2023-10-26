@@ -28,6 +28,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         if (ServerHolder.serverUI != null) {
             UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), String.format("客户端 %s 下线了...", formatClient));
             ServerHolder.serverUI.flushClientOnlineList();
+            // 给所有客户端发送同步在线列表消息
+            ServerUtil.sendSyncOnlineMessage();
         }
     }
 
