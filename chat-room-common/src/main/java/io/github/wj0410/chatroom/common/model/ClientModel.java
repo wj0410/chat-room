@@ -9,17 +9,10 @@ import lombok.Data;
  */
 @Data
 public class ClientModel {
-    /**
-     * 客户端ID
-     */
+
     private String clientId;
-    /**
-     * 用户名
-     */
+    private String account;
     private String userName;
-    /**
-     * 客户端在服务端的ctx
-     */
     private ChannelHandlerContext ctx;
 
 }

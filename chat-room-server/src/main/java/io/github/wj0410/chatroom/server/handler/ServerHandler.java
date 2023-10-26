@@ -2,7 +2,7 @@ package io.github.wj0410.chatroom.server.handler;
 
 import io.github.wj0410.chatroom.common.message.MessageRequest;
 import io.github.wj0410.chatroom.common.util.UIUtil;
-import io.github.wj0410.chatroom.server.Server;
+import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.util.ServerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -13,11 +13,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @date 2023/10/23
  */
 public class ServerHandler extends SimpleChannelInboundHandler<MessageRequest> {
-    private Server server;
-
-    public ServerHandler(Server server) {
-        this.server = server;
-    }
 
     /**
      * 客户端下线
@@ -26,11 +21,11 @@ public class ServerHandler extends SimpleChannelInboundHandler<MessageRequest> {
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        String formatClient = ServerUtil.getFormatClient(ctx);
+        String formatClient = ServerUtil.formatClientAccount(ctx);
         ServerUtil.removeClient(ctx);
-        if (server.getServerUI() != null) {
-            UIUtil.drawConsole(server.getServerUI().getConsolePane(), String.format("客户端 %s 下线了...", formatClient));
-            server.getServerUI().flushClientOnlineList();
+        if (ServerHolder.serverUI != null) {
+            UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), String.format("客户端 %s 下线了...", formatClient));
+            ServerHolder.serverUI.flushClientOnlineList();
         }
 
     }
@@ -43,9 +38,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<MessageRequest> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequest messageRequest) {
-        System.out.println(String.format("服务端收到客户端[%s]消息,%s", ServerUtil.getFormatClient(ctx), messageRequest.toString()));
-        if (server.getServerUI() != null) {
-            UIUtil.drawConsole(server.getServerUI().getConsolePane(), String.format("服务端收到客户端 %s 消息：%s", ServerUtil.getFormatClient(ctx), messageRequest.toString()));
+        System.out.println(String.format("服务端收到客户端[%s]消息,%s", ServerUtil.formatClientAccount(ctx), messageRequest.toString()));
+        if (ServerHolder.serverUI != null) {
+            UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), String.format("服务端收到客户端 %s 消息：%s", ServerUtil.formatClientAccount(ctx), messageRequest.toString()));
         }
     }
 

@@ -7,7 +7,7 @@ import io.github.wj0410.chatroom.common.encoder.MessageRequestEncoder;
 import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.handler.BindClientHandler;
 import io.github.wj0410.chatroom.server.handler.ServerHandler;
-import io.github.wj0410.chatroom.server.ui.ServerUI;
+import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -21,35 +21,46 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  * @author wangjie
  * @date 2023/10/23
  */
-public class Server {
+public class NettyServer {
+    private static volatile NettyServer instance;
     private ChannelFuture channelFuture;
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
     private int port;
-    private ServerUI serverUI;
 
-    public Server(int port) {
-        this.port = port;
+    public static NettyServer getInstance(int port) {
+        if (instance == null) {
+            synchronized (NettyServer.class) {
+                if (instance == null) {
+                    instance = new NettyServer(port);
+                }
+            }
+        }
+        return instance;
     }
 
-    public void start(ServerUI serverUI) throws Exception {
-        this.serverUI = serverUI;
+    private NettyServer(int port) {
+        this.port = port;
+        ServerHolder.nettyServer = this;
+    }
+
+    public void start() throws Exception {
         this.bossGroup = new NioEventLoopGroup();
         this.workerGroup = new NioEventLoopGroup();
-        Server server = this;
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) throws Exception {
+                        ServerHolder.serverSocketChannel = ch;
                         ch.pipeline().addLast(
                                 new BindRequestDecoder(),// 对接收自客户端的绑定类型消息响应进行自定义解码
                                 new MessageRequestDecoder(),// 对接收自客户端的消息响应进行自定义解码
                                 new BindRequestEncoder(),
                                 new MessageRequestEncoder(),// 对写出到客户端的消息进行字符串编码
-                                new BindClientHandler(ch, server),
-                                new ServerHandler(server)
+                                new BindClientHandler(),
+                                new ServerHandler()
                         );
                     }
                 });
@@ -59,9 +70,9 @@ public class Server {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (!future.isSuccess()) {
-                    UIUtil.drawConsole(serverUI.getConsolePane(), "服务启动失败");
+                    UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "服务启动失败");
                 } else {
-                    UIUtil.drawConsole(serverUI.getConsolePane(), "Server：启动Netty服务端成功，端口号:" + port);
+                    UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "Server：启动Netty服务端成功，端口号:" + port);
                 }
             }
         });
@@ -70,8 +81,8 @@ public class Server {
     public void shutDown() {
         try {
             channelFuture.channel().close();
-            serverUI.setServer(null);
-            UIUtil.drawConsole(serverUI.getConsolePane(), "Server：服务已停止！");
+            ServerHolder.nettyServer = null;
+            UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "Server：服务已停止！");
         } finally {
             if (workerGroup != null) {
                 workerGroup.shutdownGracefully();
@@ -80,10 +91,6 @@ public class Server {
                 bossGroup.shutdownGracefully();
             }
         }
-    }
-
-    public ServerUI getServerUI() {
-        return serverUI;
     }
 
 }

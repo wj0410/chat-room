@@ -4,24 +4,20 @@
 
 package io.github.wj0410.chatroom.client.ui;
 
-import io.github.wj0410.chatroom.client.Client;
+import io.github.wj0410.chatroom.client.holder.ClientHolder;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
 
 /**
  * @author wangjie
  */
 public class ChatRoomUI {
-    private Client client;
 
-    public ChatRoomUI(Client client) {
-        this.client = client;
-        this.client.setChatRoomUI(this);
+    public ChatRoomUI() {
         this.initComponents();
+        ClientHolder.chatRoomUI = this;
     }
 
     public void show() {
@@ -48,8 +44,9 @@ public class ChatRoomUI {
      * @param e
      */
     private void chatRoomJFrameWindowClosing(WindowEvent e) {
-        client.shutDown();
+        ClientHolder.nettyClient.shutDown();
     }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         chatJFrame = new JFrame();
@@ -121,17 +118,17 @@ public class ChatRoomUI {
             );
             chatJFrameContentPaneLayout.setVerticalGroup(
                 chatJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(GroupLayout.Alignment.TRAILING, chatJFrameContentPaneLayout.createSequentialGroup()
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(chatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                            .addComponent(scrollPane3)
+                    .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
+                            .addComponent(scrollPane3, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
                             .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                                .addComponent(scrollPane4, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)))
-                        .addGap(26, 26, 26))
+                                .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
             );
-            chatJFrame.setSize(620, 475);
+            chatJFrame.setSize(640, 490);
             chatJFrame.setLocationRelativeTo(chatJFrame.getOwner());
         }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on

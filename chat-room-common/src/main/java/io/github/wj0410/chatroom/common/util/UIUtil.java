@@ -1,6 +1,5 @@
 package io.github.wj0410.chatroom.common.util;
 
-import io.github.wj0410.chatroom.common.model.ClientModel;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -20,9 +19,6 @@ public class UIUtil {
         JOptionPane.showMessageDialog(null, str, "提示", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static String formatClientName(ClientModel clientModel) {
-        return String.format(" [clientId:%s] %s ", clientModel.getClientId(), clientModel.getUserName());
-    }
 
     /**
      * 在控制台上输出内容

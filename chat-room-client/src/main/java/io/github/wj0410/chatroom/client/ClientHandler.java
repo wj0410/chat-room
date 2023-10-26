@@ -1,5 +1,6 @@
 package io.github.wj0410.chatroom.client;
 
+import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.message.BindRequest;
 import io.github.wj0410.chatroom.common.message.MessageRequest;
 import io.netty.channel.Channel;
@@ -11,18 +12,14 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @date 2023/10/23
  */
 public class ClientHandler extends SimpleChannelInboundHandler<MessageRequest> {
-    private Client client;
 
-    public ClientHandler(Client client) {
-        this.client = client;
-    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel channel = ctx.channel();
         BindRequest bindRequest = new BindRequest();
         bindRequest.setClientId(channel.id().toString());
-        bindRequest.setUserName(client.getAccount());
+        bindRequest.setAccount(ClientHolder.nettyClient.getAccount());
         ctx.writeAndFlush(bindRequest);
         System.out.println("客户端向服务端发送绑定channelId请求，" + bindRequest.toString());
     }

@@ -10,13 +10,13 @@ import lombok.Data;
 @Data
 public class BindRequest {
     private String clientId;
-    private String userName;
+    private String account;
 
     @Override
     public String toString() {
         return "BindRequest{" +
                 "clientId='" + clientId + '\'' +
-                ", userName='" + userName + '\'' +
+                ", account='" + account + '\'' +
                 '}';
     }
 }

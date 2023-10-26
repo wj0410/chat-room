@@ -1,7 +1,7 @@
 package io.github.wj0410.chatroom.server.data;
 
+
 import io.github.wj0410.chatroom.common.model.ClientModel;
-import io.netty.channel.ChannelHandlerContext;
 
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;

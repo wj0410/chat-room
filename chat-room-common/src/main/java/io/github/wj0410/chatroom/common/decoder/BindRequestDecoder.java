@@ -34,7 +34,7 @@ public class BindRequestDecoder extends ByteToMessageDecoder {
         // 封装BindRequest对象
         BindRequest request = new BindRequest();
         request.setClientId(clientId);
-        request.setUserName(userName);
+        request.setAccount(userName);
 
         out.add(request);
     }

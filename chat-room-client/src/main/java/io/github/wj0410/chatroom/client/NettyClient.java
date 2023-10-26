@@ -1,7 +1,6 @@
 package io.github.wj0410.chatroom.client;
 
-import io.github.wj0410.chatroom.client.ui.ChatRoomUI;
-import io.github.wj0410.chatroom.client.ui.LoginUI;
+import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.decoder.BindRequestDecoder;
 import io.github.wj0410.chatroom.common.decoder.MessageRequestDecoder;
 import io.github.wj0410.chatroom.common.encoder.BindRequestEncoder;
@@ -19,23 +18,22 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2023/10/24
  */
 @Slf4j
-public class Client {
+public class NettyClient {
     private int port;
     private String host;
     private String account;
     private ChannelFuture channelFuture;
     private EventLoopGroup workerGroup;
-    private LoginUI loginUI;
-    private ChatRoomUI chatRoomUI;
 
-    public Client(String host, int port, String account) {
+
+    public NettyClient(String host, int port, String account) {
         this.host = host;
         this.port = port;
         this.account = account;
+        ClientHolder.nettyClient = this;
     }
 
     public ChannelFuture start() {
-        Client client = this;
         Bootstrap bootstrap = new Bootstrap();
         workerGroup = new NioEventLoopGroup();
         bootstrap.group(workerGroup)
@@ -50,7 +48,7 @@ public class Client {
                                 new MessageRequestDecoder(),// 对接收自服务端的消息响应进行自定义解码
                                 new BindRequestEncoder(),// 对写出到服务端的绑定类型消息进行编码
                                 new MessageRequestEncoder(),// 对写出到服务端的消息进行编码
-                                new ClientHandler(client)
+                                new ClientHandler()
                         );
                     }
                 });
@@ -82,25 +80,6 @@ public class Client {
         }
     }
 
-    public LoginUI getLoginUI() {
-        return loginUI;
-    }
-
-    public ChatRoomUI getChatRoomUI() {
-        return chatRoomUI;
-    }
-
-    public void setLoginUI(LoginUI loginUI) {
-        this.loginUI = loginUI;
-    }
-
-    public void setChatRoomUI(ChatRoomUI chatRoomUI) {
-        this.chatRoomUI = chatRoomUI;
-    }
-
-    public ChannelFuture getChannelFuture() {
-        return channelFuture;
-    }
     public String getAccount() {
         return account;
     }

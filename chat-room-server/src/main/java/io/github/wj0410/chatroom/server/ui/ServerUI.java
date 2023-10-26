@@ -6,7 +6,8 @@ package io.github.wj0410.chatroom.server.ui;
 
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.UIUtil;
-import io.github.wj0410.chatroom.server.Server;
+import io.github.wj0410.chatroom.server.NettyServer;
+import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.util.ServerUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -21,10 +22,9 @@ import javax.swing.LayoutStyle;
  */
 public class ServerUI {
 
-    private Server server;
-
     public ServerUI() {
         this.initComponents();
+        ServerHolder.serverUI = this;
     }
 
     public static void main(String[] args) {
@@ -35,7 +35,7 @@ public class ServerUI {
     public void flushClientOnlineList() {
         DefaultListModel<String> model = new DefaultListModel<>();
         for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
-            model.addElement(UIUtil.formatClientName(clientModel));
+            model.addElement(ServerUtil.formatClientAccount(clientModel));
         }
         this.onlineList.setModel(model);
         this.onlineCount.setText(String.valueOf(ServerUtil.getClientOnlineList().size()));
@@ -52,28 +52,19 @@ public class ServerUI {
             return;
         }
         try {
-            if (this.server != null) {
+            if (ServerHolder.nettyServer != null) {
                 UIUtil.alertError("服务端已启动！");
                 return;
             }
-            this.server = new Server(Integer.parseInt(port));
-            server.start(this);
+            ServerHolder.nettyServer = NettyServer.getInstance(Integer.parseInt(port));
+            ServerHolder.nettyServer.start();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
     private void shutdownBtnClicked(MouseEvent e) {
-        server.shutDown();
-    }
-
-
-    public Server getServer() {
-        return server;
-    }
-
-    public void setServer(Server server) {
-        this.server = server;
+        ServerHolder.nettyServer.shutDown();
     }
 
     public JTextPane getConsolePane() {

@@ -21,9 +21,9 @@ public class BindRequestEncoder extends MessageToByteEncoder<BindRequest> {
         out.writeBytes(msg.getClientId().getBytes(StandardCharsets.UTF_8));
 
         // 写入用户名字符串长度
-        out.writeInt((msg.getUserName().getBytes(StandardCharsets.UTF_8)).length);
+        out.writeInt((msg.getAccount().getBytes(StandardCharsets.UTF_8)).length);
         // 写入用户名字符串
-        out.writeBytes(msg.getUserName().getBytes(StandardCharsets.UTF_8));
+        out.writeBytes(msg.getAccount().getBytes(StandardCharsets.UTF_8));
     }
 
 }

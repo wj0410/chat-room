@@ -4,7 +4,8 @@
 
 package io.github.wj0410.chatroom.client.ui;
 
-import io.github.wj0410.chatroom.client.Client;
+import io.github.wj0410.chatroom.client.NettyClient;
+import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.util.UIUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -18,10 +19,10 @@ import javax.swing.LayoutStyle;
  * @author wangjie
  */
 public class LoginUI {
-    public Client client;
 
     public LoginUI() {
         this.initComponents();
+        ClientHolder.loginUI = this;
     }
 
     public static void main(String[] args) {
@@ -37,7 +38,7 @@ public class LoginUI {
      * @param account
      */
     private void login(String host, int port, String account) {
-        if (client != null) {
+        if (ClientHolder.nettyClient != null) {
             UIUtil.alertError("请勿重复登录！");
             return;
         }
@@ -46,7 +47,7 @@ public class LoginUI {
             // 隐藏登录UI
             this.hide();
             // 打开聊天室
-            ChatRoomUI chatRoomUI = new ChatRoomUI(client);
+            ChatRoomUI chatRoomUI = new ChatRoomUI();
             chatRoomUI.show();
         }
     }
@@ -67,12 +68,11 @@ public class LoginUI {
      */
     private boolean connection(String host, int port, String account) {
         try {
-            client = new Client(host, port, account);
-            client.setLoginUI(this);
-            client.start();
+            NettyClient nettyClient = new NettyClient(host, port, account);
+            nettyClient.start();
         } catch (Exception e1) {
             UIUtil.alertError("连接服务器失败！");
-            client = null;
+            ClientHolder.nettyClient = null;
             return false;
         }
         return true;
