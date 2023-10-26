@@ -1,6 +1,7 @@
 package io.github.wj0410.chatroom.client;
 
 import io.github.wj0410.chatroom.client.handler.ClientHandler;
+import io.github.wj0410.chatroom.client.handler.ClientSyncOnlineHandler;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.decoder.BindRequestDecoder;
 import io.github.wj0410.chatroom.common.decoder.MessageRequestDecoder;
@@ -51,7 +52,8 @@ public class NettyClient {
                         ch.pipeline().addLast(
                                 new StringEncoder(StandardCharsets.UTF_8),
                                 new StringDecoder(StandardCharsets.UTF_8),
-                                new ClientHandler()
+                                new ClientHandler(),
+                                new ClientSyncOnlineHandler()
                         );
                     }
                 });

@@ -2,6 +2,7 @@ package io.github.wj0410.chatroom.server;
 
 import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.handler.ServerBindClientHandler;
+import io.github.wj0410.chatroom.server.handler.ServerHandler;
 import io.github.wj0410.chatroom.server.handler.ServerNormalHandler;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -57,6 +58,7 @@ public class NettyServer {
                         ch.pipeline().addLast(
                                 new StringEncoder(StandardCharsets.UTF_8),
                                 new StringDecoder(StandardCharsets.UTF_8),
+                                new ServerHandler(),
                                 new ServerBindClientHandler(),
                                 new ServerNormalHandler()
                         );

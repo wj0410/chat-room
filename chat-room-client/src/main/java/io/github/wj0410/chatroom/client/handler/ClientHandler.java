@@ -2,7 +2,6 @@ package io.github.wj0410.chatroom.client.handler;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.message.BindMessage;
-import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.netty.channel.Channel;
@@ -15,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2023/10/23
  */
 @Slf4j
-public class ClientHandler extends SimpleChannelInboundHandler<String> {
+public class ClientHandler extends SimpleChannelInboundHandler<Object> {
 
     /**
      * 客户端上线
@@ -42,15 +41,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<String> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, String message) {
-        log.info("client: 读取到服务端消息：{}", message);
-        NormalMessage normalMessage = new NormalMessage();
-        normalMessage.setMsg("hello,server");
-        normalMessage.setTimestamp(System.currentTimeMillis());
-        String normalMessageJsonStr = MessageUtil.createNormalMessageJsonStr(normalMessage);
-        ctx.writeAndFlush(normalMessageJsonStr);
-        log.info("client: 给服务器发消息：{}", normalMessageJsonStr);
-
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
+        Object message = MessageUtil.getMessage(msg.toString());
+        ctx.fireChannelRead(message);
     }
 
 }

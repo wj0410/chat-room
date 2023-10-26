@@ -15,23 +15,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 public class ServerNormalHandler extends SimpleChannelInboundHandler<NormalMessage> {
 
     /**
-     * 客户端下线
-     *
-     * @param ctx
-     */
-    @Override
-    public void channelInactive(ChannelHandlerContext ctx) {
-        String formatClient = ServerUtil.formatClientAccount(ctx);
-        ServerUtil.removeClient(ctx);
-        if (ServerHolder.serverUI != null) {
-            UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), String.format("客户端 %s 下线了...", formatClient));
-            ServerHolder.serverUI.flushClientOnlineList();
-        }
-
-    }
-
-    /**
-     * 接收消息
+     * 接收普通消息
      *
      * @param ctx
      * @param normalMessage
