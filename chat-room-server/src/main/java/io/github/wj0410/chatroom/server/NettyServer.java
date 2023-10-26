@@ -1,12 +1,8 @@
 package io.github.wj0410.chatroom.server;
 
-import io.github.wj0410.chatroom.common.decoder.BindRequestDecoder;
-import io.github.wj0410.chatroom.common.decoder.MessageRequestDecoder;
-import io.github.wj0410.chatroom.common.encoder.BindRequestEncoder;
-import io.github.wj0410.chatroom.common.encoder.MessageRequestEncoder;
 import io.github.wj0410.chatroom.common.util.UIUtil;
-import io.github.wj0410.chatroom.server.handler.BindClientHandler;
-import io.github.wj0410.chatroom.server.handler.ServerHandler;
+import io.github.wj0410.chatroom.server.handler.ServerBindClientHandler;
+import io.github.wj0410.chatroom.server.handler.ServerNormalHandler;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -16,6 +12,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author wangjie
@@ -55,12 +55,10 @@ public class NettyServer {
                     public void initChannel(SocketChannel ch) throws Exception {
                         ServerHolder.serverSocketChannel = ch;
                         ch.pipeline().addLast(
-                                new BindRequestDecoder(),// 对接收自客户端的绑定类型消息响应进行自定义解码
-                                new MessageRequestDecoder(),// 对接收自客户端的消息响应进行自定义解码
-                                new BindRequestEncoder(),
-                                new MessageRequestEncoder(),// 对写出到客户端的消息进行字符串编码
-                                new BindClientHandler(),
-                                new ServerHandler()
+                                new StringEncoder(StandardCharsets.UTF_8),
+                                new StringDecoder(StandardCharsets.UTF_8),
+                                new ServerBindClientHandler(),
+                                new ServerNormalHandler()
                         );
                     }
                 });
@@ -73,6 +71,7 @@ public class NettyServer {
                     UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "服务启动失败");
                 } else {
                     UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "Server：启动Netty服务端成功，端口号:" + port);
+
                 }
             }
         });

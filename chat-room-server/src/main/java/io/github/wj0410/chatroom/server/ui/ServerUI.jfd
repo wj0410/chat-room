@@ -35,6 +35,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "shutdownBtn"
 				"text": "停止"
+				"enabled": false
 				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "shutdownBtnClicked", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {

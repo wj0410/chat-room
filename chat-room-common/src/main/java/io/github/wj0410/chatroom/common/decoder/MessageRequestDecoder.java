@@ -1,6 +1,6 @@
 package io.github.wj0410.chatroom.common.decoder;
 
-import io.github.wj0410.chatroom.common.message.MessageRequest;
+import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -34,7 +34,7 @@ public class MessageRequestDecoder extends ByteToMessageDecoder {
         String message = decodeString(in);
 
         // 封装MessageRequest
-        MessageRequest request = new MessageRequest();
+        NormalMessage request = new NormalMessage();
         request.setFromUserName(fromUserName);
         request.setFromClientId(fromClientId);
         request.setTargetClientId(targetClientIds);

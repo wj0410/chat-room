@@ -1,6 +1,6 @@
 package io.github.wj0410.chatroom.common.encoder;
 
-import io.github.wj0410.chatroom.common.message.MessageRequest;
+import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -11,10 +11,10 @@ import java.nio.charset.StandardCharsets;
  * @author wangjie
  * @date 2023/10/25
  */
-public class MessageRequestEncoder extends MessageToByteEncoder<MessageRequest> {
+public class MessageRequestEncoder extends MessageToByteEncoder<NormalMessage> {
 
     @Override
-    protected void encode(ChannelHandlerContext ctx, MessageRequest msg, ByteBuf out) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, NormalMessage msg, ByteBuf out) throws Exception {
         // 写入fromUserName长度
         out.writeInt(msg.getFromUserName().length());
         // 写入fromUserName

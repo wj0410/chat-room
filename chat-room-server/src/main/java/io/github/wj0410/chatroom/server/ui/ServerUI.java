@@ -30,6 +30,27 @@ public class ServerUI {
     public static void main(String[] args) {
         ServerUI serverUI = new ServerUI();
         serverUI.show();
+
+        if (!serverUI.runBtn.isEnabled()) {
+            return;
+        }
+        String port = serverUI.portText.getText();
+        if (StringUtils.isBlank(port)) {
+            UIUtil.alertError("端口号不能为空！");
+            return;
+        }
+        try {
+            if (ServerHolder.nettyServer != null) {
+                UIUtil.alertError("服务端已启动！");
+                return;
+            }
+            ServerHolder.nettyServer = NettyServer.getInstance(Integer.parseInt(port));
+            ServerHolder.nettyServer.start();
+            serverUI.runBtn.setEnabled(false);
+            serverUI.shutdownBtn.setEnabled(true);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void flushClientOnlineList() {
@@ -46,6 +67,9 @@ public class ServerUI {
     }
 
     private void runBtnClicked(MouseEvent e) {
+        if (!runBtn.isEnabled()) {
+            return;
+        }
         String port = this.portText.getText();
         if (StringUtils.isBlank(port)) {
             UIUtil.alertError("端口号不能为空！");
@@ -58,13 +82,20 @@ public class ServerUI {
             }
             ServerHolder.nettyServer = NettyServer.getInstance(Integer.parseInt(port));
             ServerHolder.nettyServer.start();
+            runBtn.setEnabled(false);
+            shutdownBtn.setEnabled(true);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
     private void shutdownBtnClicked(MouseEvent e) {
+        if (!shutdownBtn.isEnabled()) {
+            return;
+        }
         ServerHolder.nettyServer.shutDown();
+        runBtn.setEnabled(true);
+        shutdownBtn.setEnabled(false);
     }
 
     public JTextPane getConsolePane() {
@@ -118,6 +149,7 @@ public class ServerUI {
 
             //---- shutdownBtn ----
             shutdownBtn.setText("\u505c\u6b62");
+            shutdownBtn.setEnabled(false);
             shutdownBtn.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {

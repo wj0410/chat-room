@@ -1,12 +1,10 @@
 package io.github.wj0410.chatroom.server.util;
 
-import io.github.wj0410.chatroom.common.constant.CommonConstants;
-import io.github.wj0410.chatroom.common.message.BindRequest;
+import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.server.data.ServerData;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.AttributeKey;
 
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,12 +24,12 @@ public class ServerUtil extends ServerData {
         return ServerData.getClientOnlineList();
     }
 
-    public static void addClient(ChannelHandlerContext ctx, BindRequest bindRequest) {
+    public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage) {
         ClientModel clientModel = new ClientModel();
-        clientModel.setClientId(bindRequest.getClientId());
-        clientModel.setAccount(bindRequest.getAccount());
+        clientModel.setClientId(bindMessage.getClientId());
+        clientModel.setAccount(bindMessage.getAccount());
         // TODO 获取用户名称
-        clientModel.setUserName(bindRequest.getAccount());
+        clientModel.setUserName(bindMessage.getAccount());
         clientModel.setCtx(ctx);
         ServerData.getClientOnlineList().add(clientModel);
         ServerData.getClientModelMap().put(ServerHolder.getClientId(ctx), clientModel);

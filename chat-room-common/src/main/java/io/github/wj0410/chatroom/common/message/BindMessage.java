@@ -8,7 +8,7 @@ import lombok.Data;
  * @date 2023/10/25
  */
 @Data
-public class BindRequest {
+public class BindMessage {
     private String clientId;
     private String account;
 

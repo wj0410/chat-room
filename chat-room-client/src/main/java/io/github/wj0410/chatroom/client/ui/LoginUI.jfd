@@ -29,6 +29,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "account"
+				"text": "1"
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 1
 				}

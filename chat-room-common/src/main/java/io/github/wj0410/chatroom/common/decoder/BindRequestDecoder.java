@@ -1,6 +1,6 @@
 package io.github.wj0410.chatroom.common.decoder;
 
-import io.github.wj0410.chatroom.common.message.BindRequest;
+import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -25,16 +25,16 @@ public class BindRequestDecoder extends ByteToMessageDecoder {
         String clientId = new String(clientIdBytes, StandardCharsets.UTF_8);
 
         // 读取用户名长度
-        int userNameLength = in.readInt();
+        int accountLength = in.readInt();
         // 读取用户名
-        byte[] userNameBytes = new byte[userNameLength];
-        in.readBytes(userNameBytes);
-        String userName = new String(userNameBytes, StandardCharsets.UTF_8);
+        byte[] accountBytes = new byte[accountLength];
+        in.readBytes(accountBytes);
+        String account = new String(accountBytes, StandardCharsets.UTF_8);
 
         // 封装BindRequest对象
-        BindRequest request = new BindRequest();
+        BindMessage request = new BindMessage();
         request.setClientId(clientId);
-        request.setAccount(userName);
+        request.setAccount(account);
 
         out.add(request);
     }

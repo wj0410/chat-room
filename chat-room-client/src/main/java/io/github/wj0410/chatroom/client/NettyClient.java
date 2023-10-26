@@ -1,5 +1,6 @@
 package io.github.wj0410.chatroom.client;
 
+import io.github.wj0410.chatroom.client.handler.ClientHandler;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.decoder.BindRequestDecoder;
 import io.github.wj0410.chatroom.common.decoder.MessageRequestDecoder;
@@ -10,7 +11,11 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 import lombok.extern.slf4j.Slf4j;
+
+import java.nio.charset.StandardCharsets;
 
 
 /**
@@ -44,10 +49,8 @@ public class NettyClient {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         // 在第一个请求包中编码用户ID
                         ch.pipeline().addLast(
-                                new BindRequestDecoder(),
-                                new MessageRequestDecoder(),// 对接收自服务端的消息响应进行自定义解码
-                                new BindRequestEncoder(),// 对写出到服务端的绑定类型消息进行编码
-                                new MessageRequestEncoder(),// 对写出到服务端的消息进行编码
+                                new StringEncoder(StandardCharsets.UTF_8),
+                                new StringDecoder(StandardCharsets.UTF_8),
                                 new ClientHandler()
                         );
                     }
