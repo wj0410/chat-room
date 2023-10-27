@@ -26,9 +26,9 @@ public class MessageRequestEncoder extends MessageToByteEncoder<NormalMessage> {
         out.writeBytes(msg.getFromClientId().getBytes(StandardCharsets.UTF_8));
 
         // 写入targetClientId列表大小
-        out.writeInt(msg.getTargetClientId().size());
+        out.writeInt(msg.getTargetClientIds().size());
         // 遍历写入每个targetClientId
-        for (String clientId : msg.getTargetClientId()) {
+        for (String clientId : msg.getTargetClientIds()) {
             out.writeInt(clientId.length());
             out.writeBytes(clientId.getBytes(StandardCharsets.UTF_8));
         }

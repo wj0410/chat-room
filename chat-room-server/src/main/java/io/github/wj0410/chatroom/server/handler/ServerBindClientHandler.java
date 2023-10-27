@@ -29,7 +29,8 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
         log.info("服务端接收到客户端的绑定信息：{}", bindMessage.toString());
         ServerUtil.addClient(ctx, bindMessage);
         if (ServerHolder.serverUI != null) {
-            UIUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), String.format("客户端 %s 连接了...", ServerUtil.formatClientAccount(ctx)));
+            ServerUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), String.format("客户端 %s 连接了...", ServerUtil.formatClientAccount(ctx)));
+            // 刷新UI在线列表
             ServerHolder.serverUI.flushClientOnlineList();
             // 给所有客户端发送同步在线列表消息
             ServerUtil.sendSyncOnlineMessage();

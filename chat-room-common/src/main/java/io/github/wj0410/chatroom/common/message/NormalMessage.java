@@ -15,7 +15,7 @@ public class NormalMessage {
     private String fromAccount;
     private String fromUserName;
     private String fromClientId;
-    private List<String> targetClientId;
+    private List<String> targetClientIds;
     private long timestamp;
     private String msg;
 
@@ -25,7 +25,7 @@ public class NormalMessage {
                 "fromAccount='" + fromAccount + '\'' +
                 ", fromUserName='" + fromUserName + '\'' +
                 ", fromClientId='" + fromClientId + '\'' +
-                ", targetClientId=" + targetClientId +
+                ", targetClientIds=" + targetClientIds +
                 ", timestamp=" + timestamp +
                 ", msg='" + msg + '\'' +
                 '}';

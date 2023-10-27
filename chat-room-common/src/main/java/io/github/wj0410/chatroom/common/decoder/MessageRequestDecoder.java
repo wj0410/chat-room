@@ -37,7 +37,7 @@ public class MessageRequestDecoder extends ByteToMessageDecoder {
         NormalMessage request = new NormalMessage();
         request.setFromUserName(fromUserName);
         request.setFromClientId(fromClientId);
-        request.setTargetClientId(targetClientIds);
+        request.setTargetClientIds(targetClientIds);
         request.setTimestamp(timestamp);
         request.setMsg(message);
 

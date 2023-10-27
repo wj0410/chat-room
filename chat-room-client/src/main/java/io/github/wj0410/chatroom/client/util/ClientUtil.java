@@ -1,11 +1,27 @@
 package io.github.wj0410.chatroom.client.util;
 
+import io.github.wj0410.chatroom.client.holder.ClientHolder;
+import io.github.wj0410.chatroom.common.message.BindMessage;
+import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.model.ClientModel;
+import io.github.wj0410.chatroom.common.util.DateUtil;
+import io.github.wj0410.chatroom.common.util.MessageUtil;
+import io.github.wj0410.chatroom.common.util.UIUtil;
+import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import java.awt.*;
+import java.util.List;
 
 /**
  * @author wangjie
  * @date 2023/10/26
  */
+@Slf4j
 public class ClientUtil {
     /**
      * 格式化展示在线列表
@@ -15,5 +31,64 @@ public class ClientUtil {
      */
     public static String formatClientAccount(ClientModel clientModel) {
         return clientModel.getUserName();
+    }
+
+    /**
+     * 给服务端发送绑定消息
+     *
+     * @param ctx
+     * @param bindMessage
+     */
+    public static void sendBindMessage(ChannelHandlerContext ctx, BindMessage bindMessage) {
+        String bindMessageJsonStr = MessageUtil.createBindMessageJsonStr(bindMessage);
+        ctx.writeAndFlush(bindMessageJsonStr);
+        log.info("客户端向服务端发送绑定ChannelId请求，{}", bindMessageJsonStr);
+    }
+
+    /**
+     * 给服务端发送普通消息
+     *
+     * @param ctx        客户端与服务端的通道
+     * @param msg        消息内容
+     * @param targetList 为NULL则代表发送给所有客户端
+     */
+    public static void sendNormalMessage(ChannelHandlerContext ctx, String msg, List<String> targetList) {
+        NormalMessage message = new NormalMessage();
+        message.setTimestamp(System.currentTimeMillis());
+        message.setMsg(msg);
+        message.setFromAccount(ClientHolder.clientInfo.getAccount());
+        message.setFromClientId(ClientHolder.clientInfo.getClientId());
+        message.setFromUserName(ClientHolder.clientInfo.getUserName());
+        message.setTargetClientIds(targetList);
+        String normalMessageJsonStr = MessageUtil.createNormalMessageJsonStr(message);
+        ctx.writeAndFlush(normalMessageJsonStr);
+    }
+
+    /**
+     * 回显接收到的服务器消息
+     *
+     * @param normalMessage
+     * @param recvPane
+     */
+    public static void drawRecvArea(NormalMessage normalMessage, JTextPane recvPane) {
+        StyledDocument doc = recvPane.getStyledDocument();
+        try {
+            // 用户名
+            UIUtil.buildUserNameStyle(doc);
+            String userNameContent = normalMessage.getFromUserName();
+            doc.insertString(doc.getLength(), userNameContent, doc.getStyle(UIUtil.USER_NAME_STYLE_NAME));
+            // 时间
+            UIUtil.buildTimestampStyle(doc);
+            String timestampContent = "\t" + DateUtil.convertTimestampToString(normalMessage.getTimestamp()) + "\n";
+            doc.insertString(doc.getLength(), timestampContent, doc.getStyle(UIUtil.TIMESTAMP_STYLE_NAME));
+            // 消息
+            UIUtil.buildMsgStyle(doc);
+            doc.insertString(doc.getLength(), normalMessage.getMsg() + "\n", doc.getStyle(UIUtil.MSG_STYLE_NAME));
+
+            recvPane.setDocument(doc);
+            recvPane.setCaretPosition(doc.getLength());
+        } catch (BadLocationException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,11 +1,15 @@
 package io.github.wj0410.chatroom.common.util;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import io.github.wj0410.chatroom.common.enums.MessageType;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.Message;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.message.SyncOnlineMessage;
+import io.netty.channel.ChannelHandlerContext;
+
+import java.util.List;
 
 import static io.github.wj0410.chatroom.common.enums.MessageType.*;
 
@@ -62,4 +66,5 @@ public class MessageUtil {
     public static NormalMessage getNormalMessage(String jsonStr) {
         return JSON.parseObject(jsonStr, NormalMessage.class);
     }
+
 }

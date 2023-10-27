@@ -1,16 +1,25 @@
 package io.github.wj0410.chatroom.server.util;
 
 import io.github.wj0410.chatroom.common.message.BindMessage;
+import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.message.SyncOnlineMessage;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
+import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.data.ServerData;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import java.awt.*;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -45,14 +54,14 @@ public class ServerUtil extends ServerData {
         ServerData.getClientModelMap().remove(clientId);
     }
 
-    public static void sendSyncOnlineMessage(){
+    public static void sendSyncOnlineMessage() {
         // 服务端向所有客户端发送同步在线列表消息
         SyncOnlineMessage syncOnlineMessage = new SyncOnlineMessage();
         LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
         LinkedList<ClientModel> newList = new LinkedList<>();
         for (ClientModel clientModel : clientOnlineList) {
             ClientModel client = new ClientModel();
-            BeanUtils.copyProperties(clientModel,client);
+            BeanUtils.copyProperties(clientModel, client);
             client.setCtx(null);
             newList.add(client);
         }
@@ -72,6 +81,7 @@ public class ServerUtil extends ServerData {
     public static String getClientAccount(ChannelHandlerContext ctx) {
         return getClientModel(ctx).getAccount();
     }
+
     public static String getClientUserName(ChannelHandlerContext ctx) {
         return getClientModel(ctx).getUserName();
     }
@@ -82,5 +92,45 @@ public class ServerUtil extends ServerData {
 
     public static String formatClientAccount(ClientModel clientModel) {
         return String.format(" [clientId:%s] %s ", clientModel.getClientId(), clientModel.getAccount());
+    }
+
+    /**
+     * 转发客户端消息
+     */
+    public static void relayNormalMessage(NormalMessage normalMessage) {
+        List<String> targetClientIds = normalMessage.getTargetClientIds();
+        String normalMessageJsonStr = MessageUtil.createNormalMessageJsonStr(normalMessage);
+        if (CollectionUtils.isEmpty(targetClientIds)) {
+            // 发送给所有人的消息
+            LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
+            clientOnlineList.forEach(item -> {
+                item.getCtx().writeAndFlush(normalMessageJsonStr);
+            });
+            log.info("服务端向客户端 {} 转发消息：{}", clientOnlineList.toString(), normalMessageJsonStr);
+        } else {
+            // 发送给指定用户的消息
+            targetClientIds.forEach(item -> {
+                ConcurrentHashMap<String, ClientModel> clientModelMap = ServerUtil.getClientModelMap();
+                clientModelMap.get(item).getCtx().writeAndFlush(normalMessageJsonStr);
+            });
+            log.info("服务端向客户端 {} 转发消息：{}", targetClientIds.toString(), normalMessageJsonStr);
+        }
+
+    }
+
+    /**
+     * 在控制台上输出内容
+     *
+     * @param str
+     */
+    public static void drawConsole(JTextPane consolePane, String str) {
+        StyledDocument styledDoc = consolePane.getStyledDocument();
+        UIUtil.buildServerConsoleStyle(styledDoc);
+        consolePane.setDocument(styledDoc);
+        try {
+            styledDoc.insertString(styledDoc.getLength(), str + "\n", styledDoc.getStyle(UIUtil.SERVER_CONSOLE_STYLE_NAME));
+        } catch (BadLocationException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

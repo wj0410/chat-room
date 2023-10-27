@@ -4,12 +4,14 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane3:::p:144:p, space :::p, par l {comp scrollPane4:::::x, comp scrollPane2:::::x}, space :::p}}"
-			"$verticalGroup": "par l {seq l {space :::p, par l {comp scrollPane3::::447:x, seq {comp scrollPane4::::248:x, space :::p, comp scrollPane2:::p:193:p}}, space :::p}}"
+			"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane3:::p:194:p, space :::p, par l {comp scrollPane4:::::x, comp scrollPane2:::::x}, space :::p}}"
+			"$verticalGroup": "par l {seq t {space :::p, par t {comp scrollPane3::::447:x, seq {comp scrollPane4::::248:x, space :::p, comp scrollPane2:::p:193:p}}, space :::p}}"
 		} ) {
 			name: "chatJFrame"
 			"title": "聊天室"
 			"$sizePolicy": 1
+			"preferredSize": new java.awt.Dimension( 1083, 824 )
+			"minimumSize": new java.awt.Dimension( 950, 750 )
 			auxiliary() {
 				"JavaCodeGenerator.variableModifiers": 1
 			}
@@ -18,7 +20,7 @@ new FormModel {
 				name: "scrollPane2"
 				add( new FormComponent( "javax.swing.JTextArea" ) {
 					name: "sendArea"
-					"lineWrap": true
+					"background": new java.awt.Color( 243, 243, 243, 255 )
 					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "textArea3KeyPressed", true ) )
 				} )
 			} )
@@ -35,13 +37,11 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JTextPane" ) {
 					name: "recvPane"
 					"editable": false
-					auxiliary() {
-						"JavaCodeGenerator.variableModifiers": 1
-					}
+					"background": new java.awt.Color( 243, 243, 243, 255 )
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 65, 10 )
+			"location": new java.awt.Point( 0, 0 )
 			"size": new java.awt.Dimension( 640, 490 )
 		} )
 	}
