@@ -2,7 +2,6 @@ package io.github.wj0410.chatroom.client.handler;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.message.BindMessage;
-import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,17 +26,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<Object> {
         Channel channel = ctx.channel();
         BindMessage bindMessage = new BindMessage();
         bindMessage.setClientId(channel.id().toString());
-        bindMessage.setAccount(ClientHolder.nettyClient.getAccount());
+        bindMessage.setAccount(ClientHolder.clientInfo.getAccount());
+        bindMessage.setUserName(ClientHolder.clientInfo.getUserName());
         String bindMessageJsonStr = MessageUtil.createBindMessageJsonStr(bindMessage);
         ctx.writeAndFlush(bindMessageJsonStr);
         log.info("客户端向服务端发送绑定channelId请求，{}", bindMessageJsonStr);
-        // 将客户端信息记录到ClientHolder
-        ClientModel clientInfo = new ClientModel();
-        clientInfo.setClientId(bindMessage.getClientId());
-        clientInfo.setCtx(ctx);
-        clientInfo.setAccount(bindMessage.getAccount());
-        clientInfo.setUserName(bindMessage.getAccount());
-        ClientHolder.clientInfo = clientInfo;
+        // 将客户端client信息记录到ClientHolder
+        ClientHolder.clientInfo.setClientId(bindMessage.getClientId());
+        ClientHolder.clientInfo.setCtx(ctx);
     }
 
     @Override

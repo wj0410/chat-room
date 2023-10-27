@@ -33,8 +33,7 @@ public class ServerUtil extends ServerData {
         ClientModel clientModel = new ClientModel();
         clientModel.setClientId(bindMessage.getClientId());
         clientModel.setAccount(bindMessage.getAccount());
-        // TODO 获取用户名称
-        clientModel.setUserName(bindMessage.getAccount());
+        clientModel.setUserName(bindMessage.getUserName());
         clientModel.setCtx(ctx);
         ServerData.getClientOnlineList().add(clientModel);
         ServerData.getClientModelMap().put(ServerHolder.getClientId(ctx), clientModel);

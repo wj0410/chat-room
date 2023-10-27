@@ -11,11 +11,10 @@ import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.util.ServerUtil;
 import org.apache.commons.lang.StringUtils;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author wangjie
@@ -30,27 +29,7 @@ public class ServerUI {
     public static void main(String[] args) {
         ServerUI serverUI = new ServerUI();
         serverUI.show();
-
-        if (!serverUI.runBtn.isEnabled()) {
-            return;
-        }
-        String port = serverUI.portText.getText();
-        if (StringUtils.isBlank(port)) {
-            UIUtil.alertError("端口号不能为空！");
-            return;
-        }
-        try {
-            if (ServerHolder.nettyServer != null) {
-                UIUtil.alertError("服务端已启动！");
-                return;
-            }
-            ServerHolder.nettyServer = NettyServer.getInstance(Integer.parseInt(port));
-            ServerHolder.nettyServer.start();
-            serverUI.runBtn.setEnabled(false);
-            serverUI.shutdownBtn.setEnabled(true);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+        serverUI.doRun();
     }
 
     public void flushClientOnlineList() {
@@ -66,7 +45,7 @@ public class ServerUI {
         this.serverJFrame.setVisible(true);
     }
 
-    private void runBtnClicked(MouseEvent e) {
+    public void doRun() {
         if (!runBtn.isEnabled()) {
             return;
         }
@@ -87,6 +66,10 @@ public class ServerUI {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    private void runBtnClicked(MouseEvent e) {
+        doRun();
     }
 
     private void shutdownBtnClicked(MouseEvent e) {

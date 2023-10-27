@@ -4,9 +4,13 @@
 
 package io.github.wj0410.chatroom.client.ui;
 
+import javax.swing.event.*;
+
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
+import io.github.wj0410.chatroom.client.ui.style.OnlineListCellRenderer;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.common.model.ClientModel;
+import io.github.wj0410.chatroom.common.util.UIUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,20 +35,51 @@ public class ChatRoomUI {
         this.chatJFrame.setVisible(false);
     }
 
+    /**
+     * 刷新在线列表
+     *
+     * @param clientModelLinkedList
+     */
     public void flushClientOnlineList(LinkedList<ClientModel> clientModelLinkedList) {
-        DefaultListModel<String> model = new DefaultListModel<>();
+        DefaultListModel<ClientModel> model = new DefaultListModel<>();
         for (ClientModel clientModel : clientModelLinkedList) {
-            model.addElement(ClientUtil.formatClientAccount(clientModel));
+            model.addElement(clientModel);
         }
         this.onlineList.setModel(model);
+        this.onlineList.setCellRenderer(new OnlineListCellRenderer());
     }
 
     private void textArea3KeyPressed(KeyEvent e) {
-        // TODO add your code here
+
     }
 
     private void onlineListMouseClicked(MouseEvent e) {
-        // TODO add your code here
+        if (e.getClickCount() == 2) {
+            // 处理双击事件
+            int index = onlineList.locationToIndex(e.getPoint());
+            if (index != -1) {
+                ClientModel clientModel = (ClientModel) onlineList.getModel().getElementAt(index);
+                if (!clientModel.getClientId().equals(ClientHolder.clientInfo.getClientId())) {
+                    // TODO 打开私聊对话框
+                   UIUtil.alertSuccess("开发中！");
+                }
+            }
+        }
+    }
+
+    private void onlineListSelectChanged(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            int index = onlineList.getSelectedIndex();
+            if (index != -1) {
+                Object elementAt = onlineList.getModel().getElementAt(index);
+                ClientModel clientModel = (ClientModel) elementAt;
+                //判断自己还是其他人
+                if (clientModel.getClientId().equals(ClientHolder.clientInfo.getClientId())) {
+                    // 如果选中的是带有标签（即自己），则清除选择
+                    onlineList.clearSelection();
+                }
+            }
+        }
     }
 
     /**
@@ -102,6 +137,7 @@ public class ChatRoomUI {
                         onlineListMouseClicked(e);
                     }
                 });
+                onlineList.addListSelectionListener(e -> onlineListSelectChanged(e));
                 scrollPane3.setViewportView(onlineList);
             }
 

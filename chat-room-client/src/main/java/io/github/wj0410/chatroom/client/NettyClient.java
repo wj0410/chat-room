@@ -3,10 +3,6 @@ package io.github.wj0410.chatroom.client;
 import io.github.wj0410.chatroom.client.handler.ClientHandler;
 import io.github.wj0410.chatroom.client.handler.ClientSyncOnlineHandler;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
-import io.github.wj0410.chatroom.common.decoder.BindRequestDecoder;
-import io.github.wj0410.chatroom.common.decoder.MessageRequestDecoder;
-import io.github.wj0410.chatroom.common.encoder.BindRequestEncoder;
-import io.github.wj0410.chatroom.common.encoder.MessageRequestEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -27,15 +23,12 @@ import java.nio.charset.StandardCharsets;
 public class NettyClient {
     private int port;
     private String host;
-    private String account;
     private ChannelFuture channelFuture;
     private EventLoopGroup workerGroup;
 
-
-    public NettyClient(String host, int port, String account) {
+    public NettyClient(String host, int port) {
         this.host = host;
         this.port = port;
-        this.account = account;
         ClientHolder.nettyClient = this;
     }
 
@@ -85,7 +78,4 @@ public class NettyClient {
         }
     }
 
-    public String getAccount() {
-        return account;
-    }
 }

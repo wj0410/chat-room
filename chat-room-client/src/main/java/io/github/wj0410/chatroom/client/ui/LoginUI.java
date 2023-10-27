@@ -6,6 +6,7 @@ package io.github.wj0410.chatroom.client.ui;
 
 import io.github.wj0410.chatroom.client.NettyClient;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
+import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.UIUtil;
 import org.apache.commons.lang.StringUtils;
 
@@ -38,12 +39,12 @@ public class LoginUI {
      * @param account
      */
     private void login(String host, int port, String account) {
-        if (ClientHolder.nettyClient != null) {
-            UIUtil.alertError("请勿重复登录！");
-            return;
-        }
-        if (connection(host, port, account)) {
-//            UIUtil.alertSuccess("连接服务器成功！");
+        // TODO 校验用户名密码
+        // 将客户端信息记录到ClientHolder
+        ClientHolder.clientInfo = new ClientModel();
+        ClientHolder.clientInfo.setAccount(account);
+        ClientHolder.clientInfo.setUserName("用户：" + account);
+        if (connection(host, port)) {
             // 隐藏登录UI
             this.hide();
             // 打开聊天室
@@ -61,14 +62,14 @@ public class LoginUI {
 
     /**
      * 连接服务器
+     *
      * @param host
      * @param port
-     * @param account
      * @return
      */
-    private boolean connection(String host, int port, String account) {
+    private boolean connection(String host, int port) {
         try {
-            NettyClient nettyClient = new NettyClient(host, port, account);
+            NettyClient nettyClient = new NettyClient(host, port);
             nettyClient.start();
         } catch (Exception e1) {
             UIUtil.alertError("连接服务器失败！");
@@ -86,7 +87,7 @@ public class LoginUI {
         this.loginJFrame.setVisible(false);
     }
 
-    private void loginBtnClicked(MouseEvent e) {
+    public void doLogin() {
         int port;
         String host;
         try {
@@ -99,11 +100,19 @@ public class LoginUI {
             return;
         }
         String account = this.account.getText();
-        if(StringUtils.isBlank(account)){
+        if (StringUtils.isBlank(account)) {
             UIUtil.alertError("用户名不能为空！");
             return;
         }
+        if (ClientHolder.nettyClient != null) {
+            UIUtil.alertError("请勿重复登录！");
+            return;
+        }
         login(host, port, account);
+    }
+
+    private void loginBtnClicked(MouseEvent e) {
+        doLogin();
     }
 
     private void registerLabelClicked(MouseEvent e) {
@@ -141,9 +150,6 @@ public class LoginUI {
             //---- address ----
             address.setText("127.0.0.1:5678");
 
-            //---- account ----
-            account.setText("1");
-
             //---- loginBtn ----
             loginBtn.setText("\u767b\u5f55");
             loginBtn.addMouseListener(new MouseAdapter() {
@@ -169,49 +175,49 @@ public class LoginUI {
             GroupLayout loginJFrameContentPaneLayout = new GroupLayout(loginJFrameContentPane);
             loginJFrameContentPane.setLayout(loginJFrameContentPaneLayout);
             loginJFrameContentPaneLayout.setHorizontalGroup(
-                loginJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    loginJFrameContentPaneLayout.createParallelGroup()
                             .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                                .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
-                                    .addComponent(label1)
-                                    .addComponent(label2, GroupLayout.Alignment.TRAILING))
-                                .addGap(18, 18, 18)
-                                .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
-                                    .addComponent(address, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(account, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                                .addComponent(label3)
-                                .addGap(18, 18, 18)
-                                .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
-                                    .addComponent(password, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                                        .addGap(48, 48, 48)
-                                        .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)))))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(registerLabel)
-                        .addContainerGap(57, Short.MAX_VALUE))
+                                    .addGap(26, 26, 26)
+                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                            .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
+                                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
+                                                            .addComponent(label1)
+                                                            .addComponent(label2, GroupLayout.Alignment.TRAILING))
+                                                    .addGap(18, 18, 18)
+                                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
+                                                            .addComponent(address, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(account, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
+                                                    .addComponent(label3)
+                                                    .addGap(18, 18, 18)
+                                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
+                                                            .addComponent(password, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)
+                                                            .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
+                                                                    .addGap(48, 48, 48)
+                                                                    .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)))))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(registerLabel)
+                                    .addContainerGap(57, Short.MAX_VALUE))
             );
             loginJFrameContentPaneLayout.setVerticalGroup(
-                loginJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(label1)
-                            .addComponent(address, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(label2)
-                            .addComponent(account, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(registerLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(label3)
-                            .addComponent(password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(43, Short.MAX_VALUE))
+                    loginJFrameContentPaneLayout.createParallelGroup()
+                            .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
+                                    .addGap(61, 61, 61)
+                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                            .addComponent(label1)
+                                            .addComponent(address, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                            .addComponent(label2)
+                                            .addComponent(account, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(registerLabel))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                            .addComponent(label3)
+                                            .addComponent(password, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap(43, Short.MAX_VALUE))
             );
             loginJFrame.pack();
             loginJFrame.setLocationRelativeTo(loginJFrame.getOwner());
