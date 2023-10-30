@@ -1,6 +1,5 @@
 package io.github.wj0410.chatroom.server;
 
-import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.handler.ServerBindClientHandler;
 import io.github.wj0410.chatroom.server.handler.ServerHandler;
 import io.github.wj0410.chatroom.server.handler.ServerNormalHandler;
@@ -14,14 +13,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.bytes.ByteArrayDecoder;
-import io.netty.handler.codec.bytes.ByteArrayEncoder;
 import io.netty.handler.codec.json.JsonObjectDecoder;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * @author wangjie
@@ -77,7 +69,6 @@ public class NettyServer {
                     ServerUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "服务启动失败");
                 } else {
                     ServerUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "Server：启动Netty服务端成功，端口号:" + port);
-
                 }
             }
         });

@@ -29,7 +29,7 @@ public class ServerUI {
     public static void main(String[] args) {
         ServerUI serverUI = new ServerUI();
         serverUI.show();
-        serverUI.doRun();
+        serverUI.run();
     }
 
     public void flushClientOnlineList() {
@@ -45,7 +45,7 @@ public class ServerUI {
         this.serverJFrame.setVisible(true);
     }
 
-    public void doRun() {
+    public void run() {
         if (!runBtn.isEnabled()) {
             return;
         }
@@ -68,17 +68,21 @@ public class ServerUI {
         }
     }
 
-    private void runBtnClicked(MouseEvent e) {
-        doRun();
-    }
-
-    private void shutdownBtnClicked(MouseEvent e) {
+    public void shutdown() {
         if (!shutdownBtn.isEnabled()) {
             return;
         }
         ServerHolder.nettyServer.shutDown();
         runBtn.setEnabled(true);
         shutdownBtn.setEnabled(false);
+    }
+
+    private void runBtnClicked(MouseEvent e) {
+        run();
+    }
+
+    private void shutdownBtnClicked(MouseEvent e) {
+        shutdown();
     }
 
     public JTextPane getConsolePane() {

@@ -10,8 +10,8 @@ import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.style.OnlineListCellRenderer;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.common.model.ClientModel;
-import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.github.wj0410.chatroom.common.util.UIUtil;
+import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,10 +60,12 @@ public class ChatRoomUI {
             // 发送并清空发送域
             e.consume(); // 停止事件的默认行为
             String sendContent = sendArea.getText();
-            // 发送消息
-            ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, null);
-            // 清空发送框
-            sendArea.setText("");
+            if(StringUtils.isNotBlank(sendContent)){
+                // 发送消息
+                ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, null);
+                // 清空发送框
+                sendArea.setText("");
+            }
         }
     }
 
@@ -138,6 +140,8 @@ public class ChatRoomUI {
 
                 //---- sendArea ----
                 sendArea.setBackground(new Color(0xf3f3f3));
+                sendArea.setLineWrap(true);
+                sendArea.setMargin(new Insets(10, 10, 10, 10));
                 sendArea.addKeyListener(new KeyAdapter() {
                     @Override
                     public void keyPressed(KeyEvent e) {
@@ -151,6 +155,7 @@ public class ChatRoomUI {
             {
 
                 //---- onlineList ----
+                onlineList.setFont(new Font("sansserif", Font.PLAIN, 20));
                 onlineList.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -163,11 +168,14 @@ public class ChatRoomUI {
 
             //======== scrollPane4 ========
             {
+                scrollPane4.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
                 //---- recvPane ----
                 recvPane.setEditable(false);
                 recvPane.setBackground(new Color(0xf3f3f3));
                 recvPane.setMargin(new Insets(10, 10, 10, 10));
+                recvPane.setMinimumSize(new Dimension(426, 248));
+                recvPane.setPreferredSize(new Dimension(426, 248));
                 scrollPane4.setViewportView(recvPane);
             }
 
@@ -180,8 +188,8 @@ public class ChatRoomUI {
                         .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
-                            .addComponent(scrollPane4)
-                            .addComponent(scrollPane2))
+                            .addComponent(scrollPane2)
+                            .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                         .addContainerGap())
             );
             chatJFrameContentPaneLayout.setVerticalGroup(
@@ -189,7 +197,7 @@ public class ChatRoomUI {
                     .addGroup(GroupLayout.Alignment.TRAILING, chatJFrameContentPaneLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(chatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                            .addComponent(scrollPane3, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                            .addComponent(scrollPane3)
                             .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
                                 .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)

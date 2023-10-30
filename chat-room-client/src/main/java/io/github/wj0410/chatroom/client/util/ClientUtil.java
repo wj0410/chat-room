@@ -72,28 +72,31 @@ public class ClientUtil {
         String userNameContent = normalMessage.getFromUserName();
         String timestampContent = "\n" + DateUtil.convertTimestampToString(normalMessage.getTimestamp()) + "\n";
         String msgContent = normalMessage.getMsg();
-        // 创建段落样式，并设置行间距为 20 像素
-        MutableAttributeSet marginStyle = new SimpleAttributeSet();
-        MutableAttributeSet lineSpacingStyle = new SimpleAttributeSet();
-        // 设置行间距，参数值为行高的倍数
-        StyleConstants.setLineSpacing(lineSpacingStyle, 0.5f);
-        StyleConstants.setAlignment(marginStyle, self == 1 ? StyleConstants.ALIGN_RIGHT : StyleConstants.ALIGN_LEFT);
+        // 创建段落样式
+        MutableAttributeSet alignStyle = new SimpleAttributeSet();
+        MutableAttributeSet spaceBelowStyle = new SimpleAttributeSet();
+        // 靠左/右对齐
+        StyleConstants.setAlignment(alignStyle, self == 1 ? StyleConstants.ALIGN_RIGHT : StyleConstants.ALIGN_LEFT);
+        // 每条消息之间间隔
+        StyleConstants.setSpaceBelow(spaceBelowStyle, 10.0f);
+
         try {
-            int marginStart = doc.getLength();
+            int alignStart = doc.getLength();
             // 用户名
             UIUtil.buildUserNameStyle(doc, self);
             doc.insertString(doc.getLength(), userNameContent, doc.getStyle(UIUtil.USER_NAME_STYLE_NAME));
+
             // 时间
             UIUtil.buildTimestampStyle(doc);
             doc.insertString(doc.getLength(), timestampContent, doc.getStyle(UIUtil.TIMESTAMP_STYLE_NAME));
 
-            int lineSpacingStart = doc.getLength();
+            int spaceBelowStart = doc.getLength();
             // 消息
             UIUtil.buildMsgStyle(doc, self);
             doc.insertString(doc.getLength(), msgContent + "\n", doc.getStyle(UIUtil.MSG_STYLE_NAME));
             // 将段落样式应用到指定范围内的文本
-            doc.setParagraphAttributes(marginStart, doc.getLength() - marginStart, marginStyle, false);
-            doc.setParagraphAttributes(lineSpacingStart, doc.getLength() - lineSpacingStart, lineSpacingStyle, false);
+            doc.setParagraphAttributes(alignStart, doc.getLength() - alignStart, alignStyle, false);
+            doc.setParagraphAttributes(spaceBelowStart, doc.getLength() - spaceBelowStart, spaceBelowStyle, false);
 
             recvPane.setDocument(doc);
             recvPane.setCaretPosition(doc.getLength());

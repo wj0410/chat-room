@@ -13,7 +13,7 @@ public class Test {
     public static void main(String[] args) {
         ServerUI serverUI = new ServerUI();
         serverUI.show();
-        serverUI.doRun();
+        serverUI.run();
         LoginUI loginUI = new LoginUI();
         loginUI.show();
         loginUI.account.setText(randomAccount());

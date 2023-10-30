@@ -72,7 +72,7 @@ public class UIUtil {
     }
 
     public static void buildServerConsoleStyle(StyledDocument doc) {
-        UIUtil.createStyle(SERVER_CONSOLE_STYLE_NAME, doc, 15, 0, 0, 0, Color.black, "宋体", null);
+        UIUtil.createStyle(SERVER_CONSOLE_STYLE_NAME, doc, 15, 0, 0, 0, Color.RED, "宋体", null);
     }
 
     public static void buildUserNameStyle(StyledDocument doc, int self) {
