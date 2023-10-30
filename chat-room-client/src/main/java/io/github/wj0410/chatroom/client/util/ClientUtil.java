@@ -3,6 +3,7 @@ package io.github.wj0410.chatroom.client.util;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
+import io.github.wj0410.chatroom.common.message.WelcomeMessage;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.DateUtil;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
@@ -59,6 +60,39 @@ public class ClientUtil {
         message.setTargetClientIds(targetList);
         String normalMessageJsonStr = MessageUtil.createNormalMessageJsonStr(message);
         ctx.writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
+    }
+
+    /**
+     * 回显接收到的服务器消息
+     *
+     * @param welcomeMessage
+     * @param recvPane
+     */
+    public static void drawRecvArea(WelcomeMessage welcomeMessage, JTextPane recvPane, int self) {
+        StyledDocument doc = recvPane.getStyledDocument();
+        String timestampContent = "\n" + DateUtil.convertTimestampToString(welcomeMessage.getTimestamp()) + "\n";
+        String welcomeContent = self == 1 ? "您已进入聊天室" : welcomeMessage.getMsg();
+        welcomeContent += "\n";
+        // 创建段落样式
+        MutableAttributeSet alignStyle = new SimpleAttributeSet();
+        // 居中
+        StyleConstants.setAlignment(alignStyle, StyleConstants.ALIGN_CENTER);
+        try {
+            int alignStart = doc.getLength();
+            UIUtil.buildTimestampStyle(doc);
+            doc.insertString(doc.getLength(), timestampContent, doc.getStyle(UIUtil.TIMESTAMP_STYLE_NAME));
+
+            UIUtil.buildWelcomeStyle(doc);
+            doc.insertString(doc.getLength(), welcomeContent, doc.getStyle(UIUtil.WELCOME_STYLE_NAME));
+
+            // 将段落样式应用到指定范围内的文本
+            doc.setParagraphAttributes(alignStart, doc.getLength() - alignStart, alignStyle, false);
+
+            recvPane.setDocument(doc);
+            recvPane.setCaretPosition(doc.getLength());
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -22,6 +22,7 @@ public class UIUtil {
     public static final String USER_NAME_STYLE_NAME = "recvUserNameStyle";
     public static final String TIMESTAMP_STYLE_NAME = "recvTimestampStyle";
     public static final String MSG_STYLE_NAME = "recvMsgStyle";
+    public static final String WELCOME_STYLE_NAME = "recvWelcomeStyle";
     public static final String SERVER_CONSOLE_STYLE_NAME = "serverConsole";
 
     public static void alertSuccess(String str) {
@@ -81,6 +82,10 @@ public class UIUtil {
 
     public static void buildTimestampStyle(StyledDocument doc) {
         createStyle(TIMESTAMP_STYLE_NAME, doc, 13, 0, 0, 0, GREY_COLOR2, "Arial", null);
+    }
+
+    public static void buildWelcomeStyle(StyledDocument doc) {
+        createStyle(WELCOME_STYLE_NAME, doc, 13, 0, 0, 0, GREY_COLOR2, "Arial", null);
     }
 
     public static void buildMsgStyle(StyledDocument doc, int self) {

@@ -1,15 +1,10 @@
 package io.github.wj0410.chatroom.common.util;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import io.github.wj0410.chatroom.common.enums.MessageType;
-import io.github.wj0410.chatroom.common.message.BindMessage;
-import io.github.wj0410.chatroom.common.message.Message;
-import io.github.wj0410.chatroom.common.message.NormalMessage;
-import io.github.wj0410.chatroom.common.message.SyncOnlineMessage;
+import io.github.wj0410.chatroom.common.message.*;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandlerContext;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -43,6 +38,13 @@ public class MessageUtil {
         return JSON.toJSONString(message);
     }
 
+    public static String createWelcomeMessageJsonStr(WelcomeMessage welcomeMessage) {
+        Message<WelcomeMessage> message = new Message();
+        message.setType(WELCOME);
+        message.setData(welcomeMessage);
+        return JSON.toJSONString(message);
+    }
+
     public static Object getMessage(String jsonStr) {
         Message message = JSON.parseObject(jsonStr, Message.class);
         MessageType type = message.getType();
@@ -57,6 +59,9 @@ public class MessageUtil {
             case SYNC_ONLINE:
                 SyncOnlineMessage syncOnlineMessage = JSON.parseObject(data, SyncOnlineMessage.class);
                 return syncOnlineMessage;
+            case WELCOME:
+                WelcomeMessage welcomeMessage = JSON.parseObject(data, WelcomeMessage.class);
+                return welcomeMessage;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

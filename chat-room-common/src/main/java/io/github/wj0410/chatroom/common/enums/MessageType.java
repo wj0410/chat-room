@@ -7,5 +7,6 @@ package io.github.wj0410.chatroom.common.enums;
 public enum MessageType {
     BIND,
     NORMAL,
-    SYNC_ONLINE
+    SYNC_ONLINE,
+    WELCOME
 }

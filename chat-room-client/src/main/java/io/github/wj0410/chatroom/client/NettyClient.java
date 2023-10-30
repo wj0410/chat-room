@@ -3,6 +3,7 @@ package io.github.wj0410.chatroom.client;
 import io.github.wj0410.chatroom.client.handler.ClientHandler;
 import io.github.wj0410.chatroom.client.handler.ClientNormalHandler;
 import io.github.wj0410.chatroom.client.handler.ClientSyncOnlineHandler;
+import io.github.wj0410.chatroom.client.handler.ClientWelcomeHandler;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -44,6 +45,7 @@ public class NettyClient {
                                 new JsonObjectDecoder(),
                                 new ClientHandler(),
                                 new ClientSyncOnlineHandler(),
+                                new ClientWelcomeHandler(),
                                 new ClientNormalHandler()
                         );
                     }

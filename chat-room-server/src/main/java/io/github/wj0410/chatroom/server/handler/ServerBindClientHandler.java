@@ -34,6 +34,8 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
             ServerHolder.serverUI.flushClientOnlineList();
             // 给所有客户端发送同步在线列表消息
             ServerUtil.sendSyncOnlineMessage();
+            // 给所有客户端发送欢迎消息
+            ServerUtil.sendWelcomeMessage(bindMessage.getClientId());
         }
     }
 }
