@@ -12,11 +12,12 @@ import java.awt.*;
 public class UIUtil {
     // 绿色
     public static final Color GREEN_COLOR = new Color(51, 153, 102);
+    // 浅绿色
+    public static final Color GREEN_COLOR_LIGHT = new Color(149, 236, 105);
     // 灰色
     public static final Color GREY_COLOR = new Color(211, 211, 211);
     public static final Color GREY_COLOR2 = new Color(184, 184, 184);
-    // 浅绿色
-    public static final Color LIGHT_GREEN_COLOR = new Color(149, 236, 105);
+
 
     public static final String USER_NAME_STYLE_NAME = "recvUserNameStyle";
     public static final String TIMESTAMP_STYLE_NAME = "recvTimestampStyle";
@@ -42,10 +43,9 @@ public class UIUtil {
      * @param underline 是否下划线
      * @param color     字体颜色
      * @param fontName  字体名称
-     * @param align     对齐方式
      */
     public static void createStyle(String styleName, StyledDocument doc, int fontSize, int bold,
-                                   int italic, int underline, Color color, String fontName, int align, Color bgColor) {
+                                   int italic, int underline, Color color, String fontName, Color bgColor) {
         // 先删除这种Style,假使他存在
         try {
             doc.removeStyle(styleName);
@@ -65,8 +65,6 @@ public class UIUtil {
         StyleConstants.setForeground(style, color);
         // 字体
         StyleConstants.setFontFamily(style, fontName);
-        // 设置对齐方式
-        StyleConstants.setAlignment(style, align);
         // 背景颜色
         if (bgColor != null) {
             StyleConstants.setBackground(style, bgColor);
@@ -74,18 +72,18 @@ public class UIUtil {
     }
 
     public static void buildServerConsoleStyle(StyledDocument doc) {
-        UIUtil.createStyle(SERVER_CONSOLE_STYLE_NAME, doc, 15, 0, 0, 0, Color.black, "宋体", StyleConstants.ALIGN_LEFT, null);
+        UIUtil.createStyle(SERVER_CONSOLE_STYLE_NAME, doc, 15, 0, 0, 0, Color.black, "宋体", null);
     }
 
-    public static void buildUserNameStyle(StyledDocument doc) {
-        createStyle(USER_NAME_STYLE_NAME, doc, 15, 0, 0, 0, Color.black, "Arial", StyleConstants.ALIGN_LEFT, null);
+    public static void buildUserNameStyle(StyledDocument doc, int self) {
+        createStyle(USER_NAME_STYLE_NAME, doc, 15, 1, 0, 0, self == 1 ? GREEN_COLOR : Color.black, "Arial", null);
     }
 
     public static void buildTimestampStyle(StyledDocument doc) {
-        createStyle(TIMESTAMP_STYLE_NAME, doc, 15, 0, 0, 0, GREY_COLOR2, "Arial", StyleConstants.ALIGN_LEFT, null);
+        createStyle(TIMESTAMP_STYLE_NAME, doc, 13, 0, 0, 0, GREY_COLOR2, "Arial", null);
     }
 
-    public static void buildMsgStyle(StyledDocument doc) {
-        createStyle(MSG_STYLE_NAME, doc, 14, 0, 0, 0, Color.black, "Arial", StyleConstants.ALIGN_LEFT, LIGHT_GREEN_COLOR);
+    public static void buildMsgStyle(StyledDocument doc, int self) {
+        createStyle(MSG_STYLE_NAME, doc, 14, 0, 0, 0, Color.black, "Arial", self == 1 ? GREEN_COLOR_LIGHT : Color.WHITE);
     }
 }

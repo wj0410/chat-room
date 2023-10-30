@@ -1,9 +1,9 @@
 package io.github.wj0410.chatroom.server.handler;
 
 import io.github.wj0410.chatroom.common.util.MessageUtil;
-import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.util.ServerUtil;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +35,11 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        Object message = MessageUtil.getMessage(msg.toString());
-        // 将msg交给下一个handler处理
-        ctx.fireChannelRead(message);
+        if (msg instanceof ByteBuf) {
+            ByteBuf byteBuf = (ByteBuf) msg;
+            Object message = MessageUtil.getMessage(MessageUtil.convert2String(byteBuf));
+            // 将msg交给下一个handler处理
+            ctx.fireChannelRead(message);
+        }
     }
 }

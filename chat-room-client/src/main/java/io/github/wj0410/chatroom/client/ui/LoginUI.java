@@ -43,7 +43,7 @@ public class LoginUI {
         // 将客户端信息记录到ClientHolder
         ClientHolder.clientInfo = new ClientModel();
         ClientHolder.clientInfo.setAccount(account);
-        ClientHolder.clientInfo.setUserName("用户：" + account);
+        ClientHolder.clientInfo.setUserName(account);
         if (connection(host, port)) {
             // 隐藏登录UI
             this.hide();

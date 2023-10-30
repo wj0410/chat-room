@@ -23,7 +23,7 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
     protected void channelRead0(ChannelHandlerContext ctx, NormalMessage normalMessage) {
         System.out.println(String.format("客户端收到服务端转发消息：%s", normalMessage.toString()));
         // 在UI消息区域显示消息
-        ClientUtil.drawRecvArea(normalMessage, ClientHolder.chatRoomUI.getRecvPane());
+        ClientUtil.drawRecvArea(normalMessage, ClientHolder.chatRoomUI.getRecvPane(), normalMessage.getFromClientId().equals(ClientHolder.clientInfo.getClientId()) ? 1 : 0);
     }
 
 }

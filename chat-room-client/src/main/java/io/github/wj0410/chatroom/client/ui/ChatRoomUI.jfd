@@ -38,6 +38,7 @@ new FormModel {
 					name: "recvPane"
 					"editable": false
 					"background": new java.awt.Color( 243, 243, 243, 255 )
+					"margin": new java.awt.Insets( 10, 10, 10, 10 )
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {

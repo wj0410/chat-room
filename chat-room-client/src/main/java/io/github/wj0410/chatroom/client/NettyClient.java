@@ -9,6 +9,11 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
+import io.netty.handler.codec.bytes.ByteArrayDecoder;
+import io.netty.handler.codec.bytes.ByteArrayEncoder;
+import io.netty.handler.codec.json.JsonObjectDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import lombok.extern.slf4j.Slf4j;
@@ -44,8 +49,7 @@ public class NettyClient {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         // 在第一个请求包中编码用户ID
                         ch.pipeline().addLast(
-                                new StringEncoder(StandardCharsets.UTF_8),
-                                new StringDecoder(StandardCharsets.UTF_8),
+                                new JsonObjectDecoder(),
                                 new ClientHandler(),
                                 new ClientSyncOnlineHandler(),
                                 new ClientNormalHandler()

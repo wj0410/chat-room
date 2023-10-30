@@ -8,6 +8,8 @@ import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.data.ServerData;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +20,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,26 +57,6 @@ public class ServerUtil extends ServerData {
         ServerData.getClientModelMap().remove(clientId);
     }
 
-    public static void sendSyncOnlineMessage() {
-        // 服务端向所有客户端发送同步在线列表消息
-        SyncOnlineMessage syncOnlineMessage = new SyncOnlineMessage();
-        LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
-        LinkedList<ClientModel> newList = new LinkedList<>();
-        for (ClientModel clientModel : clientOnlineList) {
-            ClientModel client = new ClientModel();
-            BeanUtils.copyProperties(clientModel, client);
-            client.setCtx(null);
-            newList.add(client);
-        }
-        syncOnlineMessage.setClientOnlineList(newList);
-        String syncOnlineMessageJsonStr = MessageUtil.createSyncOnlineMessageJsonStr(syncOnlineMessage);
-        for (ClientModel clientModel : clientOnlineList) {
-            clientModel.getCtx().writeAndFlush(syncOnlineMessageJsonStr);
-        }
-        log.info("服务端向所有客户端发送同步在线列表消息：{}", syncOnlineMessageJsonStr);
-    }
-
-
     public static ClientModel getClientModel(ChannelHandlerContext ctx) {
         return ServerData.getClientModelMap().get(ServerHolder.getClientId(ctx));
     }
@@ -95,6 +78,28 @@ public class ServerUtil extends ServerData {
     }
 
     /**
+     * 服务端发送同步列表消息
+     */
+    public static void sendSyncOnlineMessage() {
+        // 服务端向所有客户端发送同步在线列表消息
+        SyncOnlineMessage syncOnlineMessage = new SyncOnlineMessage();
+        LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
+        LinkedList<ClientModel> newList = new LinkedList<>();
+        for (ClientModel clientModel : clientOnlineList) {
+            ClientModel client = new ClientModel();
+            BeanUtils.copyProperties(clientModel, client);
+            client.setCtx(null);
+            newList.add(client);
+        }
+        syncOnlineMessage.setClientOnlineList(newList);
+        String syncOnlineMessageJsonStr = MessageUtil.createSyncOnlineMessageJsonStr(syncOnlineMessage);
+        for (ClientModel clientModel : clientOnlineList) {
+            clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(syncOnlineMessageJsonStr));
+        }
+        log.info("服务端向所有客户端发送同步在线列表消息：{}", syncOnlineMessageJsonStr);
+    }
+
+    /**
      * 转发客户端消息
      */
     public static void relayNormalMessage(NormalMessage normalMessage) {
@@ -104,14 +109,14 @@ public class ServerUtil extends ServerData {
             // 发送给所有人的消息
             LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
             clientOnlineList.forEach(item -> {
-                item.getCtx().writeAndFlush(normalMessageJsonStr);
+                item.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
             });
             log.info("服务端向客户端 {} 转发消息：{}", clientOnlineList.toString(), normalMessageJsonStr);
         } else {
             // 发送给指定用户的消息
             targetClientIds.forEach(item -> {
                 ConcurrentHashMap<String, ClientModel> clientModelMap = ServerUtil.getClientModelMap();
-                clientModelMap.get(item).getCtx().writeAndFlush(normalMessageJsonStr);
+                clientModelMap.get(item).getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
             });
             log.info("服务端向客户端 {} 转发消息：{}", targetClientIds.toString(), normalMessageJsonStr);
         }

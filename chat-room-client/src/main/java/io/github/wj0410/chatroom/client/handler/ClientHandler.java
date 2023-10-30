@@ -4,10 +4,12 @@ import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * @author wangjie
@@ -34,13 +36,17 @@ public class ClientHandler extends SimpleChannelInboundHandler<Object> {
         bindMessage.setAccount(ClientHolder.clientInfo.getAccount());
         bindMessage.setUserName(ClientHolder.clientInfo.getUserName());
         // 发送绑定消息
-        ClientUtil.sendBindMessage(ctx,bindMessage);
+        ClientUtil.sendBindMessage(ctx, bindMessage);
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
-        Object message = MessageUtil.getMessage(msg.toString());
-        ctx.fireChannelRead(message);
+        if (msg instanceof ByteBuf) {
+            ByteBuf byteBuf = (ByteBuf) msg;
+            Object message = MessageUtil.getMessage(MessageUtil.convert2String(byteBuf));
+            // 将msg交给下一个handler处理
+            ctx.fireChannelRead(message);
+        }
     }
 
 }

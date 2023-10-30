@@ -7,8 +7,11 @@ import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.Message;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.message.SyncOnlineMessage;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import static io.github.wj0410.chatroom.common.enums.MessageType.*;
@@ -57,6 +60,16 @@ public class MessageUtil {
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
+    }
+
+    public static ByteBuf convert2ByteBuf(String jsonStr) {
+        byte[] bytes = jsonStr.getBytes(Charset.forName("UTF-8"));
+        ByteBuf buf = Unpooled.wrappedBuffer(bytes);
+        return buf;
+    }
+
+    public static String convert2String(ByteBuf buf) {
+        return buf.toString(Charset.forName("UTF-8"));
     }
 
     public static BindMessage getBindMessage(String jsonStr) {

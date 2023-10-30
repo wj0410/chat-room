@@ -167,6 +167,7 @@ public class ChatRoomUI {
                 //---- recvPane ----
                 recvPane.setEditable(false);
                 recvPane.setBackground(new Color(0xf3f3f3));
+                recvPane.setMargin(new Insets(10, 10, 10, 10));
                 scrollPane4.setViewportView(recvPane);
             }
 

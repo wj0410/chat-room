@@ -14,6 +14,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.bytes.ByteArrayDecoder;
+import io.netty.handler.codec.bytes.ByteArrayEncoder;
+import io.netty.handler.codec.json.JsonObjectDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
@@ -57,8 +61,7 @@ public class NettyServer {
                     public void initChannel(SocketChannel ch) throws Exception {
                         ServerHolder.serverSocketChannel = ch;
                         ch.pipeline().addLast(
-                                new StringEncoder(StandardCharsets.UTF_8),
-                                new StringDecoder(StandardCharsets.UTF_8),
+                                new JsonObjectDecoder(),
                                 new ServerHandler(),
                                 new ServerBindClientHandler(),
                                 new ServerNormalHandler()
