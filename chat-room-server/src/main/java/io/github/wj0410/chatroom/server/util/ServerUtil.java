@@ -130,9 +130,14 @@ public class ServerUtil extends ServerData {
             // 发送给指定用户的消息
             targetClientIds.forEach(item -> {
                 ConcurrentHashMap<String, ClientModel> clientModelMap = ServerUtil.getClientModelMap();
-                clientModelMap.get(item).getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
+                ClientModel clientModel = clientModelMap.get(item);
+                if (clientModel != null) {
+                    clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
+                    log.info("服务端向客户端 {} 转发消息：{}", targetClientIds.toString(), normalMessageJsonStr);
+                } else {
+                    log.info("客户端[{}]已下线，消息停止转发：{}", item, normalMessageJsonStr);
+                }
             });
-            log.info("服务端向客户端 {} 转发消息：{}", targetClientIds.toString(), normalMessageJsonStr);
         }
 
     }

@@ -36,8 +36,8 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
         String fromClientId = normalMessage.getFromClientId();
         if (CollectionUtils.isEmpty(targetClientIds)) {
             // 聊天室
-            recvPane = ClientHolder.chatRoomUI.getRecvPane();
-            ClientUtil.drawRecvArea(normalMessage, recvPane, fromClientId.equals(ClientHolder.clientInfo.getClientId()) ? 1 : 0);
+            int self = fromClientId.equals(ClientHolder.clientInfo.getClientId()) ? 1 : 0;
+            ClientUtil.drawRecvArea(normalMessage, ClientHolder.chatRoomUI.getRecvPane(), self);
         } else {
             // TODO 这里区分聊天室和私聊消息需要优化一下，目前暂时只有这两种情况
             // 其他人发给自己的私聊消息
@@ -45,20 +45,18 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
             if (privateChatUI == null) {
                 OnlineModel onlineModel = ClientHolder.chatRoomUI.getOnlineModel(fromClientId);
                 if (onlineModel == null) {
-                    log.error("clientId:{}不在onlineList中！", fromClientId);
+                    log.error("ERROR: clientId:{} 不在chatRoomUI.onlineList中！", fromClientId);
                     return;
                 }
                 privateChatUI = new PrivateChatUI(onlineModel);
             }
-            recvPane = privateChatUI.getRecvPane();
-            ClientUtil.drawRecvArea(normalMessage, recvPane, 0);
+            ClientUtil.drawRecvArea(normalMessage, privateChatUI.getRecvPane(), 0);
             if (!privateChatUI.isShow()) {
                 // 私聊窗口未开启
-                // 显示未读消息
+                // 未读消息+1
                 ClientHolder.chatRoomUI.flushUnread(fromClientId);
             }
         }
-
     }
 
 }
