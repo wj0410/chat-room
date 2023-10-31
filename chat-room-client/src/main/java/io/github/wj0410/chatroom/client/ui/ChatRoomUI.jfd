@@ -5,7 +5,7 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 			"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane3:::p:194:p, space :::p, par l {comp scrollPane2:::::x, comp scrollPane4::::0:x}, space :::p}}"
-			"$verticalGroup": "par l {seq t {space :::p, par t {comp scrollPane3:::::x, seq {comp scrollPane4::::248:x, space :::p, comp scrollPane2:::p:193:p}}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par l {comp scrollPane3::::447:x, seq {comp scrollPane4::::248:x, space :::p, comp scrollPane2:::p:193:p}}, space :::p}}"
 		} ) {
 			name: "chatJFrame"
 			"title": "聊天室"
@@ -22,7 +22,8 @@ new FormModel {
 					name: "sendArea"
 					"background": new java.awt.Color( 243, 243, 243, 255 )
 					"lineWrap": true
-					"margin": new java.awt.Insets( 10, 10, 10, 10 )
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
+					"border": &SoftBevelBorder0 new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
 					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "textArea3KeyPressed", true ) )
 				} )
 			} )
@@ -31,6 +32,7 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JList" ) {
 					name: "onlineList"
 					"font": new java.awt.Font( "sansserif", 0, 20 )
+					"border": #SoftBevelBorder0
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "onlineListMouseClicked", true ) )
 					addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "onlineListSelectChanged", true ) )
 				} )
@@ -42,9 +44,10 @@ new FormModel {
 					name: "recvPane"
 					"editable": false
 					"background": new java.awt.Color( 243, 243, 243, 255 )
-					"margin": new java.awt.Insets( 10, 10, 10, 10 )
+					"margin": new java.awt.Insets( 5, 5, 5, 5 )
 					"minimumSize": new java.awt.Dimension( 426, 248 )
 					"preferredSize": new java.awt.Dimension( 426, 248 )
+					"border": #SoftBevelBorder0
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {

@@ -4,13 +4,14 @@
 
 package io.github.wj0410.chatroom.client.ui;
 
+import javax.swing.border.*;
 import javax.swing.event.*;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.style.OnlineListCellRenderer;
+import io.github.wj0410.chatroom.client.ui.style.WrapEditorKit;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.common.model.ClientModel;
-import io.github.wj0410.chatroom.common.util.UIUtil;
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
@@ -26,6 +27,10 @@ public class ChatRoomUI {
     public ChatRoomUI() {
         this.initComponents();
         ClientHolder.chatRoomUI = this;
+        // 在线列表样式
+        this.onlineList.setCellRenderer(new OnlineListCellRenderer());
+        // 设置消息回显区自动换行
+        this.recvPane.setEditorKit(new WrapEditorKit());
     }
 
     public void show() {
@@ -47,7 +52,6 @@ public class ChatRoomUI {
             model.addElement(clientModel);
         }
         this.onlineList.setModel(model);
-        this.onlineList.setCellRenderer(new OnlineListCellRenderer());
     }
 
     private void textArea3KeyPressed(KeyEvent e) {
@@ -60,7 +64,7 @@ public class ChatRoomUI {
             // 发送并清空发送域
             e.consume(); // 停止事件的默认行为
             String sendContent = sendArea.getText();
-            if(StringUtils.isNotBlank(sendContent)){
+            if (StringUtils.isNotBlank(sendContent)) {
                 // 发送消息
                 ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, null);
                 // 清空发送框
@@ -75,9 +79,14 @@ public class ChatRoomUI {
             int index = onlineList.locationToIndex(e.getPoint());
             if (index != -1) {
                 ClientModel clientModel = (ClientModel) onlineList.getModel().getElementAt(index);
-                if (!clientModel.getClientId().equals(ClientHolder.clientInfo.getClientId())) {
-                    // TODO 打开私聊对话框
-                    UIUtil.alertSuccess("开发中！");
+                String targetClientId = clientModel.getClientId();
+                if (!targetClientId.equals(ClientHolder.clientInfo.getClientId())) {
+                    // 打开私聊对话框
+                    PrivateChatUI privateChatUI = ClientHolder.privateChatUIMap.get(targetClientId);
+                    if (privateChatUI == null) {
+                        privateChatUI = new PrivateChatUI(clientModel);
+                    }
+                    privateChatUI.show();
                 }
             }
         }
@@ -141,7 +150,8 @@ public class ChatRoomUI {
                 //---- sendArea ----
                 sendArea.setBackground(new Color(0xf3f3f3));
                 sendArea.setLineWrap(true);
-                sendArea.setMargin(new Insets(10, 10, 10, 10));
+                sendArea.setMargin(new Insets(5, 5, 5, 5));
+                sendArea.setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
                 sendArea.addKeyListener(new KeyAdapter() {
                     @Override
                     public void keyPressed(KeyEvent e) {
@@ -156,6 +166,7 @@ public class ChatRoomUI {
 
                 //---- onlineList ----
                 onlineList.setFont(new Font("sansserif", Font.PLAIN, 20));
+                onlineList.setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
                 onlineList.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -173,36 +184,37 @@ public class ChatRoomUI {
                 //---- recvPane ----
                 recvPane.setEditable(false);
                 recvPane.setBackground(new Color(0xf3f3f3));
-                recvPane.setMargin(new Insets(10, 10, 10, 10));
+                recvPane.setMargin(new Insets(5, 5, 5, 5));
                 recvPane.setMinimumSize(new Dimension(426, 248));
                 recvPane.setPreferredSize(new Dimension(426, 248));
+                recvPane.setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
                 scrollPane4.setViewportView(recvPane);
             }
 
             GroupLayout chatJFrameContentPaneLayout = new GroupLayout(chatJFrameContentPane);
             chatJFrameContentPane.setLayout(chatJFrameContentPaneLayout);
             chatJFrameContentPaneLayout.setHorizontalGroup(
-                chatJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
-                            .addComponent(scrollPane2)
-                            .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
-                        .addContainerGap())
+                    chatJFrameContentPaneLayout.createParallelGroup()
+                            .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
+                                            .addComponent(scrollPane2)
+                                            .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                                    .addContainerGap())
             );
             chatJFrameContentPaneLayout.setVerticalGroup(
-                chatJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(GroupLayout.Alignment.TRAILING, chatJFrameContentPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(chatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                            .addComponent(scrollPane3)
+                    chatJFrameContentPaneLayout.createParallelGroup()
                             .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                                .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
+                                    .addContainerGap()
+                                    .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
+                                            .addComponent(scrollPane3, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                                            .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
+                                                    .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+                                    .addContainerGap())
             );
             chatJFrame.setSize(640, 490);
             chatJFrame.setLocationRelativeTo(chatJFrame.getOwner());

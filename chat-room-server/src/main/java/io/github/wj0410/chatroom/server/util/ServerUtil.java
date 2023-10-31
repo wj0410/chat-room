@@ -9,8 +9,6 @@ import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.data.ServerData;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -18,10 +16,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import java.awt.*;
-import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -125,7 +120,7 @@ public class ServerUtil extends ServerData {
         List<String> targetClientIds = normalMessage.getTargetClientIds();
         String normalMessageJsonStr = MessageUtil.createNormalMessageJsonStr(normalMessage);
         if (CollectionUtils.isEmpty(targetClientIds)) {
-            // 发送给所有人的消息
+            // 聊天室消息
             LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
             clientOnlineList.forEach(item -> {
                 item.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));

@@ -27,7 +27,7 @@ public class OnlineListCellRenderer extends DefaultListCellRenderer {
             //如果是自己，设置字体为绿色
             setForeground(UIUtil.GREEN_COLOR);
             // 判断是否选中
-            if(isSelected){
+            if (isSelected) {
                 // 设置选中时的背景色为浅蓝色
                 setBackground(Color.WHITE);
             }
@@ -35,7 +35,7 @@ public class OnlineListCellRenderer extends DefaultListCellRenderer {
             //如果是其他人，则设置颜色为默认颜色
             setForeground(Color.BLACK);
             // 判断是否选中
-            if(isSelected){
+            if (isSelected) {
                 // 设置选中时的背景色为灰色
                 setBackground(UIUtil.GREY_COLOR);
             } else {
@@ -43,7 +43,6 @@ public class OnlineListCellRenderer extends DefaultListCellRenderer {
                 setBackground(Color.WHITE);
             }
         }
-
         return this;
     }
 }

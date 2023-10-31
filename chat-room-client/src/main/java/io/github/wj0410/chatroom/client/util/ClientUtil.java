@@ -48,18 +48,19 @@ public class ClientUtil {
      *
      * @param ctx        客户端与服务端的通道
      * @param msg        消息内容
-     * @param targetList 为NULL则代表发送给所有客户端
+     * @param targetClientList 为NULL则代表发送给所有客户端
      */
-    public static void sendNormalMessage(ChannelHandlerContext ctx, String msg, List<String> targetList) {
+    public static NormalMessage sendNormalMessage(ChannelHandlerContext ctx, String msg, List<String> targetClientList) {
         NormalMessage message = new NormalMessage();
         message.setTimestamp(System.currentTimeMillis());
         message.setMsg(msg);
         message.setFromAccount(ClientHolder.clientInfo.getAccount());
         message.setFromClientId(ClientHolder.clientInfo.getClientId());
         message.setFromUserName(ClientHolder.clientInfo.getUserName());
-        message.setTargetClientIds(targetList);
+        message.setTargetClientIds(targetClientList);
         String normalMessageJsonStr = MessageUtil.createNormalMessageJsonStr(message);
         ctx.writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
+        return message;
     }
 
     /**
@@ -112,7 +113,7 @@ public class ClientUtil {
         // 靠左/右对齐
         StyleConstants.setAlignment(alignStyle, self == 1 ? StyleConstants.ALIGN_RIGHT : StyleConstants.ALIGN_LEFT);
         // 每条消息之间间隔
-        StyleConstants.setSpaceBelow(spaceBelowStyle, 10.0f);
+        StyleConstants.setSpaceBelow(spaceBelowStyle, 3.0f);
 
         try {
             int alignStart = doc.getLength();
