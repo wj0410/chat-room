@@ -1,6 +1,7 @@
 package io.github.wj0410.chatroom.client.util;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
+import io.github.wj0410.chatroom.client.ui.model.OnlineModel;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.message.WelcomeMessage;
@@ -24,11 +25,11 @@ public class ClientUtil {
     /**
      * 格式化展示在线列表
      *
-     * @param clientModel
+     * @param onlineModel
      * @return
      */
-    public static String formatClientAccount(ClientModel clientModel) {
-        return clientModel.getUserName();
+    public static String formatClientAccount(OnlineModel onlineModel) {
+        return onlineModel.getUserName();
     }
 
     /**

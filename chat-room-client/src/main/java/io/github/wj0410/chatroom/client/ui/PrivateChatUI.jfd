@@ -25,7 +25,6 @@ new FormModel {
 					"minimumSize": new java.awt.Dimension( 426, 248 )
 					"preferredSize": new java.awt.Dimension( 426, 248 )
 					"editable": false
-					"border": &SoftBevelBorder0 new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
@@ -35,7 +34,6 @@ new FormModel {
 					"background": new java.awt.Color( 243, 243, 243, 255 )
 					"lineWrap": true
 					"margin": new java.awt.Insets( 5, 5, 5, 5 )
-					"border": #SoftBevelBorder0
 					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "textArea3KeyPressed", true ) )
 				} )
 			} )

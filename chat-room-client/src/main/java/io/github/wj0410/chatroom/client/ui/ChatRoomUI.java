@@ -8,6 +8,7 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
+import io.github.wj0410.chatroom.client.ui.model.OnlineModel;
 import io.github.wj0410.chatroom.client.ui.style.OnlineListCellRenderer;
 import io.github.wj0410.chatroom.client.ui.style.WrapEditorKit;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
@@ -47,11 +48,41 @@ public class ChatRoomUI {
      * @param clientModelLinkedList
      */
     public void flushClientOnlineList(LinkedList<ClientModel> clientModelLinkedList) {
-        DefaultListModel<ClientModel> model = new DefaultListModel<>();
+        // todo 防止把未读消息刷新掉
+        DefaultListModel<OnlineModel> model = new DefaultListModel<>();
         for (ClientModel clientModel : clientModelLinkedList) {
-            model.addElement(clientModel);
+            OnlineModel onlineModel = new OnlineModel();
+            onlineModel.setClientId(clientModel.getClientId());
+            onlineModel.setAccount(clientModel.getAccount());
+            onlineModel.setUserName(clientModel.getUserName());
+            onlineModel.setUnreadCount(0);
+            model.addElement(onlineModel);
         }
         this.onlineList.setModel(model);
+    }
+
+    /**
+     * 刷新未读列表
+     *
+     * @param fromClientId
+     */
+    public void flushUnread(String fromClientId) {
+        OnlineModel onlineModel = getOnlineModel(fromClientId);
+        if (onlineModel != null) {
+            // 未读+1
+            onlineModel.setUnreadCount(onlineModel.getUnreadCount() + 1);
+        }
+    }
+
+    public OnlineModel getOnlineModel(String clientId) {
+        ListModel model = this.onlineList.getModel();
+        for (int i = 0; i < model.getSize(); i++) {
+            OnlineModel element = (OnlineModel) model.getElementAt(i);
+            if (element.getClientId().equals(clientId)) {
+                return element;
+            }
+        }
+        return null;
     }
 
     private void textArea3KeyPressed(KeyEvent e) {
@@ -78,15 +109,17 @@ public class ChatRoomUI {
             // 处理双击事件
             int index = onlineList.locationToIndex(e.getPoint());
             if (index != -1) {
-                ClientModel clientModel = (ClientModel) onlineList.getModel().getElementAt(index);
-                String targetClientId = clientModel.getClientId();
+                OnlineModel onlineModel = (OnlineModel) onlineList.getModel().getElementAt(index);
+                String targetClientId = onlineModel.getClientId();
                 if (!targetClientId.equals(ClientHolder.clientInfo.getClientId())) {
                     // 打开私聊对话框
                     PrivateChatUI privateChatUI = ClientHolder.privateChatUIMap.get(targetClientId);
                     if (privateChatUI == null) {
-                        privateChatUI = new PrivateChatUI(clientModel);
+                        privateChatUI = new PrivateChatUI(onlineModel);
                     }
                     privateChatUI.show();
+                    // 清空未读
+                    onlineModel.setUnreadCount(0);
                 }
             }
         }
@@ -97,9 +130,9 @@ public class ChatRoomUI {
             int index = onlineList.getSelectedIndex();
             if (index != -1) {
                 Object elementAt = onlineList.getModel().getElementAt(index);
-                ClientModel clientModel = (ClientModel) elementAt;
+                OnlineModel onlineModel = (OnlineModel) elementAt;
                 //判断自己还是其他人
-                if (clientModel.getClientId().equals(ClientHolder.clientInfo.getClientId())) {
+                if (onlineModel.getClientId().equals(ClientHolder.clientInfo.getClientId())) {
                     // 如果选中的是带有标签（即自己），则清除选择
                     onlineList.clearSelection();
                 }
@@ -109,6 +142,10 @@ public class ChatRoomUI {
 
     public JTextPane getRecvPane() {
         return recvPane;
+    }
+
+    public JList getOnlineList() {
+        return onlineList;
     }
 
     /**
@@ -151,7 +188,6 @@ public class ChatRoomUI {
                 sendArea.setBackground(new Color(0xf3f3f3));
                 sendArea.setLineWrap(true);
                 sendArea.setMargin(new Insets(5, 5, 5, 5));
-                sendArea.setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
                 sendArea.addKeyListener(new KeyAdapter() {
                     @Override
                     public void keyPressed(KeyEvent e) {
@@ -187,7 +223,6 @@ public class ChatRoomUI {
                 recvPane.setMargin(new Insets(5, 5, 5, 5));
                 recvPane.setMinimumSize(new Dimension(426, 248));
                 recvPane.setPreferredSize(new Dimension(426, 248));
-                recvPane.setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
                 scrollPane4.setViewportView(recvPane);
             }
 

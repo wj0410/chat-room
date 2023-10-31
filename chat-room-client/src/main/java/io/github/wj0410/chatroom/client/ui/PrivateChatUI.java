@@ -5,6 +5,7 @@
 package io.github.wj0410.chatroom.client.ui;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
+import io.github.wj0410.chatroom.client.ui.model.OnlineModel;
 import io.github.wj0410.chatroom.client.ui.style.WrapEditorKit;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
@@ -18,17 +19,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author wangjie
  */
 public class PrivateChatUI {
-    private ClientModel targetClient;
+    private OnlineModel targetClient;
 
-    public PrivateChatUI(ClientModel targetClient) {
+    public PrivateChatUI(OnlineModel targetClient) {
         this.targetClient = targetClient;
         this.initComponents();
         // 设置消息回显区自动换行
@@ -108,7 +107,6 @@ public class PrivateChatUI {
                 recvPane.setMinimumSize(new Dimension(426, 248));
                 recvPane.setPreferredSize(new Dimension(426, 248));
                 recvPane.setEditable(false);
-                recvPane.setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
                 scrollPane4.setViewportView(recvPane);
             }
 
@@ -119,7 +117,6 @@ public class PrivateChatUI {
                 sendArea.setBackground(new Color(0xf3f3f3));
                 sendArea.setLineWrap(true);
                 sendArea.setMargin(new Insets(5, 5, 5, 5));
-                sendArea.setBorder(new SoftBevelBorder(SoftBevelBorder.LOWERED));
                 sendArea.addKeyListener(new KeyAdapter() {
                     @Override
                     public void keyPressed(KeyEvent e) {
@@ -132,22 +129,22 @@ public class PrivateChatUI {
             GroupLayout privateChatJFrameContentPaneLayout = new GroupLayout(privateChatJFrameContentPane);
             privateChatJFrameContentPane.setLayout(privateChatJFrameContentPaneLayout);
             privateChatJFrameContentPaneLayout.setHorizontalGroup(
-                    privateChatJFrameContentPaneLayout.createParallelGroup()
-                            .addGroup(GroupLayout.Alignment.TRAILING, privateChatJFrameContentPaneLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addGroup(privateChatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                            .addComponent(scrollPane4)
-                                            .addComponent(scrollPane2))
-                                    .addContainerGap())
+                privateChatJFrameContentPaneLayout.createParallelGroup()
+                    .addGroup(GroupLayout.Alignment.TRAILING, privateChatJFrameContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(privateChatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                            .addComponent(scrollPane4)
+                            .addComponent(scrollPane2))
+                        .addContainerGap())
             );
             privateChatJFrameContentPaneLayout.setVerticalGroup(
-                    privateChatJFrameContentPaneLayout.createParallelGroup()
-                            .addGroup(privateChatJFrameContentPaneLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
-                                    .addContainerGap())
+                privateChatJFrameContentPaneLayout.createParallelGroup()
+                    .addGroup(privateChatJFrameContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
             );
             privateChatJFrame.setSize(460, 475);
             privateChatJFrame.setLocationRelativeTo(privateChatJFrame.getOwner());
