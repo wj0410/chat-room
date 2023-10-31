@@ -5,7 +5,6 @@ import io.github.wj0410.chatroom.client.ui.model.OnlineModel;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.message.WelcomeMessage;
-import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.DateUtil;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.github.wj0410.chatroom.common.util.UIUtil;
@@ -47,8 +46,8 @@ public class ClientUtil {
     /**
      * 给服务端发送普通消息
      *
-     * @param ctx        客户端与服务端的通道
-     * @param msg        消息内容
+     * @param ctx              客户端与服务端的通道
+     * @param msg              消息内容
      * @param targetClientList 为NULL则代表发送给所有客户端
      */
     public static NormalMessage sendNormalMessage(ChannelHandlerContext ctx, String msg, List<String> targetClientList) {
