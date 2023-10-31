@@ -114,7 +114,7 @@ public class ClientUtil {
         // 靠左/右对齐
         StyleConstants.setAlignment(alignStyle, self == 1 ? StyleConstants.ALIGN_RIGHT : StyleConstants.ALIGN_LEFT);
         // 每条消息之间间隔
-        StyleConstants.setSpaceBelow(spaceBelowStyle, 3.0f);
+        StyleConstants.setSpaceBelow(spaceBelowStyle, 7.0f);
 
         try {
             int alignStart = doc.getLength();
