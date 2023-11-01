@@ -20,21 +20,21 @@ new FormModel {
 				"horizontalScrollBarPolicy": 31
 				add( new FormComponent( "javax.swing.JTextPane" ) {
 					name: "recvPane"
-					"background": new java.awt.Color( 243, 243, 243, 255 )
-					"margin": new java.awt.Insets( 5, 5, 5, 5 )
-					"minimumSize": new java.awt.Dimension( 426, 248 )
-					"preferredSize": new java.awt.Dimension( 426, 248 )
+					"background": &Color0 new java.awt.Color( 243, 243, 243, 255 )
+					"margin": &Insets0 new java.awt.Insets( 5, 5, 5, 5 )
+					"minimumSize": &Dimension0 new java.awt.Dimension( 426, 248 )
+					"preferredSize": &Dimension1 new java.awt.Dimension( 426, 248 )
 					"editable": false
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "scrollPane2"
-				add( new FormComponent( "javax.swing.JTextArea" ) {
-					name: "sendArea"
-					"background": new java.awt.Color( 243, 243, 243, 255 )
-					"lineWrap": true
-					"margin": new java.awt.Insets( 5, 5, 5, 5 )
-					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "textArea3KeyPressed", true ) )
+				add( new FormComponent( "javax.swing.JTextPane" ) {
+					name: "sendPane"
+					"background": #Color0
+					"margin": #Insets0
+					"minimumSize": #Dimension0
+					"preferredSize": #Dimension1
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {

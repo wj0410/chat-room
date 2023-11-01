@@ -4,7 +4,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane3:::p:194:p, space :::p, par l {comp scrollPane2:::::x, comp scrollPane4::::0:x}, space :::p}}"
+			"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane3:::p:194:p, space :::p, par l {comp scrollPane2::::426:x, comp scrollPane4::::0:x}, space :::p}}"
 			"$verticalGroup": "par l {seq l {space :::p, par l {comp scrollPane3::::447:x, seq {comp scrollPane4::::248:x, space :::p, comp scrollPane2:::p:193:p}}, space :::p}}"
 		} ) {
 			name: "chatJFrame"
@@ -18,12 +18,13 @@ new FormModel {
 			addEvent( new FormEvent( "java.awt.event.WindowListener", "windowClosing", "chatRoomJFrameWindowClosing", true ) )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "scrollPane2"
-				add( new FormComponent( "javax.swing.JTextArea" ) {
-					name: "sendArea"
-					"background": new java.awt.Color( 243, 243, 243, 255 )
-					"lineWrap": true
-					"margin": new java.awt.Insets( 5, 5, 5, 5 )
-					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "textArea3KeyPressed", true ) )
+				add( new FormComponent( "javax.swing.JTextPane" ) {
+					name: "sendPane"
+					"background": &Color0 new java.awt.Color( 243, 243, 243, 255 )
+					"margin": &Insets0 new java.awt.Insets( 5, 5, 5, 5 )
+					"minimumSize": &Dimension0 new java.awt.Dimension( 426, 248 )
+					"preferredSize": &Dimension1 new java.awt.Dimension( 426, 248 )
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "sendPaneKeyPressed", true ) )
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
@@ -42,10 +43,10 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JTextPane" ) {
 					name: "recvPane"
 					"editable": false
-					"background": new java.awt.Color( 243, 243, 243, 255 )
-					"margin": new java.awt.Insets( 5, 5, 5, 5 )
-					"minimumSize": new java.awt.Dimension( 426, 248 )
-					"preferredSize": new java.awt.Dimension( 426, 248 )
+					"background": #Color0
+					"margin": #Insets0
+					"minimumSize": #Dimension0
+					"preferredSize": #Dimension1
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {

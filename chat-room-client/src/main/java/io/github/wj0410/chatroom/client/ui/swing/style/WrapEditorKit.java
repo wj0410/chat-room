@@ -2,6 +2,10 @@ package io.github.wj0410.chatroom.client.ui.swing.style;
 
 import javax.swing.text.*;
 
+/**
+ * 实现JTextPane自动换行
+ * @author wangjie
+ */
 public class WrapEditorKit extends StyledEditorKit {
     ViewFactory defaultFactory = new WrapColumnFactory();
 

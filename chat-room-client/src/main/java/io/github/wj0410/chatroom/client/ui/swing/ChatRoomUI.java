@@ -102,22 +102,7 @@ public class ChatRoomUI {
     }
 
     private void textArea3KeyPressed(KeyEvent e) {
-        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
-            // ctrl+回车切换下一行
-            e.consume(); // 停止事件的默认行为
-            sendArea.append("\n");
-        } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            // 回车
-            // 发送并清空发送域
-            e.consume(); // 停止事件的默认行为
-            String sendContent = sendArea.getText();
-            if (StringUtils.isNotBlank(sendContent)) {
-                // 发送消息
-                ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, null);
-                // 清空发送框
-                sendArea.setText("");
-            }
-        }
+
     }
 
     private void onlineListMouseClicked(MouseEvent e) {
@@ -174,11 +159,30 @@ public class ChatRoomUI {
         ClientHolder.nettyClient.shutDown();
     }
 
+    private void sendPaneKeyPressed(KeyEvent e) {
+        if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
+            // ctrl+回车切换下一行
+            e.consume(); // 停止事件的默认行为
+            sendPane.setText(sendPane.getText()+"\n");
+        } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            // 回车
+            // 发送并清空发送域
+            e.consume(); // 停止事件的默认行为
+            String sendContent = sendPane.getText();
+            if (StringUtils.isNotBlank(sendContent)) {
+                // 发送消息
+                ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, null);
+                // 清空发送框
+                sendPane.setText("");
+            }
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         chatJFrame = new JFrame();
         scrollPane2 = new JScrollPane();
-        sendArea = new JTextArea();
+        sendPane = new JTextPane();
         scrollPane3 = new JScrollPane();
         onlineList = new JList();
         scrollPane4 = new JScrollPane();
@@ -200,17 +204,18 @@ public class ChatRoomUI {
             //======== scrollPane2 ========
             {
 
-                //---- sendArea ----
-                sendArea.setBackground(new Color(0xf3f3f3));
-                sendArea.setLineWrap(true);
-                sendArea.setMargin(new Insets(5, 5, 5, 5));
-                sendArea.addKeyListener(new KeyAdapter() {
+                //---- sendPane ----
+                sendPane.setBackground(new Color(0xf3f3f3));
+                sendPane.setMargin(new Insets(5, 5, 5, 5));
+                sendPane.setMinimumSize(new Dimension(426, 248));
+                sendPane.setPreferredSize(new Dimension(426, 248));
+                sendPane.addKeyListener(new KeyAdapter() {
                     @Override
                     public void keyPressed(KeyEvent e) {
-                        textArea3KeyPressed(e);
+                        sendPaneKeyPressed(e);
                     }
                 });
-                scrollPane2.setViewportView(sendArea);
+                scrollPane2.setViewportView(sendPane);
             }
 
             //======== scrollPane3 ========
@@ -245,27 +250,27 @@ public class ChatRoomUI {
             GroupLayout chatJFrameContentPaneLayout = new GroupLayout(chatJFrameContentPane);
             chatJFrameContentPane.setLayout(chatJFrameContentPaneLayout);
             chatJFrameContentPaneLayout.setHorizontalGroup(
-                    chatJFrameContentPaneLayout.createParallelGroup()
-                            .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
-                                            .addComponent(scrollPane2)
-                                            .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
-                                    .addContainerGap())
+                chatJFrameContentPaneLayout.createParallelGroup()
+                    .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
+                            .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                            .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                        .addContainerGap())
             );
             chatJFrameContentPaneLayout.setVerticalGroup(
-                    chatJFrameContentPaneLayout.createParallelGroup()
+                chatJFrameContentPaneLayout.createParallelGroup()
+                    .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
+                            .addComponent(scrollPane3, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
                             .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
-                                            .addComponent(scrollPane3, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
-                                            .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                                                    .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
-                                    .addContainerGap())
+                                .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
             );
             chatJFrame.setSize(640, 490);
             chatJFrame.setLocationRelativeTo(chatJFrame.getOwner());
@@ -276,7 +281,7 @@ public class ChatRoomUI {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     public JFrame chatJFrame;
     private JScrollPane scrollPane2;
-    private JTextArea sendArea;
+    private JTextPane sendPane;
     private JScrollPane scrollPane3;
     private JList onlineList;
     private JScrollPane scrollPane4;

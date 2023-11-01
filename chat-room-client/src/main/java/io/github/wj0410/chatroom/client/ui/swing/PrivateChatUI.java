@@ -54,15 +54,15 @@ public class PrivateChatUI {
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
             // ctrl+回车切换下一行
             e.consume(); // 停止事件的默认行为
-            sendArea.append("\n");
+            sendPane.setText(sendPane.getText() + "\n");
         } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             // 回车
             // 发送并清空发送域
             e.consume(); // 停止事件的默认行为
-            String sendContent = sendArea.getText();
+            String sendContent = sendPane.getText();
             if (StringUtils.isNotBlank(sendContent)) {
                 // 清空发送框
-                sendArea.setText("");
+                sendPane.setText("");
                 // 发送私聊消息
                 NormalMessage normalMessage = ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, Arrays.asList(this.targetClient.getClientId()));
                 // 渲染接收区域
@@ -77,7 +77,7 @@ public class PrivateChatUI {
         scrollPane4 = new JScrollPane();
         recvPane = new JTextPane();
         scrollPane2 = new JScrollPane();
-        sendArea = new JTextArea();
+        sendPane = new JTextPane();
 
         //======== privateChatJFrame ========
         {
@@ -107,38 +107,33 @@ public class PrivateChatUI {
             //======== scrollPane2 ========
             {
 
-                //---- sendArea ----
-                sendArea.setBackground(new Color(0xf3f3f3));
-                sendArea.setLineWrap(true);
-                sendArea.setMargin(new Insets(5, 5, 5, 5));
-                sendArea.addKeyListener(new KeyAdapter() {
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-                        textArea3KeyPressed(e);
-                    }
-                });
-                scrollPane2.setViewportView(sendArea);
+                //---- sendPane ----
+                sendPane.setBackground(new Color(0xf3f3f3));
+                sendPane.setMargin(new Insets(5, 5, 5, 5));
+                sendPane.setMinimumSize(new Dimension(426, 248));
+                sendPane.setPreferredSize(new Dimension(426, 248));
+                scrollPane2.setViewportView(sendPane);
             }
 
             GroupLayout privateChatJFrameContentPaneLayout = new GroupLayout(privateChatJFrameContentPane);
             privateChatJFrameContentPane.setLayout(privateChatJFrameContentPaneLayout);
             privateChatJFrameContentPaneLayout.setHorizontalGroup(
-                    privateChatJFrameContentPaneLayout.createParallelGroup()
-                            .addGroup(GroupLayout.Alignment.TRAILING, privateChatJFrameContentPaneLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addGroup(privateChatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                                            .addComponent(scrollPane4)
-                                            .addComponent(scrollPane2))
-                                    .addContainerGap())
+                privateChatJFrameContentPaneLayout.createParallelGroup()
+                    .addGroup(GroupLayout.Alignment.TRAILING, privateChatJFrameContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(privateChatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                            .addComponent(scrollPane4)
+                            .addComponent(scrollPane2))
+                        .addContainerGap())
             );
             privateChatJFrameContentPaneLayout.setVerticalGroup(
-                    privateChatJFrameContentPaneLayout.createParallelGroup()
-                            .addGroup(privateChatJFrameContentPaneLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
-                                    .addContainerGap())
+                privateChatJFrameContentPaneLayout.createParallelGroup()
+                    .addGroup(privateChatJFrameContentPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
             );
             privateChatJFrame.setSize(460, 475);
             privateChatJFrame.setLocationRelativeTo(privateChatJFrame.getOwner());
@@ -151,6 +146,6 @@ public class PrivateChatUI {
     private JScrollPane scrollPane4;
     private JTextPane recvPane;
     private JScrollPane scrollPane2;
-    private JTextArea sendArea;
+    private JTextPane sendPane;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

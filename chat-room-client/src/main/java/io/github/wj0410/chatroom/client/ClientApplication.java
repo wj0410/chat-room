@@ -7,9 +7,9 @@ import io.github.wj0410.chatroom.client.ui.swing.LoginUI;
  * @date 2023/11/1
  */
 public class ClientApplication {
-
     public static void main(String[] args) {
         LoginUI loginUI = new LoginUI();
+        // 指定链接的服务端的ip端口
 //        loginUI.getAddress().setText("127.0.0.1:5678");
         loginUI.getAddress().setText("47.98.35.95:5678");
     }
