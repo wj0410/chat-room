@@ -48,12 +48,12 @@ public class OnlineListCellRenderer extends DefaultListCellRenderer {
         }
         String formatStr = "<html><div style='display: flex; justify-content: space-between;'>" +
                 "<span style='color:%s;'>%s</span>" +
-                "<span style='float:right; background-color: #FF0000; color: #FFFFFF; padding: 2px; border-radius: 50%%;'>%s</span>" +
+                "<span style='background-color: #FF0000; color: #FFFFFF;'>%s</span>" +
                 "</div></html>";
         String htmlText = "";
         int unreadCount = onlineModel.getUnreadCount();
         if (unreadCount > 0) {
-            htmlText = String.format(formatStr, fontColor, userName+"\t\t\t\t", unreadCount);
+            htmlText = String.format(formatStr, fontColor, userName+"　", unreadCount);
         } else {
             htmlText = String.format(formatStr, fontColor, userName, "");
         }
