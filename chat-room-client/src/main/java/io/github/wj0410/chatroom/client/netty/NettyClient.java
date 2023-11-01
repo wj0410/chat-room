@@ -60,7 +60,7 @@ public class NettyClient {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
                 if (!future.isSuccess()) {
-                    log.info("客户端启动失败");
+                    log.info("Netty客户端启动失败!");
                 }
             }
         });

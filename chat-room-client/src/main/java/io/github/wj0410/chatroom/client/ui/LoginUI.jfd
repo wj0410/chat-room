@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :p:26:p, par t {seq t {par t {comp label1:::p::p, comp label2::t:p::p}, space s:::p, par l {comp address:::p:191:p, comp account::l:p:191:p}}, seq t {comp label3:::p::p, par l {seq {space :p:66:p, comp loginBtn:::p:79:p}, seq l {space s:::p, comp password:::p:191:p}}}}, space :::p, comp registerLabel:::p::p, space ::57:x}}"
-			"$verticalGroup": "par l {seq l {space :p:61:p, par b {comp label1::b:p::p, comp address::b:p::p}, space :::p, par b {comp account::b:p::p, comp label2::b:p::p, comp registerLabel::b:p::p}, space :p:9:p, par b {comp password::b:p::p, comp label3::b:p::p}, space :::p, comp loginBtn:::p:49:p, space ::52:x}}"
+			"$horizontalGroup": "par l {seq {space :p:151:p, comp label1:::p::p, space :p:40:p, comp address:::p:191:p, space ::227:x}, seq t {space ::69:x, par l {seq l {space :p:106:p, comp loginBtn:::p:79:p}, seq l {par t {seq {comp label3:::p::p, space s:::p, comp password:::p:191:p}, seq {comp label2:::p::p, space s:::p, comp account:::p:191:p}}, space :::p, comp registerLabel:::p::p}}, space :p:50:p}}"
+			"$verticalGroup": "par l {seq l {space :p:14:p, par b {comp label1::b:p::p, comp address::b:p::p}, space ::58:x, par b {comp label2::b:p::p, comp registerLabel::b:p::p, comp account::b:p:35:p}, par l {seq {space :p:24:p, comp label3:::p::p}, seq {space u:::p, comp password:::p:35:p}}, space u:::p, comp loginBtn:::p:49:p, space :p:39:p}}"
 		} ) {
 			name: "loginJFrame"
 			"title": "Chat"
@@ -14,6 +14,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label1"
 				"text": "服务器地址："
+				"visible": false
 			} )
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label2"
@@ -26,6 +27,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "address"
 				"text": "127.0.0.1:5678"
+				"visible": false
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "account"
@@ -49,8 +51,8 @@ new FormModel {
 				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "registerLabelClicked", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 40, 20 )
-			"size": new java.awt.Dimension( 420, 295 )
+			"location": new java.awt.Point( 115, 55 )
+			"size": new java.awt.Dimension( 420, 285 )
 		} )
 	}
 }
