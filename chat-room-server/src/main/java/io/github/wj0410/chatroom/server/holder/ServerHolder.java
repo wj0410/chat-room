@@ -1,8 +1,8 @@
 package io.github.wj0410.chatroom.server.holder;
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
-import io.github.wj0410.chatroom.server.NettyServer;
-import io.github.wj0410.chatroom.server.ui.ServerUI;
+import io.github.wj0410.chatroom.server.AbstractServerUI;
+import io.github.wj0410.chatroom.server.netty.NettyServer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.AttributeKey;
@@ -13,7 +13,7 @@ import io.netty.util.AttributeKey;
  */
 public class ServerHolder {
     public static NettyServer nettyServer;
-    public static ServerUI serverUI;
+    public static AbstractServerUI serverUI;
     public static SocketChannel serverSocketChannel;
 
     private ServerHolder() {

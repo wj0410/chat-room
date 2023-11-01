@@ -1,13 +1,10 @@
 package io.github.wj0410.chatroom.server.handler;
 
 import io.github.wj0410.chatroom.common.message.NormalMessage;
-import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.util.ServerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
-import java.util.List;
 
 
 /**
@@ -26,7 +23,7 @@ public class ServerNormalHandler extends SimpleChannelInboundHandler<NormalMessa
     protected void channelRead0(ChannelHandlerContext ctx, NormalMessage normalMessage) {
         System.out.println(String.format("服务端收到客户端 %s 消息：%s", ServerUtil.formatClientAccount(ctx), normalMessage.toString()));
         if (ServerHolder.serverUI != null) {
-            ServerUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), String.format("服务端收到客户端 %s 消息：%s",
+            ServerHolder.serverUI.printConsole(String.format("服务端收到客户端 %s 消息：%s",
                     ServerUtil.formatClientAccount(ctx), normalMessage.toString()));
         }
         // 转发客户端消息

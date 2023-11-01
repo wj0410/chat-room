@@ -6,7 +6,6 @@ import io.github.wj0410.chatroom.common.message.SyncOnlineMessage;
 import io.github.wj0410.chatroom.common.message.WelcomeMessage;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
-import io.github.wj0410.chatroom.common.util.UIUtil;
 import io.github.wj0410.chatroom.server.data.ServerData;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.netty.channel.ChannelHandlerContext;
@@ -14,9 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
-import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.StyledDocument;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -140,22 +136,6 @@ public class ServerUtil extends ServerData {
             });
         }
 
-    }
-
-    /**
-     * 在控制台上输出内容
-     *
-     * @param str
-     */
-    public static void drawConsole(JTextPane consolePane, String str) {
-        StyledDocument styledDoc = consolePane.getStyledDocument();
-        UIUtil.buildServerConsoleStyle(styledDoc);
-        consolePane.setDocument(styledDoc);
-        try {
-            styledDoc.insertString(styledDoc.getLength(), str + "\n", styledDoc.getStyle(UIUtil.SERVER_CONSOLE_STYLE_NAME));
-        } catch (BadLocationException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

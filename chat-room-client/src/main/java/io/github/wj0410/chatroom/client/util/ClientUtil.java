@@ -7,7 +7,7 @@ import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.message.WelcomeMessage;
 import io.github.wj0410.chatroom.common.util.DateUtil;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
-import io.github.wj0410.chatroom.common.util.UIUtil;
+import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -80,11 +80,11 @@ public class ClientUtil {
         StyleConstants.setAlignment(alignStyle, StyleConstants.ALIGN_CENTER);
         try {
             int alignStart = doc.getLength();
-            UIUtil.buildTimestampStyle(doc);
-            doc.insertString(doc.getLength(), timestampContent, doc.getStyle(UIUtil.TIMESTAMP_STYLE_NAME));
+            SwingUIUtil.buildTimestampStyle(doc);
+            doc.insertString(doc.getLength(), timestampContent, doc.getStyle(SwingUIUtil.TIMESTAMP_STYLE_NAME));
 
-            UIUtil.buildWelcomeStyle(doc);
-            doc.insertString(doc.getLength(), welcomeContent, doc.getStyle(UIUtil.WELCOME_STYLE_NAME));
+            SwingUIUtil.buildWelcomeStyle(doc);
+            doc.insertString(doc.getLength(), welcomeContent, doc.getStyle(SwingUIUtil.WELCOME_STYLE_NAME));
 
             // 将段落样式应用到指定范围内的文本
             doc.setParagraphAttributes(alignStart, doc.getLength() - alignStart, alignStyle, false);
@@ -118,17 +118,17 @@ public class ClientUtil {
         try {
             int alignStart = doc.getLength();
             // 用户名
-            UIUtil.buildUserNameStyle(doc, self);
-            doc.insertString(doc.getLength(), userNameContent, doc.getStyle(UIUtil.USER_NAME_STYLE_NAME));
+            SwingUIUtil.buildUserNameStyle(doc, self);
+            doc.insertString(doc.getLength(), userNameContent, doc.getStyle(SwingUIUtil.USER_NAME_STYLE_NAME));
 
             // 时间
-            UIUtil.buildTimestampStyle(doc);
-            doc.insertString(doc.getLength(), timestampContent, doc.getStyle(UIUtil.TIMESTAMP_STYLE_NAME));
+            SwingUIUtil.buildTimestampStyle(doc);
+            doc.insertString(doc.getLength(), timestampContent, doc.getStyle(SwingUIUtil.TIMESTAMP_STYLE_NAME));
 
             int spaceBelowStart = doc.getLength();
             // 消息
-            UIUtil.buildMsgStyle(doc, self);
-            doc.insertString(doc.getLength(), msgContent + "\n", doc.getStyle(UIUtil.MSG_STYLE_NAME));
+            SwingUIUtil.buildMsgStyle(doc, self);
+            doc.insertString(doc.getLength(), msgContent + "\n", doc.getStyle(SwingUIUtil.MSG_STYLE_NAME));
             // 将段落样式应用到指定范围内的文本
             doc.setParagraphAttributes(alignStart, doc.getLength() - alignStart, alignStyle, false);
             doc.setParagraphAttributes(spaceBelowStart, doc.getLength() - spaceBelowStart, spaceBelowStyle, false);

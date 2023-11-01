@@ -1,10 +1,9 @@
-package io.github.wj0410.chatroom.server;
+package io.github.wj0410.chatroom.server.netty;
 
 import io.github.wj0410.chatroom.server.handler.ServerBindClientHandler;
 import io.github.wj0410.chatroom.server.handler.ServerHandler;
 import io.github.wj0410.chatroom.server.handler.ServerNormalHandler;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
-import io.github.wj0410.chatroom.server.util.ServerUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -65,10 +64,10 @@ public class NettyServer {
         this.channelFuture.addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {
-                if (!future.isSuccess()) {
-                    ServerUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "服务启动失败");
+                if (future.isSuccess()) {
+                    ServerHolder.serverUI.runSuccess();
                 } else {
-                    ServerUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "Server：启动Netty服务端成功，端口号:" + port);
+                    ServerHolder.serverUI.runFailed();
                 }
             }
         });
@@ -78,7 +77,7 @@ public class NettyServer {
         try {
             channelFuture.channel().close();
             ServerHolder.nettyServer = null;
-            ServerUtil.drawConsole(ServerHolder.serverUI.getConsolePane(), "Server：服务已停止！");
+            ServerHolder.serverUI.printConsole("Server：服务已停止！");
         } finally {
             if (workerGroup != null) {
                 workerGroup.shutdownGracefully();

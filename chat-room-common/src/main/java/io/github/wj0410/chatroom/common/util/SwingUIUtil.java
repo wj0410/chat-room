@@ -2,14 +2,17 @@ package io.github.wj0410.chatroom.common.util;
 
 
 import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 
 /**
  * @author wangjie
  * @date 2023/10/24
  */
-public class UIUtil {
+public class SwingUIUtil {
     // 绿色
     public static final Color GREEN_COLOR = new Color(51, 153, 102);
     // 浅绿色
@@ -17,21 +20,11 @@ public class UIUtil {
     // 灰色
     public static final Color GREY_COLOR = new Color(211, 211, 211);
     public static final Color GREY_COLOR2 = new Color(184, 184, 184);
-
-
     public static final String USER_NAME_STYLE_NAME = "recvUserNameStyle";
     public static final String TIMESTAMP_STYLE_NAME = "recvTimestampStyle";
     public static final String MSG_STYLE_NAME = "recvMsgStyle";
     public static final String WELCOME_STYLE_NAME = "recvWelcomeStyle";
     public static final String SERVER_CONSOLE_STYLE_NAME = "serverConsole";
-
-    public static void alertSuccess(String str) {
-        JOptionPane.showMessageDialog(null, str);
-    }
-
-    public static void alertError(String str) {
-        JOptionPane.showMessageDialog(null, str, "提示", JOptionPane.ERROR_MESSAGE);
-    }
 
     /**
      * 创建样式
@@ -72,8 +65,16 @@ public class UIUtil {
         }
     }
 
+    public static void alertSuccess(String str) {
+        JOptionPane.showMessageDialog(null, str);
+    }
+
+    public static void alertError(String str) {
+        JOptionPane.showMessageDialog(null, str, "提示", JOptionPane.ERROR_MESSAGE);
+    }
+
     public static void buildServerConsoleStyle(StyledDocument doc) {
-        UIUtil.createStyle(SERVER_CONSOLE_STYLE_NAME, doc, 15, 0, 0, 0, Color.RED, "宋体", null);
+        SwingUIUtil.createStyle(SwingUIUtil.SERVER_CONSOLE_STYLE_NAME, doc, 15, 0, 0, 0, Color.RED, "宋体", null);
     }
 
     public static void buildUserNameStyle(StyledDocument doc, int self) {

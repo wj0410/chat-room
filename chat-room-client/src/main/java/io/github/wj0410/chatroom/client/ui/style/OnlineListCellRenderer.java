@@ -1,11 +1,9 @@
 package io.github.wj0410.chatroom.client.ui.style;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
-import io.github.wj0410.chatroom.client.ui.ChatRoomUI;
 import io.github.wj0410.chatroom.client.ui.model.OnlineModel;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
-import io.github.wj0410.chatroom.common.model.ClientModel;
-import io.github.wj0410.chatroom.common.util.UIUtil;
+import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +38,7 @@ public class OnlineListCellRenderer extends DefaultListCellRenderer {
             // 判断是否选中
             if (isSelected) {
                 // 设置选中时的背景色为灰色
-                setBackground(UIUtil.GREY_COLOR);
+                setBackground(SwingUIUtil.GREY_COLOR);
             } else {
                 // 设置未选中时的背景色为白色
                 setBackground(Color.WHITE);

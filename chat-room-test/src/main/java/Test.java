@@ -1,5 +1,7 @@
 import io.github.wj0410.chatroom.client.ui.LoginUI;
-import io.github.wj0410.chatroom.server.ui.ServerUI;
+import io.github.wj0410.chatroom.server.AbstractServerUI;
+import io.github.wj0410.chatroom.server.ui.console.Console;
+import io.github.wj0410.chatroom.server.ui.swing.SwingUI;
 
 import java.util.Random;
 
@@ -11,9 +13,11 @@ public class Test {
     public static final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     public static void main(String[] args) {
-        ServerUI serverUI = new ServerUI();
+        // 服务端启动
+        AbstractServerUI serverUI = new SwingUI();
         serverUI.show();
         serverUI.run();
+        // 客户端启动
         LoginUI loginUI = new LoginUI();
         loginUI.show();
         loginUI.account.setText(randomAccount());

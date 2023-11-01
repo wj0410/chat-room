@@ -2,36 +2,36 @@
  * Created by JFormDesigner on Mon Oct 23 16:26:56 CST 2023
  */
 
-package io.github.wj0410.chatroom.server.ui;
+package io.github.wj0410.chatroom.server.ui.swing;
 
 import io.github.wj0410.chatroom.common.model.ClientModel;
-import io.github.wj0410.chatroom.common.util.UIUtil;
-import io.github.wj0410.chatroom.server.NettyServer;
+import io.github.wj0410.chatroom.common.util.SwingUIUtil;
+import io.github.wj0410.chatroom.server.AbstractServerUI;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.util.ServerUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
+ * Java swing 启动
+ *
  * @author wangjie
  */
-public class ServerUI {
+@Slf4j
+public class SwingUI extends AbstractServerUI {
 
-    public ServerUI() {
+    public SwingUI() {
         this.initComponents();
-        ServerHolder.serverUI = this;
     }
 
-    public static void main(String[] args) {
-        ServerUI serverUI = new ServerUI();
-        serverUI.show();
-        serverUI.run();
-    }
-
+    @Override
     public void flushClientOnlineList() {
         DefaultListModel<String> model = new DefaultListModel<>();
         for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
@@ -41,40 +41,68 @@ public class ServerUI {
         this.onlineCount.setText(String.valueOf(ServerUtil.getClientOnlineList().size()));
     }
 
+    @Override
     public void show() {
         this.serverJFrame.setVisible(true);
     }
 
-    public void run() {
+    @Override
+    public int getServerPort() {
+        return Integer.parseInt(this.portText.getText());
+    }
+
+
+    @Override
+    public void stopCheck() {
+        if (!shutdownBtn.isEnabled()) {
+            return;
+        }
+    }
+
+    @Override
+    public void afterStop() {
+        runBtn.setEnabled(true);
+        shutdownBtn.setEnabled(false);
+    }
+
+    @Override
+    public void printConsole(String data) {
+        StyledDocument styledDoc = this.consolePane.getStyledDocument();
+        SwingUIUtil.buildServerConsoleStyle(styledDoc);
+        this.consolePane.setDocument(styledDoc);
+        try {
+            styledDoc.insertString(styledDoc.getLength(), data + "\n", styledDoc.getStyle(SwingUIUtil.SERVER_CONSOLE_STYLE_NAME));
+        } catch (BadLocationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void runCheck() {
         if (!runBtn.isEnabled()) {
             return;
         }
         String port = this.portText.getText();
         if (StringUtils.isBlank(port)) {
-            UIUtil.alertError("端口号不能为空！");
+            SwingUIUtil.alertError("端口号不能为空！");
             return;
         }
-        try {
-            if (ServerHolder.nettyServer != null) {
-                UIUtil.alertError("服务端已启动！");
-                return;
-            }
-            ServerHolder.nettyServer = NettyServer.getInstance(Integer.parseInt(port));
-            ServerHolder.nettyServer.start();
-            runBtn.setEnabled(false);
-            shutdownBtn.setEnabled(true);
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        if (ServerHolder.nettyServer != null) {
+            SwingUIUtil.alertError("服务端已启动！");
+            return;
         }
     }
 
-    public void shutdown() {
-        if (!shutdownBtn.isEnabled()) {
-            return;
-        }
-        ServerHolder.nettyServer.shutDown();
-        runBtn.setEnabled(true);
-        shutdownBtn.setEnabled(false);
+    @Override
+    public void runSuccess() {
+        this.printConsole("Server：启动Netty服务端成功，端口号:" + getServerPort());
+        this.runBtn.setEnabled(false);
+        this.shutdownBtn.setEnabled(true);
+    }
+
+    @Override
+    public void runFailed() {
+        this.printConsole("Netty服务启动失败！");
     }
 
     private void runBtnClicked(MouseEvent e) {
@@ -85,9 +113,6 @@ public class ServerUI {
         shutdown();
     }
 
-    public JTextPane getConsolePane() {
-        return this.consolePane;
-    }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
