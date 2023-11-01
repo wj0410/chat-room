@@ -1,6 +1,5 @@
 import io.github.wj0410.chatroom.client.ui.LoginUI;
-import io.github.wj0410.chatroom.server.AbstractServerUI;
-import io.github.wj0410.chatroom.server.ui.console.Console;
+import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import io.github.wj0410.chatroom.server.ui.swing.SwingUI;
 
 import java.util.Random;

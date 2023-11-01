@@ -6,7 +6,7 @@ package io.github.wj0410.chatroom.server.ui.swing;
 
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
-import io.github.wj0410.chatroom.server.AbstractServerUI;
+import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.util.ServerUtil;
 import lombok.extern.slf4j.Slf4j;

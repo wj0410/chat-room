@@ -1,4 +1,4 @@
-package io.github.wj0410.chatroom.server;
+package io.github.wj0410.chatroom.server.ui;
 
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.netty.NettyServer;

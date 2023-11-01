@@ -1,6 +1,6 @@
 package io.github.wj0410.chatroom.server.ui.console;
 
-import io.github.wj0410.chatroom.server.AbstractServerUI;
+import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import lombok.extern.slf4j.Slf4j;
 
 /**
