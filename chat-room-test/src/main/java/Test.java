@@ -14,11 +14,10 @@ public class Test {
     public static void main(String[] args) {
         // 服务端启动
         AbstractServerUI serverUI = new SwingUI();
-        serverUI.show();
         serverUI.run();
         // 客户端启动
         LoginUI loginUI = new LoginUI();
-        loginUI.show();
+        loginUI.getAddress().setText("127.0.0.1:5678");
         loginUI.account.setText(randomAccount());
         loginUI.doLogin();
     }

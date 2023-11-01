@@ -29,6 +29,7 @@ public class SwingUI extends AbstractServerUI {
 
     public SwingUI() {
         this.initComponents();
+        this.show();
     }
 
     @Override

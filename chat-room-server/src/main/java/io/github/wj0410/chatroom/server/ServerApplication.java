@@ -13,7 +13,6 @@ public class ServerApplication {
     public static void main(String[] args) {
         AbstractServerUI serverUI = new SwingUI();
 //        AbstractServerUI serverUI = new Console();
-        serverUI.show();
         serverUI.run();
     }
 }

@@ -10,6 +10,7 @@ public class ClientApplication {
 
     public static void main(String[] args) {
         LoginUI loginUI = new LoginUI();
-        loginUI.show();
+//        loginUI.getAddress().setText("127.0.0.1:5678");
+        loginUI.getAddress().setText("47.98.35.95:5678");
     }
 }
