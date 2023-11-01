@@ -1,4 +1,4 @@
-package io.github.wj0410.chatroom.client.ui.style;
+package io.github.wj0410.chatroom.client.ui.swing.style;
 
 import javax.swing.text.*;
 

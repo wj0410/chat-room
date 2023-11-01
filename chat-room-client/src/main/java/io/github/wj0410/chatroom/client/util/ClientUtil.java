@@ -1,7 +1,7 @@
 package io.github.wj0410.chatroom.client.util;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
-import io.github.wj0410.chatroom.client.ui.model.OnlineModel;
+import io.github.wj0410.chatroom.client.ui.swing.model.OnlineModel;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.message.WelcomeMessage;

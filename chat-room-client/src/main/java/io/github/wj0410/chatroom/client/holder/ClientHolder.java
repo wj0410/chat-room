@@ -2,9 +2,9 @@ package io.github.wj0410.chatroom.client.holder;
 
 
 import io.github.wj0410.chatroom.client.netty.NettyClient;
-import io.github.wj0410.chatroom.client.ui.ChatRoomUI;
-import io.github.wj0410.chatroom.client.ui.LoginUI;
-import io.github.wj0410.chatroom.client.ui.PrivateChatUI;
+import io.github.wj0410.chatroom.client.ui.swing.ChatRoomUI;
+import io.github.wj0410.chatroom.client.ui.swing.LoginUI;
+import io.github.wj0410.chatroom.client.ui.swing.PrivateChatUI;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 
 import java.util.HashMap;

@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Tue Oct 24 12:31:27 CST 2023
  */
 
-package io.github.wj0410.chatroom.client.ui;
+package io.github.wj0410.chatroom.client.ui.swing;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.netty.NettyClient;

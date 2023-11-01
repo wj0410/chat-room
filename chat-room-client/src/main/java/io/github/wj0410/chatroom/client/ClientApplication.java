@@ -1,6 +1,6 @@
 package io.github.wj0410.chatroom.client;
 
-import io.github.wj0410.chatroom.client.ui.LoginUI;
+import io.github.wj0410.chatroom.client.ui.swing.LoginUI;
 
 /**
  * @author wangjie

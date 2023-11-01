@@ -1,4 +1,4 @@
-import io.github.wj0410.chatroom.client.ui.LoginUI;
+import io.github.wj0410.chatroom.client.ui.swing.LoginUI;
 import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import io.github.wj0410.chatroom.server.ui.swing.SwingUI;
 

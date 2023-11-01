@@ -2,11 +2,11 @@
  * Created by JFormDesigner on Tue Oct 31 10:48:03 CST 2023
  */
 
-package io.github.wj0410.chatroom.client.ui;
+package io.github.wj0410.chatroom.client.ui.swing;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
-import io.github.wj0410.chatroom.client.ui.model.OnlineModel;
-import io.github.wj0410.chatroom.client.ui.style.WrapEditorKit;
+import io.github.wj0410.chatroom.client.ui.swing.model.OnlineModel;
+import io.github.wj0410.chatroom.client.ui.swing.style.WrapEditorKit;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import org.apache.commons.lang.StringUtils;

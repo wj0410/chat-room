@@ -1,5 +1,4 @@
-package io.github.wj0410.chatroom.client.ui.model;
-
+package io.github.wj0410.chatroom.client.ui.swing.model;
 import lombok.Data;
 
 /**
