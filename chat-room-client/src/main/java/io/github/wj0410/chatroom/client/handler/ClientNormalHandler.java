@@ -37,7 +37,7 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
         if (CollectionUtils.isEmpty(targetClientIds)) {
             // 聊天室
             int self = fromClientId.equals(ClientHolder.clientInfo.getClientId()) ? 1 : 0;
-            ClientUtil.drawRecvArea(normalMessage, ClientHolder.chatRoomUI.getRecvPane(), self);
+            ClientUtil.drawRecvPane(normalMessage, ClientHolder.chatRoomUI.getRecvPane(), self);
         } else {
             // TODO 这里区分聊天室和私聊消息需要优化一下，目前暂时只有这两种情况
             // 其他人发给自己的私聊消息
@@ -50,7 +50,7 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
                 }
                 privateChatUI = new PrivateChatUI(onlineModel);
             }
-            ClientUtil.drawRecvArea(normalMessage, privateChatUI.getRecvPane(), 0);
+            ClientUtil.drawRecvPane(normalMessage, privateChatUI.getRecvPane(), 0);
             if (!privateChatUI.isShow()) {
                 // 私聊窗口未开启
                 // 未读消息+1

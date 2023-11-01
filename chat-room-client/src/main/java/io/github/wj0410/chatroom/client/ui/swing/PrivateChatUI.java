@@ -13,7 +13,6 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -66,7 +65,7 @@ public class PrivateChatUI {
                 // 发送私聊消息
                 NormalMessage normalMessage = ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, Arrays.asList(this.targetClient.getClientId()));
                 // 渲染接收区域
-                ClientUtil.drawRecvArea(normalMessage, this.recvPane, 1);
+                ClientUtil.drawRecvPane(normalMessage, this.recvPane, 1);
             }
         }
     }
