@@ -4,9 +4,6 @@
 
 package io.github.wj0410.chatroom.client.ui;
 
-import javax.swing.border.*;
-import javax.swing.event.*;
-
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.model.OnlineModel;
 import io.github.wj0410.chatroom.client.ui.style.OnlineListCellRenderer;
@@ -16,6 +13,8 @@ import io.github.wj0410.chatroom.common.model.ClientModel;
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
@@ -38,26 +37,26 @@ public class ChatRoomUI {
         this.chatJFrame.setVisible(true);
     }
 
-    public void hide() {
-        this.chatJFrame.setVisible(false);
-    }
-
     /**
-     * 刷新在线列表
+     * 通过ClientModel列表，刷新在线列表
+     * 新的客户端上线时，同步客户端的上线列表时使用
      *
      * @param clientModelLinkedList
      */
-    public void flushClientOnlineList(LinkedList<ClientModel> clientModelLinkedList) {
-        // todo 防止把未读消息刷新掉
+    public void flushOnlineModelList(LinkedList<ClientModel> clientModelLinkedList) {
         DefaultListModel<OnlineModel> model = new DefaultListModel<>();
         for (ClientModel clientModel : clientModelLinkedList) {
             OnlineModel onlineModel = new OnlineModel();
             onlineModel.setClientId(clientModel.getClientId());
             onlineModel.setAccount(clientModel.getAccount());
             onlineModel.setUserName(clientModel.getUserName());
-            onlineModel.setUnreadCount(0);
+            // 防止把未读消息刷新掉
+            // 如果当前客户端已存在与JList中，则获取到未读数量
+            OnlineModel oldClientModel = getOnlineModel(clientModel.getClientId());
+            onlineModel.setUnreadCount(oldClientModel == null ? 0 : oldClientModel.getUnreadCount());
             model.addElement(onlineModel);
         }
+        // 重新覆盖onlineList
         this.onlineList.setModel(model);
     }
 
@@ -71,13 +70,29 @@ public class ChatRoomUI {
         if (onlineModel != null) {
             // 未读+1
             onlineModel.setUnreadCount(onlineModel.getUnreadCount() + 1);
+            // 由于OnlineListCellRenderer当鼠标焦点不在窗体上时不会触发，因此这里重新覆盖onlineList，实现未读消息刷新
+            DefaultListModel<OnlineModel> model = new DefaultListModel<>();
+            for (OnlineModel element : getOnlineModelList()) {
+                model.addElement(element);
+            }
+            // 重新覆盖onlineList
+            this.onlineList.setModel(model);
         }
     }
 
-    public OnlineModel getOnlineModel(String clientId) {
-        ListModel model = this.onlineList.getModel();
+    public LinkedList<OnlineModel> getOnlineModelList() {
+        LinkedList<OnlineModel> onlineModelList = new LinkedList<>();
+        ListModel<OnlineModel> model = this.onlineList.getModel();
         for (int i = 0; i < model.getSize(); i++) {
-            OnlineModel element = (OnlineModel) model.getElementAt(i);
+            onlineModelList.add(model.getElementAt(i));
+        }
+        return onlineModelList;
+    }
+
+    public OnlineModel getOnlineModel(String clientId) {
+        ListModel<OnlineModel> model = this.onlineList.getModel();
+        for (int i = 0; i < model.getSize(); i++) {
+            OnlineModel element = model.getElementAt(i);
             if (element.getClientId().equals(clientId)) {
                 return element;
             }
@@ -125,7 +140,7 @@ public class ChatRoomUI {
         }
     }
 
-    private void onlineListSelectChanged(ListSelectionEvent e) {
+    private void onlineListValueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             int index = onlineList.getSelectedIndex();
             if (index != -1) {
@@ -209,7 +224,7 @@ public class ChatRoomUI {
                         onlineListMouseClicked(e);
                     }
                 });
-                onlineList.addListSelectionListener(e -> onlineListSelectChanged(e));
+                onlineList.addListSelectionListener(e -> onlineListValueChanged(e));
                 scrollPane3.setViewportView(onlineList);
             }
 

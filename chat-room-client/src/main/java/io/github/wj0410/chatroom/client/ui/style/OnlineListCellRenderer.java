@@ -44,6 +44,7 @@ public class OnlineListCellRenderer extends DefaultListCellRenderer {
                 setBackground(Color.WHITE);
             }
         }
+        // 未读消息样式
         String formatStr = "<html><div style='display: flex; justify-content: space-between;'>" +
                 "<span style='color:%s;'>%s</span>" +
                 "<span style='background-color: #FF0000; color: #FFFFFF;'>%s</span>" +

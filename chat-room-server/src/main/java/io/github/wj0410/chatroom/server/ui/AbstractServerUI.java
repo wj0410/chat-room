@@ -27,7 +27,6 @@ public abstract class AbstractServerUI {
             }
         }
     }
-
     /**
      * 服务端停止
      */
@@ -72,7 +71,7 @@ public abstract class AbstractServerUI {
      */
     public abstract void printConsole(String data);
     /**
-     * 服务停止
+     * 停止前检查
      */
     public abstract void stopCheck();
     /**

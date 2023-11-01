@@ -33,7 +33,7 @@ new FormModel {
 					"font": new java.awt.Font( "sansserif", 0, 20 )
 					"border": new javax.swing.border.SoftBevelBorder( 1, null, null, null, null )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "onlineListMouseClicked", true ) )
-					addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "onlineListSelectChanged", true ) )
+					addEvent( new FormEvent( "javax.swing.event.ListSelectionListener", "valueChanged", "onlineListValueChanged", true ) )
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {

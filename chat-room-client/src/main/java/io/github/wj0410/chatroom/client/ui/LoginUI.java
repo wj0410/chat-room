@@ -4,7 +4,7 @@
 
 package io.github.wj0410.chatroom.client.ui;
 
-import io.github.wj0410.chatroom.client.NettyClient;
+import io.github.wj0410.chatroom.client.netty.NettyClient;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
@@ -24,11 +24,6 @@ public class LoginUI {
     public LoginUI() {
         this.initComponents();
         ClientHolder.loginUI = this;
-    }
-
-    public static void main(String[] args) {
-        LoginUI loginUI = new LoginUI();
-        loginUI.show();
     }
 
     /**

@@ -53,14 +53,6 @@ public class ServerUtil extends ServerData {
         return ServerData.getClientModelMap().get(ServerHolder.getClientId(ctx));
     }
 
-    public static String getClientAccount(ChannelHandlerContext ctx) {
-        return getClientModel(ctx).getAccount();
-    }
-
-    public static String getClientUserName(ChannelHandlerContext ctx) {
-        return getClientModel(ctx).getUserName();
-    }
-
     public static String formatClientAccount(ChannelHandlerContext ctx) {
         return formatClientAccount(getClientModel(ctx));
     }

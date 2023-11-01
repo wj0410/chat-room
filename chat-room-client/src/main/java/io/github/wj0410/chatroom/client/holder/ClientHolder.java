@@ -1,7 +1,7 @@
 package io.github.wj0410.chatroom.client.holder;
 
 
-import io.github.wj0410.chatroom.client.NettyClient;
+import io.github.wj0410.chatroom.client.netty.NettyClient;
 import io.github.wj0410.chatroom.client.ui.ChatRoomUI;
 import io.github.wj0410.chatroom.client.ui.LoginUI;
 import io.github.wj0410.chatroom.client.ui.PrivateChatUI;

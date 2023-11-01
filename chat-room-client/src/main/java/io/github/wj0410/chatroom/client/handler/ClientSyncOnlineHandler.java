@@ -20,7 +20,7 @@ public class ClientSyncOnlineHandler extends SimpleChannelInboundHandler<SyncOnl
     protected void channelRead0(ChannelHandlerContext ctx, SyncOnlineMessage message) {
         log.info("client: 读取到服务端同步在线列表消息：{}", message);
         LinkedList<ClientModel> clientOnlineList = message.getClientOnlineList();
-        ClientHolder.chatRoomUI.flushClientOnlineList(clientOnlineList);
+        ClientHolder.chatRoomUI.flushOnlineModelList(clientOnlineList);
     }
 
 }

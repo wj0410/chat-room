@@ -1,4 +1,4 @@
-package io.github.wj0410.chatroom.client;
+package io.github.wj0410.chatroom.client.netty;
 
 import io.github.wj0410.chatroom.client.handler.ClientHandler;
 import io.github.wj0410.chatroom.client.handler.ClientNormalHandler;

@@ -12,6 +12,7 @@ import io.netty.util.AttributeKey;
  * @date 2023/10/26
  */
 public class ServerHolder {
+
     public static NettyServer nettyServer;
     public static AbstractServerUI serverUI;
     public static SocketChannel serverSocketChannel;
