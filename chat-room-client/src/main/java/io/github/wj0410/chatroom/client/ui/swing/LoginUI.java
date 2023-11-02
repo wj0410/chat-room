@@ -4,6 +4,7 @@
 
 package io.github.wj0410.chatroom.client.ui.swing;
 
+import io.github.wj0410.chatroom.client.conf.AccountConf;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.netty.NettyClient;
 import io.github.wj0410.chatroom.common.model.ClientModel;
@@ -14,37 +15,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 
 /**
  * @author wangjie
  */
 public class LoginUI {
-    private static final HashMap<String, ClientModel> accountMap = new HashMap<>();
-
-    static {
-        ClientModel lkw = new ClientModel();
-        lkw.setAccount("lkw");
-        lkw.setUserName("廖开威");
-        ClientModel zh = new ClientModel();
-        zh.setAccount("zh");
-        zh.setUserName("张恒");
-        ClientModel pwj = new ClientModel();
-        pwj.setAccount("pwj");
-        pwj.setUserName("彭文杰");
-        ClientModel wj = new ClientModel();
-        wj.setAccount("wj");
-        wj.setUserName("王杰");
-        ClientModel zhouhui = new ClientModel();
-        zhouhui.setAccount("zhouhui");
-        zhouhui.setUserName("周慧");
-        accountMap.put("lkw", lkw);
-        accountMap.put("zh", zh);
-        accountMap.put("pwj", pwj);
-        accountMap.put("wj", wj);
-        accountMap.put("zhouhui", zhouhui);
-    }
-
     public LoginUI() {
         this.initComponents();
         ClientHolder.loginUI = this;
@@ -60,7 +35,7 @@ public class LoginUI {
      */
     private void login(String host, int port, String account) {
         // TODO 校验用户名密码
-        ClientModel temporaryAccount = accountMap.get(account);
+        ClientModel temporaryAccount = AccountConf.accountMap.get(account);
         if (temporaryAccount == null) {
             SwingUIUtil.alertError("账号不存在！");
             return;
