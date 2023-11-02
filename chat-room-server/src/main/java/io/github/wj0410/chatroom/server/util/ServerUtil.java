@@ -5,6 +5,7 @@ import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.github.wj0410.chatroom.server.data.ServerData;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -112,7 +113,8 @@ public class ServerUtil extends ServerData {
             refuseMessage.setClientId(clientId);
             String refuseMessageJsonStr = MessageUtil.createRefuseMessageJsonStr(refuseMessage);
             ChannelHandlerContext ctx = getClientModelByClientId(clientId).getCtx();
-            ctx.writeAndFlush(MessageUtil.convert2ByteBuf(refuseMessageJsonStr));
+            // 发送拒绝消息，并关闭连接
+            ctx.writeAndFlush(MessageUtil.convert2ByteBuf(refuseMessageJsonStr)).addListener(ChannelFutureListener.CLOSE);
         }
     }
 
