@@ -12,8 +12,8 @@ public class ServerApplication {
 
     public static void main(String[] args) {
         // 可以选择服务启动方式，界面启动 / 控制台启动
-        AbstractServerUI serverUI = new SwingUI();
-//        AbstractServerUI serverUI = new Console();
+//        AbstractServerUI serverUI = new SwingUI();
+        AbstractServerUI serverUI = new Console();
         serverUI.run();
     }
 }

@@ -20,10 +20,10 @@ public class Test {
         serverUI.run();
         // 客户端启动
         // 加载配置文件
-        ClientProperties clientProperties = ConfigUtil.loadYaml("application.yml", ClientProperties.class);
+        ClientProperties clientProperties = ConfigUtil.loadYaml("application-test.yml", ClientProperties.class);
         ClientHolder.clientProperties = clientProperties;
         LoginUI loginUI = new LoginUI();
-        loginUI.getAddress().setText("127.0.0.1:5678");
+        loginUI.getAddress().setText(clientProperties.getServer().getAddress() + ":" + clientProperties.getServer().getPort());
         loginUI.account.setText("wj");
         loginUI.doLogin();
     }
