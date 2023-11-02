@@ -13,6 +13,7 @@ public class BindMessage {
     private String clientId;
     private String account;
     private String userName;
+    private String clientVersion;
 
     @Override
     public String toString() {
@@ -20,6 +21,7 @@ public class BindMessage {
                 "clientId='" + clientId + '\'' +
                 ", account='" + account + '\'' +
                 ", userName='" + userName + '\'' +
+                ", clientVersion='" + clientVersion + '\'' +
                 '}';
     }
 }

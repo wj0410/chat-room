@@ -1,9 +1,6 @@
 package io.github.wj0410.chatroom.client.netty;
 
-import io.github.wj0410.chatroom.client.handler.ClientHandler;
-import io.github.wj0410.chatroom.client.handler.ClientNormalHandler;
-import io.github.wj0410.chatroom.client.handler.ClientSyncOnlineHandler;
-import io.github.wj0410.chatroom.client.handler.ClientWelcomeHandler;
+import io.github.wj0410.chatroom.client.handler.*;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -46,6 +43,7 @@ public class NettyClient {
                                 new ClientHandler(),
                                 new ClientSyncOnlineHandler(),
                                 new ClientWelcomeHandler(),
+                                new ClientRefuseHandler(),
                                 new ClientNormalHandler()
                         );
                     }
@@ -69,8 +67,9 @@ public class NettyClient {
 
     public void shutDown() {
         try {
-            channelFuture.channel().close();
-            System.exit(0);
+            channelFuture.channel().close().sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             if (workerGroup != null) {
                 workerGroup.shutdownGracefully();

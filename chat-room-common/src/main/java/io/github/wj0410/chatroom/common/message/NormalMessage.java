@@ -19,6 +19,9 @@ public class NormalMessage {
     private long timestamp;
     private String msg;
 
+    public NormalMessage(){
+        this.timestamp = System.currentTimeMillis();
+    }
     @Override
     public String toString() {
         return "NormalMessage{" +

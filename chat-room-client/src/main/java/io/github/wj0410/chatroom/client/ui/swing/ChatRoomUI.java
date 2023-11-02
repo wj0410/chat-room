@@ -18,6 +18,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -36,6 +37,21 @@ public class ChatRoomUI {
 
     public void show() {
         this.chatJFrame.setVisible(true);
+    }
+
+    public void hide() {
+        this.chatJFrame.setVisible(false);
+    }
+
+    public void exit() {
+        // 1.退出聊天室
+        this.hide();
+        ClientHolder.chatRoomUI = null;
+        ClientHolder.privateChatUIMap = new HashMap<>(0);
+        // 2.退出到登录页
+        ClientHolder.loginUI.show();
+        ClientHolder.nettyClient.shutDown();
+        ClientHolder.nettyClient = null;
     }
 
     /**
@@ -101,10 +117,6 @@ public class ChatRoomUI {
         return null;
     }
 
-    private void textArea3KeyPressed(KeyEvent e) {
-
-    }
-
     private void onlineListMouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) {
             // 处理双击事件
@@ -145,10 +157,6 @@ public class ChatRoomUI {
         return recvPane;
     }
 
-    public JList getOnlineList() {
-        return onlineList;
-    }
-
     /**
      * 关闭聊天室
      * 程序退出
@@ -156,14 +164,14 @@ public class ChatRoomUI {
      * @param e
      */
     private void chatRoomJFrameWindowClosing(WindowEvent e) {
-        ClientHolder.nettyClient.shutDown();
+        exit();
     }
 
     private void sendPaneKeyPressed(KeyEvent e) {
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
             // ctrl+回车切换下一行
             e.consume(); // 停止事件的默认行为
-            sendPane.setText(sendPane.getText()+"\n");
+            sendPane.setText(sendPane.getText() + "\n");
         } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             // 回车
             // 发送并清空发送域
@@ -250,27 +258,27 @@ public class ChatRoomUI {
             GroupLayout chatJFrameContentPaneLayout = new GroupLayout(chatJFrameContentPane);
             chatJFrameContentPane.setLayout(chatJFrameContentPaneLayout);
             chatJFrameContentPaneLayout.setHorizontalGroup(
-                chatJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
-                            .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
-                            .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
-                        .addContainerGap())
+                    chatJFrameContentPaneLayout.createParallelGroup()
+                            .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
+                                            .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                                            .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                                    .addContainerGap())
             );
             chatJFrameContentPaneLayout.setVerticalGroup(
-                chatJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
-                            .addComponent(scrollPane3, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                    chatJFrameContentPaneLayout.createParallelGroup()
                             .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
-                                .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
+                                    .addContainerGap()
+                                    .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
+                                            .addComponent(scrollPane3, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                                            .addGroup(chatJFrameContentPaneLayout.createSequentialGroup()
+                                                    .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+                                    .addContainerGap())
             );
             chatJFrame.setSize(640, 490);
             chatJFrame.setLocationRelativeTo(chatJFrame.getOwner());

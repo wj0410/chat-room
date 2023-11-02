@@ -45,6 +45,13 @@ public class MessageUtil {
         return JSON.toJSONString(message);
     }
 
+    public static String createRefuseMessageJsonStr(RefuseMessage refuseMessage) {
+        Message<RefuseMessage> message = new Message();
+        message.setType(REFUSE);
+        message.setData(refuseMessage);
+        return JSON.toJSONString(message);
+    }
+
     public static Object getMessage(String jsonStr) {
         Message message = JSON.parseObject(jsonStr, Message.class);
         MessageType type = message.getType();
@@ -62,6 +69,9 @@ public class MessageUtil {
             case WELCOME:
                 WelcomeMessage welcomeMessage = JSON.parseObject(data, WelcomeMessage.class);
                 return welcomeMessage;
+            case REFUSE:
+                RefuseMessage refuseMessage = JSON.parseObject(data, RefuseMessage.class);
+                return refuseMessage;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -75,14 +85,6 @@ public class MessageUtil {
 
     public static String convert2String(ByteBuf buf) {
         return buf.toString(Charset.forName("UTF-8"));
-    }
-
-    public static BindMessage getBindMessage(String jsonStr) {
-        return JSON.parseObject(jsonStr, BindMessage.class);
-    }
-
-    public static NormalMessage getNormalMessage(String jsonStr) {
-        return JSON.parseObject(jsonStr, NormalMessage.class);
     }
 
 }

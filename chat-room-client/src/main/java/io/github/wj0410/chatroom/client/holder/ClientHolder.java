@@ -1,6 +1,7 @@
 package io.github.wj0410.chatroom.client.holder;
 
 
+import io.github.wj0410.chatroom.client.conf.ClientProperties;
 import io.github.wj0410.chatroom.client.netty.NettyClient;
 import io.github.wj0410.chatroom.client.ui.swing.ChatRoomUI;
 import io.github.wj0410.chatroom.client.ui.swing.LoginUI;
@@ -15,6 +16,7 @@ import java.util.Map;
  * @date 2023/10/26
  */
 public class ClientHolder {
+    public static ClientProperties clientProperties;
     public static ClientModel clientInfo;
     public static NettyClient nettyClient;
     public static LoginUI loginUI;

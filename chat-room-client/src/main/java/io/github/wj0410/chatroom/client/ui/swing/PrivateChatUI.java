@@ -4,11 +4,13 @@
 
 package io.github.wj0410.chatroom.client.ui.swing;
 
+import java.awt.event.*;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.swing.model.OnlineModel;
 import io.github.wj0410.chatroom.client.ui.swing.style.WrapEditorKit;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
+import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
@@ -49,7 +51,7 @@ public class PrivateChatUI {
         // TODO add your code here
     }
 
-    private void textArea3KeyPressed(KeyEvent e) {
+    private void sendPaneKeyPressed(KeyEvent e) {
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
             // ctrl+回车切换下一行
             e.consume(); // 停止事件的默认行为
@@ -65,7 +67,7 @@ public class PrivateChatUI {
                 // 发送私聊消息
                 NormalMessage normalMessage = ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, Arrays.asList(this.targetClient.getClientId()));
                 // 渲染接收区域
-                ClientUtil.drawRecvPane(normalMessage, this.recvPane, 1);
+                SwingUIUtil.drawRecvPane(normalMessage, this.recvPane, 1);
             }
         }
     }
@@ -111,6 +113,12 @@ public class PrivateChatUI {
                 sendPane.setMargin(new Insets(5, 5, 5, 5));
                 sendPane.setMinimumSize(new Dimension(426, 248));
                 sendPane.setPreferredSize(new Dimension(426, 248));
+                sendPane.addKeyListener(new KeyAdapter() {
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        sendPaneKeyPressed(e);
+                    }
+                });
                 scrollPane2.setViewportView(sendPane);
             }
 

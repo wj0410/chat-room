@@ -7,17 +7,17 @@ import lombok.Data;
  * @date 2023/10/26
  */
 @Data
-public class WelcomeMessage {
+public class RefuseMessage {
     private String clientId;
     private String msg;
     private long timestamp;
 
-    public WelcomeMessage(){
+    public RefuseMessage(){
         this.timestamp = System.currentTimeMillis();
     }
     @Override
     public String toString() {
-        return "WelcomeMessage{" +
+        return "RefuseMessage{" +
                 "clientId='" + clientId + '\'' +
                 ", msg='" + msg + '\'' +
                 ", timestamp=" + timestamp +

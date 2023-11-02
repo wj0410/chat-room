@@ -1,4 +1,7 @@
+import io.github.wj0410.chatroom.client.conf.ClientProperties;
+import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.swing.LoginUI;
+import io.github.wj0410.chatroom.common.util.ConfigUtil;
 import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import io.github.wj0410.chatroom.server.ui.swing.SwingUI;
 
@@ -16,9 +19,12 @@ public class Test {
         AbstractServerUI serverUI = new SwingUI();
         serverUI.run();
         // 客户端启动
+        // 加载配置文件
+        ClientProperties clientProperties = ConfigUtil.loadYaml("application.yml", ClientProperties.class);
+        ClientHolder.clientProperties = clientProperties;
         LoginUI loginUI = new LoginUI();
         loginUI.getAddress().setText("127.0.0.1:5678");
-        loginUI.account.setText(randomAccount());
+        loginUI.account.setText("wj");
         loginUI.doLogin();
     }
 

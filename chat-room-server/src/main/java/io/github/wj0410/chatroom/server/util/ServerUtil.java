@@ -1,9 +1,6 @@
 package io.github.wj0410.chatroom.server.util;
 
-import io.github.wj0410.chatroom.common.message.BindMessage;
-import io.github.wj0410.chatroom.common.message.NormalMessage;
-import io.github.wj0410.chatroom.common.message.SyncOnlineMessage;
-import io.github.wj0410.chatroom.common.message.WelcomeMessage;
+import io.github.wj0410.chatroom.common.message.*;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.github.wj0410.chatroom.server.data.ServerData;
@@ -24,6 +21,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 public class ServerUtil extends ServerData {
+
+    public static ClientModel getClientModelByClientId(String clientId) {
+        return getClientModelMap().get(clientId);
+    }
 
     public static ConcurrentHashMap<String, ClientModel> getClientModelMap() {
         return ServerData.getClientModelMap();
@@ -92,12 +93,26 @@ public class ServerUtil extends ServerData {
             WelcomeMessage welcomeMessage = new WelcomeMessage();
             welcomeMessage.setMsg(client.getUserName() + " 进入了聊天室");
             welcomeMessage.setClientId(clientId);
-            welcomeMessage.setTimestamp(System.currentTimeMillis());
             String welcomeMessageJsonStr = MessageUtil.createWelcomeMessageJsonStr(welcomeMessage);
             for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
                 clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(welcomeMessageJsonStr));
             }
             log.info("服务端向所有客户端发送欢迎消息：{}", welcomeMessageJsonStr);
+        }
+    }
+
+    /**
+     * 服务端发送refuse消息
+     */
+    public static void sendRefuseMessage(String clientId, String msg) {
+        ClientModel client = ServerUtil.getClientModelMap().get(clientId);
+        if (client != null) {
+            RefuseMessage refuseMessage = new RefuseMessage();
+            refuseMessage.setMsg(msg);
+            refuseMessage.setClientId(clientId);
+            String refuseMessageJsonStr = MessageUtil.createRefuseMessageJsonStr(refuseMessage);
+            ChannelHandlerContext ctx = getClientModelByClientId(clientId).getCtx();
+            ctx.writeAndFlush(MessageUtil.convert2ByteBuf(refuseMessageJsonStr));
         }
     }
 

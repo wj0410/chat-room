@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ClientHandler extends SimpleChannelInboundHandler<Object> {
-
     /**
      * 客户端上线
      *
@@ -35,6 +34,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Object> {
         bindMessage.setClientId(clientId);
         bindMessage.setAccount(ClientHolder.clientInfo.getAccount());
         bindMessage.setUserName(ClientHolder.clientInfo.getUserName());
+        bindMessage.setClientVersion(ClientHolder.clientProperties.getVersion());
         // 发送绑定消息
         ClientUtil.sendBindMessage(ctx, bindMessage);
     }

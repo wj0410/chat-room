@@ -4,21 +4,15 @@ import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.swing.model.OnlineModel;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
-import io.github.wj0410.chatroom.common.message.WelcomeMessage;
-import io.github.wj0410.chatroom.common.util.DateUtil;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
-import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.text.html.HTML;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -59,7 +53,6 @@ public class ClientUtil {
      */
     public static NormalMessage sendNormalMessage(ChannelHandlerContext ctx, String msg, List<String> targetClientList) {
         NormalMessage message = new NormalMessage();
-        message.setTimestamp(System.currentTimeMillis());
         message.setMsg(msg);
         message.setFromAccount(ClientHolder.clientInfo.getAccount());
         message.setFromClientId(ClientHolder.clientInfo.getClientId());
@@ -70,105 +63,26 @@ public class ClientUtil {
         return message;
     }
 
-    /**
-     * 回显接收到的服务器消息
-     *
-     * @param welcomeMessage
-     * @param recvPane
-     */
-    public static void drawWelcomeRecvPane(WelcomeMessage welcomeMessage, JTextPane recvPane, int self) {
-        StyledDocument doc = recvPane.getStyledDocument();
-        String timestampContent = "\n" + DateUtil.convertTimestampToString(welcomeMessage.getTimestamp()) + "\n";
-        String welcomeContent = self == 1 ? "您已进入聊天室" : welcomeMessage.getMsg();
-        welcomeContent += "\n";
-        // 创建段落样式
-        MutableAttributeSet alignStyle = new SimpleAttributeSet();
-        // 居中
-        StyleConstants.setAlignment(alignStyle, StyleConstants.ALIGN_CENTER);
+
+    private static ImageIcon getIcon() {
+        // 从文件中读取Image对象
+        URL imageUrl = ClientUtil.class.getClassLoader().getResource("images/01.jpg");
+        BufferedImage image = null;
         try {
-            int alignStart = doc.getLength();
-            SwingUIUtil.buildTimestampStyle(doc);
-            doc.insertString(doc.getLength(), timestampContent, doc.getStyle(SwingUIUtil.TIMESTAMP_STYLE_NAME));
-
-            SwingUIUtil.buildWelcomeStyle(doc);
-            doc.insertString(doc.getLength(), welcomeContent, doc.getStyle(SwingUIUtil.WELCOME_STYLE_NAME));
-
-            // 将段落样式应用到指定范围内的文本
-            doc.setParagraphAttributes(alignStart, doc.getLength() - alignStart, alignStyle, false);
-
-            recvPane.setDocument(doc);
-            recvPane.setCaretPosition(doc.getLength());
-        } catch (BadLocationException e) {
+            image = ImageIO.read(imageUrl);
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        // 将Image转换为Icon对象
+        ImageIcon icon = new ImageIcon(image);
+        // 定义目标尺寸
+        int targetWidth = 150;
+        int targetHeight = 150;
+        // 缩放图片
+        Image originalImage = icon.getImage();
+        Image scaledImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        return scaledIcon;
     }
 
-    /**
-     * 回显接收到的服务器消息
-     *
-     * @param normalMessage
-     * @param recvPane
-     */
-    public static void drawRecvPane(NormalMessage normalMessage, JTextPane recvPane, int self) {
-        // 绘制头部
-        drawRecvHead(normalMessage.getFromUserName(), normalMessage.getTimestamp(), recvPane, self);
-        // 绘制消息内容
-        drawRecvTextMessage(normalMessage.getMsg(),recvPane,self);
-    }
-
-    private static void drawRecvHead(String userNameContent, long timestamp, JTextPane recvPane, int self) {
-        StyledDocument doc = recvPane.getStyledDocument();
-        String timestampContent = "\n" + DateUtil.convertTimestampToString(timestamp) + "\n";
-        // 创建段落样式
-        MutableAttributeSet alignStyle = new SimpleAttributeSet();
-        MutableAttributeSet spaceBelowStyle = new SimpleAttributeSet();
-        // 靠左/右对齐
-        StyleConstants.setAlignment(alignStyle, self == 1 ? StyleConstants.ALIGN_RIGHT : StyleConstants.ALIGN_LEFT);
-        // 每条消息之间间隔
-        StyleConstants.setSpaceBelow(spaceBelowStyle, 7.0f);
-        try {
-            int alignStart = doc.getLength();
-            // 用户名
-            SwingUIUtil.buildUserNameStyle(doc, self);
-            doc.insertString(doc.getLength(), userNameContent, doc.getStyle(SwingUIUtil.USER_NAME_STYLE_NAME));
-
-            // 时间
-            SwingUIUtil.buildTimestampStyle(doc);
-            doc.insertString(doc.getLength(), timestampContent, doc.getStyle(SwingUIUtil.TIMESTAMP_STYLE_NAME));
-
-            // 靠左/靠右
-            doc.setParagraphAttributes(alignStart, doc.getLength() - alignStart, alignStyle, false);
-            recvPane.setDocument(doc);
-            recvPane.setCaretPosition(doc.getLength());
-        } catch (BadLocationException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void drawRecvTextMessage(String msgContent, JTextPane recvPane, int self) {
-        StyledDocument doc = recvPane.getStyledDocument();
-        // 创建段落样式
-        MutableAttributeSet alignStyle = new SimpleAttributeSet();
-        MutableAttributeSet spaceBelowStyle = new SimpleAttributeSet();
-        // 靠左/右对齐
-        StyleConstants.setAlignment(alignStyle, self == 1 ? StyleConstants.ALIGN_RIGHT : StyleConstants.ALIGN_LEFT);
-        // 每条消息之间间隔
-        StyleConstants.setSpaceBelow(spaceBelowStyle, 7.0f);
-        try {
-            int start = doc.getLength();
-            // 消息
-            SwingUIUtil.buildMsgStyle(doc, self);
-            doc.insertString(doc.getLength(), msgContent + "\n", doc.getStyle(SwingUIUtil.MSG_STYLE_NAME));
-            // 将段落样式应用到指定范围内的文本
-            // 靠左/靠右
-            doc.setParagraphAttributes(start, doc.getLength() - start, alignStyle, false);
-            // 每条消息之间间隔
-            doc.setParagraphAttributes(start, doc.getLength() - start, spaceBelowStyle, false);
-
-            recvPane.setDocument(doc);
-            recvPane.setCaretPosition(doc.getLength());
-        } catch (BadLocationException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
