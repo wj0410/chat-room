@@ -1,3 +1,4 @@
-version: 1.0
+client:
+  version: 1.0
 server:
   address: 47.98.35.95:5678

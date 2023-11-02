@@ -1,5 +1,6 @@
 package io.github.wj0410.chatroom.server.ui.console;
 
+import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +20,7 @@ public class Console extends AbstractServerUI {
 
     @Override
     public int getServerPort() {
-        return 5678;
+        return ServerHolder.serverProperties.getServer().getPort();
     }
 
     @Override
