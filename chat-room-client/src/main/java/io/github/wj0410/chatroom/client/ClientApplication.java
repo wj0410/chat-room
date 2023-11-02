@@ -18,7 +18,7 @@ public class ClientApplication {
         ClientHolder.clientProperties = clientProperties;
         // 启动UI
         LoginUI loginUI = new LoginUI();
-        loginUI.getAddress().setText(clientProperties.getServer().getAddress() + ":" + clientProperties.getServer().getPort());
+        loginUI.getAddress().setText(clientProperties.getServer().getAddress());
     }
 
 }

@@ -23,7 +23,7 @@ public class Test {
         ClientProperties clientProperties = ConfigUtil.loadYaml("application-test.yml", ClientProperties.class);
         ClientHolder.clientProperties = clientProperties;
         LoginUI loginUI = new LoginUI();
-        loginUI.getAddress().setText(clientProperties.getServer().getAddress() + ":" + clientProperties.getServer().getPort());
+        loginUI.getAddress().setText(clientProperties.getServer().getAddress());
         loginUI.account.setText("wj");
         loginUI.doLogin();
     }

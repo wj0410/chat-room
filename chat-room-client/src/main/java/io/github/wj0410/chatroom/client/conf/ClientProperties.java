@@ -13,7 +13,6 @@ public class ClientProperties {
 
     public class ServerConfig {
         private String address;
-        private int port;
 
         public String getAddress() {
             return address;
@@ -21,14 +20,6 @@ public class ClientProperties {
 
         public void setAddress(String address) {
             this.address = address;
-        }
-
-        public int getPort() {
-            return port;
-        }
-
-        public void setPort(int port) {
-            this.port = port;
         }
     }
 }
