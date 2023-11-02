@@ -3,6 +3,7 @@ package io.github.wj0410.chatroom.server.handler;
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.RefuseMessage;
+import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.util.ServerUtil;
@@ -11,6 +12,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.LinkedList;
 
 
 /**
@@ -32,6 +35,11 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
             ServerUtil.sendRefuseMessage(bindMessage.getClientId(), CommonConstants.CLIENT_VERSION_LAG_TIP);
             return;
         }
+        // TODO 校验是否已登录 暂时放在服务端校验
+        if (!checkLogin(bindMessage.getAccount())) {
+            ServerUtil.sendRefuseMessage(bindMessage.getClientId(), CommonConstants.CLIENT_HAS_LOGIN);
+            return;
+        }
         if (ServerHolder.serverUI != null) {
             ServerHolder.serverUI.printConsole(String.format("客户端 %s 连接了...", ServerUtil.formatClientAccount(ctx)));
             // 刷新UI在线列表
@@ -51,6 +59,20 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
      */
     private boolean checkClientVersion(String clientVersion) {
         if (StringUtils.isBlank(clientVersion)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkLogin(String account) {
+        int count = 0;
+        LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
+        for (ClientModel clientModel : clientOnlineList) {
+            if (clientModel.getAccount().equals(account)) {
+                count++;
+            }
+        }
+        if (count > 1) {
             return false;
         }
         return true;
