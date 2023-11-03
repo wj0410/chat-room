@@ -1,5 +1,6 @@
 package io.github.wj0410.chatroom.common.message;
 
+import io.github.wj0410.chatroom.common.enums.ChatType;
 import lombok.Data;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  */
 @Data
 public class NormalMessage {
+    private ChatType chatType;
     private String fromAccount;
     private String fromUserName;
     private String fromClientId;
@@ -19,13 +21,15 @@ public class NormalMessage {
     private long timestamp;
     private String msg;
 
-    public NormalMessage(){
+    public NormalMessage() {
         this.timestamp = System.currentTimeMillis();
     }
+
     @Override
     public String toString() {
         return "NormalMessage{" +
-                "fromAccount='" + fromAccount + '\'' +
+                "chatType=" + chatType +
+                ", fromAccount='" + fromAccount + '\'' +
                 ", fromUserName='" + fromUserName + '\'' +
                 ", fromClientId='" + fromClientId + '\'' +
                 ", targetClientIds=" + targetClientIds +

@@ -1,5 +1,6 @@
 package io.github.wj0410.chatroom.server.util;
 
+import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.message.*;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
@@ -9,7 +10,6 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -124,15 +124,16 @@ public class ServerUtil extends ServerData {
     public static void relayNormalMessage(NormalMessage normalMessage) {
         List<String> targetClientIds = normalMessage.getTargetClientIds();
         String normalMessageJsonStr = MessageUtil.createNormalMessageJsonStr(normalMessage);
-        if (CollectionUtils.isEmpty(targetClientIds)) {
+        ChatType chatType = normalMessage.getChatType();
+        if (chatType.equals(ChatType.PUBLIC)) {
             // 聊天室消息
             LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
             clientOnlineList.forEach(item -> {
                 item.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
             });
             log.info("服务端向客户端 {} 转发消息：{}", clientOnlineList.toString(), normalMessageJsonStr);
-        } else {
-            // 发送给指定用户的消息
+        } else if (chatType.equals(ChatType.PRIVATE)) {
+            // 私聊消息
             targetClientIds.forEach(item -> {
                 ConcurrentHashMap<String, ClientModel> clientModelMap = ServerUtil.getClientModelMap();
                 ClientModel clientModel = clientModelMap.get(item);
@@ -143,8 +144,9 @@ public class ServerUtil extends ServerData {
                     log.info("客户端[{}]已下线，消息停止转发：{}", item, normalMessageJsonStr);
                 }
             });
+        } else {
+            log.info("未知消息类型，服务端无法转发。" + normalMessage.toString());
         }
-
     }
 
 }

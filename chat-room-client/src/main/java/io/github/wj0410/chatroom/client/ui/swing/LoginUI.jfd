@@ -4,8 +4,8 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {space :p:151:p, comp label1:::p::p, space :p:40:p, comp address:::p:191:p, space ::227:x}, seq t {space ::69:x, par l {seq l {space :p:106:p, comp loginBtn:::p:79:p}, seq l {par t {seq {comp label3:::p::p, space s:::p, comp password:::p:191:p}, seq {comp label2:::p::p, space s:::p, comp account:::p:191:p}}, space :::p, comp registerLabel:::p::p}}, space :p:50:p}}"
-			"$verticalGroup": "par l {seq l {space :p:14:p, par b {comp label1::b:p::p, comp address::b:p::p}, space ::58:x, par b {comp label2::b:p::p, comp registerLabel::b:p::p, comp account::b:p:35:p}, par l {seq {space :p:24:p, comp label3:::p::p}, seq {space u:::p, comp password:::p:35:p}}, space u:::p, comp loginBtn:::p:49:p, space :p:39:p}}"
+			"$horizontalGroup": "par l {seq {space :p:151:p, comp label1:::p::p, space :p:40:p, comp address:::p:191:p, space ::227:x}, seq t {space ::69:x, par t {seq {comp label2:::p::p, space s:::p, comp account:::p:191:p}, seq t {comp label3:::p::p, space s:::p, par l:::p {seq {comp visitorLoginBtn:::p:79:p, space :::x, comp loginBtn:::p:79:p}, comp password:::p:191:p}}}, space :::p, comp registerLabel:::p::p, space :p:50:p}}"
+			"$verticalGroup": "par l {seq l {space :p:14:p, par b {comp label1::b:p::p, comp address::b:p::p}, space ::58:x, par b {comp label2::b:p::p, comp registerLabel::b:p::p, comp account::b:p:35:p}, par l {seq {space :p:24:p, comp label3:::p::p}, seq {space u:::p, comp password:::p:35:p}}, space u:::p, par l {comp loginBtn:::p:49:p, comp visitorLoginBtn:::p:49:p}, space :p:39:p}}"
 		} ) {
 			name: "loginJFrame"
 			"title": "Chat"
@@ -50,6 +50,11 @@ new FormModel {
 				"text": "注册账号"
 				"foreground": sfield java.awt.Color blue
 				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "registerLabelClicked", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "visitorLoginBtn"
+				"text": "游客登录"
+				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "visitorLoginBtnClicked", true ) )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 115, 55 )

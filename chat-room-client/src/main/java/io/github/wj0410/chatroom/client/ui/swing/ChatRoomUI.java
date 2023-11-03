@@ -11,6 +11,7 @@ import io.github.wj0410.chatroom.client.ui.swing.style.OnlineListCellRenderer;
 import io.github.wj0410.chatroom.client.ui.swing.style.WrapEditorKit;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.client.util.TrayUtil;
+import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import org.apache.commons.lang.StringUtils;
 
@@ -191,7 +192,7 @@ public class ChatRoomUI {
             String sendContent = sendPane.getText();
             if (StringUtils.isNotBlank(sendContent)) {
                 // 发送消息
-                ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, null);
+                ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, ChatType.PUBLIC, null);
                 // 清空发送框
                 sendPane.setText("");
             }

@@ -17,15 +17,36 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 /**
  * @author wangjie
  */
 public class LoginUI {
+    private int port;
+    private String host;
+    public static final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
     public LoginUI() {
         this.initComponents();
         ClientHolder.loginUI = this;
         this.show();
+        this.address.setText(ClientHolder.clientProperties.getServer().getAddress());
+    }
+
+    /**
+     * TODO 校验用户名密码
+     *
+     * @param account
+     * @return
+     */
+    private ClientModel checkUserValid(String account) {
+        ClientModel temporaryAccount = AccountConf.accountMap.get(account);
+        if (temporaryAccount == null) {
+            SwingUIUtil.alertError("账号不存在！");
+            throw new RuntimeException("账号不存在！");
+        }
+        return temporaryAccount;
     }
 
     /**
@@ -33,19 +54,13 @@ public class LoginUI {
      *
      * @param host
      * @param port
-     * @param account
+     * @param sysUser
      */
-    private void login(String host, int port, String account) {
-        // TODO 校验用户名密码
-        ClientModel temporaryAccount = AccountConf.accountMap.get(account);
-        if (temporaryAccount == null) {
-            SwingUIUtil.alertError("账号不存在！");
-            return;
-        }
+    private void loginSuccess(String host, int port, ClientModel sysUser) {
         // 将客户端信息记录到ClientHolder
         ClientHolder.clientInfo = new ClientModel();
-        ClientHolder.clientInfo.setAccount(temporaryAccount.getAccount());
-        ClientHolder.clientInfo.setUserName(temporaryAccount.getUserName());
+        ClientHolder.clientInfo.setAccount(sysUser.getAccount());
+        ClientHolder.clientInfo.setUserName(sysUser.getUserName());
         if (connection(host, port)) {
             // 隐藏登录UI
             this.hide();
@@ -93,32 +108,62 @@ public class LoginUI {
         this.loginJFrame.setVisible(false);
     }
 
+    /**
+     * 游客登录
+     */
+    public void visitorLogin() {
+        checkAddress();
+        ClientModel clientModel = generateVisitorClientModel();
+        loginSuccess(host, port, clientModel);
+    }
+
+    /**
+     * 用户登录
+     */
     public void doLogin() {
-        int port;
-        String host;
-        try {
-            String address = this.address.getText();
-            String[] addressSplit = address.split(":");
-            port = Integer.parseInt(addressSplit[1]);
-            host = addressSplit[0];
-        } catch (Exception exception) {
-            SwingUIUtil.alertError("服务器地址不正确！");
-            return;
-        }
+        checkAddress();
         String account = this.account.getText();
         if (StringUtils.isBlank(account)) {
             SwingUIUtil.alertError("用户名不能为空！");
-            return;
+            throw new RuntimeException("用户名不能为空");
         }
         if (ClientHolder.nettyClient != null) {
             SwingUIUtil.alertError("请勿重复登录！");
-            return;
+            throw new RuntimeException("请勿重复登录");
         }
-        login(host, port, account);
+        ClientModel clientModel = checkUserValid(account);
+        loginSuccess(host, port, clientModel);
     }
 
-    private void loginBtnClicked(MouseEvent e) {
-        doLogin();
+    private void checkAddress() {
+        try {
+            String address = this.address.getText();
+            String[] addressSplit = address.split(":");
+            this.port = Integer.parseInt(addressSplit[1]);
+            this.host = addressSplit[0];
+        } catch (Exception exception) {
+            SwingUIUtil.alertError("服务器地址不正确！");
+            throw new RuntimeException("服务器地址不正确");
+        }
+    }
+
+    private static ClientModel generateVisitorClientModel() {
+        int length = 5;
+        Random rnd = new Random();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(characters.charAt(rnd.nextInt(characters.length())));
+        }
+        String account = sb.toString();
+        ClientModel clientModel = new ClientModel();
+        clientModel.setAccount(account);
+        clientModel.setUserName("游客-" + account);
+        return clientModel;
+    }
+
+
+    private void visitorLoginBtnClicked(MouseEvent e) {
+        visitorLogin();
     }
 
     private void registerLabelClicked(MouseEvent e) {
@@ -132,6 +177,10 @@ public class LoginUI {
         }
     }
 
+    private void loginBtnClicked(MouseEvent e) {
+        doLogin();
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         loginJFrame = new JFrame();
@@ -143,6 +192,7 @@ public class LoginUI {
         loginBtn = new JButton();
         password = new JPasswordField();
         registerLabel = new JLabel();
+        visitorLoginBtn = new JButton();
 
         //======== loginJFrame ========
         {
@@ -195,6 +245,15 @@ public class LoginUI {
                 }
             });
 
+            //---- visitorLoginBtn ----
+            visitorLoginBtn.setText("\u6e38\u5ba2\u767b\u5f55");
+            visitorLoginBtn.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    visitorLoginBtnClicked(e);
+                }
+            });
+
             GroupLayout loginJFrameContentPaneLayout = new GroupLayout(loginJFrameContentPane);
             loginJFrameContentPane.setLayout(loginJFrameContentPaneLayout);
             loginJFrameContentPaneLayout.setHorizontalGroup(
@@ -207,22 +266,22 @@ public class LoginUI {
                                     .addContainerGap(227, Short.MAX_VALUE))
                             .addGroup(GroupLayout.Alignment.TRAILING, loginJFrameContentPaneLayout.createSequentialGroup()
                                     .addContainerGap(69, Short.MAX_VALUE)
-                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
+                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                             .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                                                    .addGap(106, 106, 106)
-                                                    .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(label2)
+                                                    .addGap(18, 18, 18)
+                                                    .addComponent(account, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
                                             .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(label3)
+                                                    .addGap(18, 18, 18)
+                                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                                             .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                                                                    .addComponent(label3)
-                                                                    .addGap(18, 18, 18)
-                                                                    .addComponent(password, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
-                                                            .addGroup(loginJFrameContentPaneLayout.createSequentialGroup()
-                                                                    .addComponent(label2)
-                                                                    .addGap(18, 18, 18)
-                                                                    .addComponent(account, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE)))
-                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                    .addComponent(registerLabel)))
+                                                                    .addComponent(visitorLoginBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+                                                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                    .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
+                                                            .addComponent(password, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))))
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(registerLabel)
                                     .addGap(50, 50, 50))
             );
             loginJFrameContentPaneLayout.setVerticalGroup(
@@ -245,7 +304,9 @@ public class LoginUI {
                                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                                     .addComponent(password, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)))
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(loginJFrameContentPaneLayout.createParallelGroup()
+                                            .addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(visitorLoginBtn, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
                                     .addGap(39, 39, 39))
             );
             loginJFrame.pack();
@@ -264,5 +325,6 @@ public class LoginUI {
     private JButton loginBtn;
     private JPasswordField password;
     private JLabel registerLabel;
+    private JButton visitorLoginBtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables  @formatter:on
 }

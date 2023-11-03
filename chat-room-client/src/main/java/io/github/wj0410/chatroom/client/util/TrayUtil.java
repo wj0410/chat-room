@@ -15,8 +15,6 @@ public class TrayUtil {
 
     /**
      * 绘制系统托盘图标
-     * TODO 这里有bug，无法区分多个图标
-     * 明天解决
      */
     public static void noticeTray(boolean unread, String account) {
         SystemTray systemTray = SystemTray.getSystemTray();

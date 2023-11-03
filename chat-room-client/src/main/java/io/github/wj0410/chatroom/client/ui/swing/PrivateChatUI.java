@@ -4,20 +4,19 @@
 
 package io.github.wj0410.chatroom.client.ui.swing;
 
-import java.awt.event.*;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.swing.model.OnlineModel;
 import io.github.wj0410.chatroom.client.ui.swing.style.WrapEditorKit;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
+import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Arrays;
 
 /**
@@ -47,10 +46,6 @@ public class PrivateChatUI {
         return recvPane;
     }
 
-    private void privateChatJFrameWindowClosing(WindowEvent e) {
-        // TODO add your code here
-    }
-
     private void sendPaneKeyPressed(KeyEvent e) {
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
             // ctrl+回车切换下一行
@@ -65,7 +60,7 @@ public class PrivateChatUI {
                 // 清空发送框
                 sendPane.setText("");
                 // 发送私聊消息
-                NormalMessage normalMessage = ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, Arrays.asList(this.targetClient.getClientId()));
+                NormalMessage normalMessage = ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, ChatType.PRIVATE, Arrays.asList(this.targetClient.getClientId()));
                 // 渲染接收区域
                 SwingUIUtil.drawRecvPane(normalMessage, this.recvPane, 1);
             }
@@ -84,12 +79,6 @@ public class PrivateChatUI {
         {
             privateChatJFrame.setPreferredSize(new Dimension(700, 824));
             privateChatJFrame.setMinimumSize(new Dimension(750, 650));
-            privateChatJFrame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    privateChatJFrameWindowClosing(e);
-                }
-            });
             Container privateChatJFrameContentPane = privateChatJFrame.getContentPane();
 
             //======== scrollPane4 ========
@@ -125,22 +114,22 @@ public class PrivateChatUI {
             GroupLayout privateChatJFrameContentPaneLayout = new GroupLayout(privateChatJFrameContentPane);
             privateChatJFrameContentPane.setLayout(privateChatJFrameContentPaneLayout);
             privateChatJFrameContentPaneLayout.setHorizontalGroup(
-                privateChatJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(GroupLayout.Alignment.TRAILING, privateChatJFrameContentPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(privateChatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                            .addComponent(scrollPane4)
-                            .addComponent(scrollPane2))
-                        .addContainerGap())
+                    privateChatJFrameContentPaneLayout.createParallelGroup()
+                            .addGroup(GroupLayout.Alignment.TRAILING, privateChatJFrameContentPaneLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addGroup(privateChatJFrameContentPaneLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                                            .addComponent(scrollPane4)
+                                            .addComponent(scrollPane2))
+                                    .addContainerGap())
             );
             privateChatJFrameContentPaneLayout.setVerticalGroup(
-                privateChatJFrameContentPaneLayout.createParallelGroup()
-                    .addGroup(privateChatJFrameContentPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                    privateChatJFrameContentPaneLayout.createParallelGroup()
+                            .addGroup(privateChatJFrameContentPaneLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 204, GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap())
             );
             privateChatJFrame.setSize(460, 475);
             privateChatJFrame.setLocationRelativeTo(privateChatJFrame.getOwner());

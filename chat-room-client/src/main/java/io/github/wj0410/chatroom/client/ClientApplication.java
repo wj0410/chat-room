@@ -12,12 +12,12 @@ import io.github.wj0410.chatroom.common.util.ConfigUtil;
 public class ClientApplication {
 
     public static void main(String[] args) {
-        // 加载配置文件
-        ClientProperties clientProperties = ConfigUtil.loadYaml("application.yml", ClientProperties.class);
-        ClientHolder.clientProperties = clientProperties;
-        // 启动UI
-        LoginUI loginUI = new LoginUI();
-        loginUI.getAddress().setText(clientProperties.getServer().getAddress());
+        startClient();
     }
 
+    public static void startClient() {
+        // 加载配置文件
+        ClientHolder.clientProperties = ConfigUtil.loadYaml("client-test.yml", ClientProperties.class);
+        new LoginUI();
+    }
 }

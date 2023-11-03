@@ -3,17 +3,13 @@ package io.github.wj0410.chatroom.client.handler;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.swing.PrivateChatUI;
 import io.github.wj0410.chatroom.client.ui.swing.model.OnlineModel;
-import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.client.util.TrayUtil;
+import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
-
-import javax.swing.*;
-import java.util.List;
 
 
 /**
@@ -31,11 +27,11 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, NormalMessage normalMessage) {
-        System.out.println(String.format("客户端收到服务端转发消息：%s", normalMessage.toString()));
+        log.info("客户端收到服务端转发消息：{}", normalMessage.toString());
         // 在UI消息区域显示消息
-        List<String> targetClientIds = normalMessage.getTargetClientIds();
         String fromClientId = normalMessage.getFromClientId();
-        if (CollectionUtils.isEmpty(targetClientIds)) {
+        ChatType chatType = normalMessage.getChatType();
+        if (chatType.equals(ChatType.PUBLIC)) {
             // 聊天室
             int self = fromClientId.equals(ClientHolder.clientInfo.getClientId()) ? 1 : 0;
             SwingUIUtil.drawRecvPane(normalMessage, ClientHolder.chatRoomUI.getRecvPane(), self);
@@ -43,8 +39,7 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
                 // 如果没有聚焦，绘制系统托盘
                 TrayUtil.noticeTray(true, ClientHolder.clientInfo.getAccount());
             }
-        } else {
-            // TODO 这里区分聊天室和私聊消息需要优化一下，目前暂时只有这两种情况
+        } else if (chatType.equals(ChatType.PRIVATE)) {
             // 私聊消息
             PrivateChatUI privateChatUI = ClientHolder.privateChatUIMap.get(fromClientId);
             if (privateChatUI == null) {

@@ -2,6 +2,7 @@ package io.github.wj0410.chatroom.client.util;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.swing.model.OnlineModel;
+import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
@@ -46,13 +47,15 @@ public class ClientUtil {
 
     /**
      * 给服务端发送普通消息
-     *
-     * @param ctx              客户端与服务端的通道
-     * @param msg              消息内容
-     * @param targetClientList 为NULL则代表发送给所有客户端
+     * @param ctx
+     * @param msg
+     * @param chatType
+     * @param targetClientList
+     * @return
      */
-    public static NormalMessage sendNormalMessage(ChannelHandlerContext ctx, String msg, List<String> targetClientList) {
+    public static NormalMessage sendNormalMessage(ChannelHandlerContext ctx, String msg, ChatType chatType, List<String> targetClientList) {
         NormalMessage message = new NormalMessage();
+        message.setChatType(chatType);
         message.setMsg(msg);
         message.setFromAccount(ClientHolder.clientInfo.getAccount());
         message.setFromClientId(ClientHolder.clientInfo.getClientId());
