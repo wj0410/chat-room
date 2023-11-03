@@ -41,7 +41,7 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
             SwingUIUtil.drawRecvPane(normalMessage, ClientHolder.chatRoomUI.getRecvPane(), self);
             if (!ClientHolder.chatRoomUI.getSendPane().isFocusOwner()) {
                 // 如果没有聚焦，绘制系统托盘
-                TrayUtil.noticeTray(true);
+                TrayUtil.noticeTray(true, ClientHolder.clientInfo.getAccount());
             }
         } else {
             // TODO 这里区分聊天室和私聊消息需要优化一下，目前暂时只有这两种情况
@@ -63,7 +63,7 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
                 // 如果聊天室也没有鼠标焦点
                 if (!ClientHolder.chatRoomUI.getSendPane().isFocusOwner()) {
                     // 如果没有聚焦，绘制系统托盘
-                    TrayUtil.noticeTray(true);
+                    TrayUtil.noticeTray(true, ClientHolder.clientInfo.getAccount());
                 }
             }
         }

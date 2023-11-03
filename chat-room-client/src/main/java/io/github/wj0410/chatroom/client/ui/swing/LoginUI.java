@@ -7,14 +7,14 @@ package io.github.wj0410.chatroom.client.ui.swing;
 import io.github.wj0410.chatroom.client.conf.AccountConf;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.netty.NettyClient;
-import io.github.wj0410.chatroom.client.util.ClientUtil;
-import io.github.wj0410.chatroom.client.util.TrayUtil;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -125,6 +125,13 @@ public class LoginUI {
         register();
     }
 
+    private void accountKeyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            // 回车
+            doLogin();
+        }
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         loginJFrame = new JFrame();
@@ -157,6 +164,14 @@ public class LoginUI {
             //---- address ----
             address.setText("127.0.0.1:5678");
             address.setVisible(false);
+
+            //---- account ----
+            account.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    accountKeyPressed(e);
+                }
+            });
 
             //---- loginBtn ----
             loginBtn.setText("\u767b\u5f55");

@@ -21,7 +21,7 @@ public class ChatTrayIcon {
         Image wechatImage = new Favicon().getImage();
         g2d.drawImage(wechatImage, 0, 0, null);
 
-        if(unread){
+        if (unread) {
             // 绘制未读
             g2d.setColor(Color.RED);
             // 红点的半径

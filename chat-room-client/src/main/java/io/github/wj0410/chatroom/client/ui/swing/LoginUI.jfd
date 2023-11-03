@@ -34,6 +34,7 @@ new FormModel {
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 1
 				}
+				addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "accountKeyPressed", true ) )
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "loginBtn"
