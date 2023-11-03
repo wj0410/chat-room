@@ -8,7 +8,21 @@ import lombok.Data;
  */
 @Data
 public class ServerProperties {
+    private ClientConfig client;
+
     private ServerConfig server;
+
+    public class ClientConfig {
+        private String version;
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
+        }
+    }
 
     public class ServerConfig {
         private int port;

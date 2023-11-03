@@ -30,7 +30,7 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
         log.info("服务端接收到客户端的绑定信息：{}", bindMessage.toString());
         // 新增客户端到内存
         ServerUtil.addClient(ctx, bindMessage);
-        // 校验客户端版本
+        // TODO 校验客户端版本 暂时在配置文件里设置
         if (!checkClientVersion(bindMessage.getClientVersion())) {
             ServerUtil.sendRefuseMessage(bindMessage.getClientId(), CommonConstants.CLIENT_VERSION_LAG_TIP);
             return;
@@ -58,7 +58,8 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
      * @return
      */
     private boolean checkClientVersion(String clientVersion) {
-        if (StringUtils.isBlank(clientVersion)) {
+        if (StringUtils.isBlank(clientVersion)
+                || !clientVersion.equals(ServerHolder.serverProperties.getClient().getVersion())) {
             return false;
         }
         return true;
