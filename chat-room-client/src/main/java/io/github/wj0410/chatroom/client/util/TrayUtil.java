@@ -40,13 +40,17 @@ public class TrayUtil {
     private static TrayIcon getNewTrayIcon(boolean unread, String account) {
         ChatTrayIcon trayIcon = new ChatTrayIcon(unread);
         TrayIcon icon = new TrayIcon(trayIcon.getImage(), account);
-        // 添加鼠标事件监听器
+        // Mac 添加鼠标事件监听器
         icon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     // 将窗口置于最前方
-                    ClientHolder.chatRoomUI.show();
+                    if (ClientHolder.chatRoomUI.getChatJFrame().getState() == Frame.ICONIFIED) {
+                        ClientHolder.chatRoomUI.getChatJFrame().setExtendedState(Frame.NORMAL);
+                    }
+                    ClientHolder.chatRoomUI.getChatJFrame().toFront();
+                    ClientHolder.chatRoomUI.getChatJFrame().requestFocus();
                     ClientHolder.chatRoomUI.getChatJFrame().setAlwaysOnTop(true);
                     noticeTray(false, account);
                 }
