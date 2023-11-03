@@ -1,7 +1,8 @@
 package io.github.wj0410.chatroom.client.util;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
-import io.github.wj0410.chatroom.client.tray.ChatTrayIcon;
+import io.github.wj0410.chatroom.client.tray.MacChatTrayIcon;
+import io.github.wj0410.chatroom.client.tray.WinChatTrayIcon;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -38,9 +39,16 @@ public class TrayUtil {
      * @return
      */
     private static TrayIcon getNewTrayIcon(boolean unread, String account) {
-        ChatTrayIcon trayIcon = new ChatTrayIcon(unread);
-        TrayIcon icon = new TrayIcon(trayIcon.getImage(), account);
-        // Mac 添加鼠标事件监听器
+        TrayIcon icon;
+        String osName = System.getProperty("os.name").toLowerCase();
+        if (osName.contains("win")) {
+            WinChatTrayIcon trayIcon = new WinChatTrayIcon(unread);
+            icon = new TrayIcon(trayIcon.getImage(), account);
+        } else {
+            MacChatTrayIcon trayIcon = new MacChatTrayIcon(unread);
+            icon = new TrayIcon(trayIcon.getImage(), account);
+        }
+        // 添加鼠标事件监听器
         icon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
