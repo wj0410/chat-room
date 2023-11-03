@@ -17,7 +17,7 @@ public class ClientApplication {
 
     public static void startClient() {
         // 加载配置文件
-        ClientHolder.clientProperties = ConfigUtil.loadYaml("client-test.yml", ClientProperties.class);
+        ClientHolder.clientProperties = ConfigUtil.loadYaml("client.yml", ClientProperties.class);
         new LoginUI();
     }
 }
