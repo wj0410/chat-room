@@ -19,8 +19,7 @@ public class ServerApplication {
 
     public static void startServer(AbstractServerUI ui) {
         // 加载配置文件
-        ServerProperties serverProperties = ConfigUtil.loadYaml("server.yml", ServerProperties.class);
-        ServerHolder.serverProperties = serverProperties;
+        ServerHolder.serverProperties = ConfigUtil.loadYaml("server.yml", ServerProperties.class);
         // 运行
         ui.run();
     }
