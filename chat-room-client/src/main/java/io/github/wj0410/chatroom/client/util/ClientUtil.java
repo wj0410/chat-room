@@ -100,7 +100,7 @@ public class ClientUtil {
                     // 先缩放图片
                     Image image = ImageUtil.getScaledIcon(imageIcon).getImage();
                     // 压缩图片
-                    byte[] imageData = ImageUtil.compressImage(image, ImageUtil.getImageFormatName(image), 0.1f);
+                    byte[] imageData = ImageUtil.compressImage(image, ImageUtil.getImageFormatName(image), 0.9f);
                     containerList.add(new MessageContainer(null, imageData));
                 }
             } else {
