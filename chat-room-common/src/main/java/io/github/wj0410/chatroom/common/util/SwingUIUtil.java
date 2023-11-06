@@ -187,7 +187,7 @@ public class SwingUIUtil {
             }
             // 图片
             ImageIcon icon = new ImageIcon(image);
-            SwingUIUtil.buildImageStyle(doc, getScaledIcon(icon), self);
+            SwingUIUtil.buildImageStyle(doc, ImageUtil.getScaledIcon(icon), self);
             doc.insertString(doc.getLength(), CommonConstants.PLACE_HOLDER_IMAGE + "\n", doc.getStyle(SwingUIUtil.IMAGE_STYLE_NAME));
 
             // 将段落样式应用到指定范围内的文本
@@ -263,35 +263,5 @@ public class SwingUIUtil {
         }
     }
 
-    /**
-     * 缩放图片
-     * @param icon
-     * @return
-     */
-    private static ImageIcon getScaledIcon(ImageIcon icon) {
-        // 获取插入图片的原始尺寸
-        int originalWidth = icon.getIconWidth();
-        int originalHeight = icon.getIconHeight();
-        // 判断原始尺寸是否超过200x200
-        boolean isOverMaxSize = originalWidth > 730 || originalHeight > 400;
-        if (isOverMaxSize) {
-            // 计算缩放比例
-            // 超过最大尺寸，进行缩放
-            // 计算缩放比例
-            // 最大宽度
-            int maxWidth = 730;
-            // 最大高度
-            int maxHeight = 400;
-            double widthRatio = (double) maxWidth / originalWidth;
-            double heightRatio = (double) maxHeight / originalHeight;
-            double scaleRatio = Math.min(widthRatio, heightRatio);
 
-            // 根据缩放比例调整图片尺寸
-            int scaledWidth = (int) (originalWidth * scaleRatio);
-            int scaledHeight = (int) (originalHeight * scaleRatio);
-            Image scaledImage = icon.getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
-            return new ImageIcon(scaledImage);
-        }
-        return icon;
-    }
 }

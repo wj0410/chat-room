@@ -1,4 +1,4 @@
 client:
-  version: 1.1
+  version: 1.2
 server:
   address: 127.0.0.1:5678
