@@ -224,7 +224,7 @@ public class ChatRoomUI {
         {
             chatJFrame.setTitle("\u804a\u5929\u5ba4");
             chatJFrame.setPreferredSize(new Dimension(1083, 824));
-            chatJFrame.setMinimumSize(new Dimension(950, 750));
+            chatJFrame.setMinimumSize(new Dimension(980, 750));
             chatJFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
@@ -298,7 +298,7 @@ public class ChatRoomUI {
                         .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
-                            .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+                            .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
                             .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                         .addContainerGap())
             );
@@ -314,7 +314,7 @@ public class ChatRoomUI {
                                 .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
             );
-            chatJFrame.setSize(660, 490);
+            chatJFrame.setSize(735, 490);
             chatJFrame.setLocationRelativeTo(chatJFrame.getOwner());
         }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
