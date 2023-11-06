@@ -298,7 +298,7 @@ public class ChatRoomUI {
                         .addComponent(scrollPane3, GroupLayout.PREFERRED_SIZE, 194, GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(chatJFrameContentPaneLayout.createParallelGroup()
-                            .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                            .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
                             .addComponent(scrollPane4, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                         .addContainerGap())
             );
@@ -314,7 +314,7 @@ public class ChatRoomUI {
                                 .addComponent(scrollPane2, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
             );
-            chatJFrame.setSize(640, 490);
+            chatJFrame.setSize(660, 490);
             chatJFrame.setLocationRelativeTo(chatJFrame.getOwner());
         }
         // JFormDesigner - End of component initialization  //GEN-END:initComponents  @formatter:on
@@ -323,7 +323,7 @@ public class ChatRoomUI {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     public JFrame chatJFrame;
     private JScrollPane scrollPane2;
-    private CustomTextPane sendPane;
+    private JTextPane sendPane;
     private JScrollPane scrollPane3;
     private JList onlineList;
     private JScrollPane scrollPane4;

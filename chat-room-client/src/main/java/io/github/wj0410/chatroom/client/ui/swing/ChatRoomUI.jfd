@@ -4,7 +4,7 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane3:::p:194:p, space :::p, par l {comp scrollPane2::::426:x, comp scrollPane4::::0:x}, space :::p}}"
+			"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane3:::p:194:p, space :::p, par l {comp scrollPane2::::446:x, comp scrollPane4::::0:x}, space :::p}}"
 			"$verticalGroup": "par l {seq l {space :::p, par l {comp scrollPane3::::447:x, seq {comp scrollPane4::::248:x, space :::p, comp scrollPane2:::p:193:p}}, space :::p}}"
 		} ) {
 			name: "chatJFrame"
@@ -53,7 +53,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 640, 490 )
+			"size": new java.awt.Dimension( 660, 490 )
 		} )
 	}
 }
