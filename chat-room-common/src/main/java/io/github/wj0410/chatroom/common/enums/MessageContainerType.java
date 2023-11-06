@@ -4,14 +4,14 @@ package io.github.wj0410.chatroom.common.enums;
  * @author wangjie
  */
 
-public enum ChatType {
+public enum MessageContainerType {
     /**
-     * 聊天室
+     * 文本
      */
-    PUBLIC,
+    TEXT,
     /**
-     * 私聊
+     * 图片
      */
-    PRIVATE,
+    IMAGE,
     ;
 }

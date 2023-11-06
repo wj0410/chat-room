@@ -1,5 +1,6 @@
 package io.github.wj0410.chatroom.server.util;
 
+import io.github.wj0410.chatroom.common.constant.CommonConstants;
 import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.message.*;
 import io.github.wj0410.chatroom.common.model.ClientModel;
@@ -92,7 +93,7 @@ public class ServerUtil extends ServerData {
         ClientModel client = ServerUtil.getClientModelMap().get(clientId);
         if (client != null) {
             WelcomeMessage welcomeMessage = new WelcomeMessage();
-            welcomeMessage.setMsg(client.getUserName() + " 进入了聊天室");
+            welcomeMessage.setMsg(String.format(CommonConstants.WELCOME_PROMPT_OTHER, client.getUserName()));
             welcomeMessage.setClientId(clientId);
             String welcomeMessageJsonStr = MessageUtil.createWelcomeMessageJsonStr(welcomeMessage);
             for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
@@ -131,7 +132,7 @@ public class ServerUtil extends ServerData {
             clientOnlineList.forEach(item -> {
                 item.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
             });
-            log.info("服务端向客户端 {} 转发消息：{}", clientOnlineList.toString(), normalMessageJsonStr);
+            log.info("服务端向客户端 {} 转发消息：{}", clientOnlineList.toString(), normalMessage.toString());
         } else if (chatType.equals(ChatType.PRIVATE)) {
             // 私聊消息
             targetClientIds.forEach(item -> {
@@ -139,13 +140,13 @@ public class ServerUtil extends ServerData {
                 ClientModel clientModel = clientModelMap.get(item);
                 if (clientModel != null) {
                     clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
-                    log.info("服务端向客户端 {} 转发消息：{}", targetClientIds.toString(), normalMessageJsonStr);
+                    log.info("服务端向客户端 {} 转发消息：{}", targetClientIds.toString(), normalMessage.toString());
                 } else {
-                    log.info("客户端[{}]已下线，消息停止转发：{}", item, normalMessageJsonStr);
+                    log.info("客户端[{}]已下线，消息停止转发：{}", item, normalMessage.toString());
                 }
             });
         } else {
-            log.info("未知消息类型，服务端无法转发。" + normalMessage.toString());
+            log.info("未知消息类型ChatType，服务端无法转发。" + normalMessage.toString());
         }
     }
 

@@ -21,7 +21,7 @@ public class ClientWelcomeHandler extends SimpleChannelInboundHandler<WelcomeMes
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, WelcomeMessage message) {
-        log.info("client: 读取到服务端欢迎消息：{}", message);
+        log.info("client: 读取到服务端欢迎消息：{}", message.toString());
         SwingUIUtil.drawWelcomeRecvPane(message,ClientHolder.chatRoomUI.getRecvPane(),message.getClientId().equals(ClientHolder.clientInfo.getClientId()) ? 1 : 0);
     }
 

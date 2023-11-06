@@ -60,7 +60,7 @@ public class PrivateChatUI {
                 // 清空发送框
                 sendPane.setText("");
                 // 发送私聊消息
-                NormalMessage normalMessage = ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, ChatType.PRIVATE, Arrays.asList(this.targetClient.getClientId()));
+                NormalMessage normalMessage = ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), ClientUtil.processTextPane(sendPane), ChatType.PRIVATE, Arrays.asList(this.targetClient.getClientId()));
                 // 渲染接收区域
                 SwingUIUtil.drawRecvPane(normalMessage, this.recvPane, 1);
             }

@@ -7,6 +7,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 import java.nio.charset.Charset;
+import java.util.Base64;
 import java.util.List;
 
 import static io.github.wj0410.chatroom.common.enums.MessageType.*;
@@ -87,4 +88,13 @@ public class MessageUtil {
         return buf.toString(Charset.forName("UTF-8"));
     }
 
+    public static String convertByteArrayToString(byte[] byteArray) {
+        String encodedString = Base64.getEncoder().encodeToString(byteArray);
+        return encodedString;
+    }
+
+    public static byte[] convertStringToByteArray(String str) {
+        byte[] byteArray = Base64.getDecoder().decode(str);
+        return byteArray;
+    }
 }

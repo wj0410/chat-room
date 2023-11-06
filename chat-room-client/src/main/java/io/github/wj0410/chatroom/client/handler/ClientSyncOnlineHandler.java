@@ -18,7 +18,7 @@ public class ClientSyncOnlineHandler extends SimpleChannelInboundHandler<SyncOnl
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, SyncOnlineMessage message) throws InterruptedException {
-        log.info("client: 读取到服务端同步在线列表消息：{}", message);
+        log.info("client: 读取到服务端同步在线列表消息：{}", message.toString());
         LinkedList<ClientModel> clientOnlineList = message.getClientOnlineList();
         /**
          * 这里睡眠100毫秒是因为登录时无法实时拿到服务器回传消息，导致消息有延迟

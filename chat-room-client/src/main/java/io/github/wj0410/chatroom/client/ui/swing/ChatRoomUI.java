@@ -9,6 +9,7 @@ import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.ui.swing.model.OnlineModel;
 import io.github.wj0410.chatroom.client.ui.swing.style.OnlineListCellRenderer;
 import io.github.wj0410.chatroom.client.ui.swing.style.WrapEditorKit;
+import io.github.wj0410.chatroom.client.ui.swing.custom.CustomTextPane;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.client.util.TrayUtil;
 import io.github.wj0410.chatroom.common.enums.ChatType;
@@ -192,7 +193,7 @@ public class ChatRoomUI {
             String sendContent = sendPane.getText();
             if (StringUtils.isNotBlank(sendContent)) {
                 // 发送消息
-                ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), sendContent, ChatType.PUBLIC, null);
+                ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), ClientUtil.processTextPane(sendPane), ChatType.PUBLIC, null);
                 // 清空发送框
                 sendPane.setText("");
             }
@@ -213,7 +214,7 @@ public class ChatRoomUI {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents  @formatter:off
         chatJFrame = new JFrame();
         scrollPane2 = new JScrollPane();
-        sendPane = new JTextPane();
+        sendPane = new CustomTextPane();
         scrollPane3 = new JScrollPane();
         onlineList = new JList();
         scrollPane4 = new JScrollPane();
@@ -322,7 +323,7 @@ public class ChatRoomUI {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables  @formatter:off
     public JFrame chatJFrame;
     private JScrollPane scrollPane2;
-    private JTextPane sendPane;
+    private CustomTextPane sendPane;
     private JScrollPane scrollPane3;
     private JList onlineList;
     private JScrollPane scrollPane4;
