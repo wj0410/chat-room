@@ -2,6 +2,7 @@ package io.github.wj0410.chatroom.server.util;
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
 import io.github.wj0410.chatroom.common.enums.ChatType;
+import io.github.wj0410.chatroom.common.enums.PromptType;
 import io.github.wj0410.chatroom.common.message.*;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
@@ -92,16 +93,33 @@ public class ServerUtil extends ServerData {
     public static void sendWelcomeMessage(String clientId) {
         ClientModel client = ServerUtil.getClientModelMap().get(clientId);
         if (client != null) {
-            WelcomeMessage welcomeMessage = new WelcomeMessage();
-            welcomeMessage.setMsg(String.format(CommonConstants.WELCOME_PROMPT_OTHER, client.getUserName()));
-            welcomeMessage.setClientId(clientId);
-            String welcomeMessageJsonStr = MessageUtil.createWelcomeMessageJsonStr(welcomeMessage);
+            PromptMessage promptMessage = new PromptMessage();
+            promptMessage.setPromptType(PromptType.WELCOME);
+            promptMessage.setMsg(String.format(CommonConstants.WELCOME_PROMPT_OTHER, client.getUserName()));
+            promptMessage.setClientId(clientId);
+            String welcomeMessageJsonStr = MessageUtil.createPromptMessageJsonStr(promptMessage);
             for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
                 clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(welcomeMessageJsonStr));
             }
             log.info("服务端向所有客户端发送欢迎消息：{}", welcomeMessageJsonStr);
         }
     }
+
+    /**
+     * 服务端发送leave消息
+     */
+    public static void sendLeaveMessage(String clientId, String userName) {
+        PromptMessage promptMessage = new PromptMessage();
+        promptMessage.setPromptType(PromptType.LEAVE);
+        promptMessage.setMsg(String.format(CommonConstants.LEAVE_PROMPT_OTHER, userName));
+        promptMessage.setClientId(clientId);
+        String leaveMessageJsonStr = MessageUtil.createPromptMessageJsonStr(promptMessage);
+        for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
+            clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(leaveMessageJsonStr));
+        }
+        log.info("服务端向所有客户端发送离开消息：{}", leaveMessageJsonStr);
+    }
+
 
     /**
      * 服务端发送refuse消息

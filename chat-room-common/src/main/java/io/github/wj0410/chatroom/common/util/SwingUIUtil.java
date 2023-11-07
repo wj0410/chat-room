@@ -2,8 +2,9 @@ package io.github.wj0410.chatroom.common.util;
 
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
+import io.github.wj0410.chatroom.common.enums.PromptType;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
-import io.github.wj0410.chatroom.common.message.WelcomeMessage;
+import io.github.wj0410.chatroom.common.message.PromptMessage;
 import io.github.wj0410.chatroom.common.model.MessageContainer;
 
 import javax.imageio.ImageIO;
@@ -233,14 +234,19 @@ public class SwingUIUtil {
     /**
      * 回显接收到的服务器消息
      *
-     * @param welcomeMessage
+     * @param promptMessage
      * @param recvPane
      */
-    public static void drawWelcomeRecvPane(WelcomeMessage welcomeMessage, JTextPane recvPane, int self) {
+    public static void drawPromptMsgRecvPane(PromptMessage promptMessage, JTextPane recvPane, int self) {
         StyledDocument doc = recvPane.getStyledDocument();
-        String timestampContent = "\n" + DateUtil.convertTimestampToString(welcomeMessage.getTimestamp()) + "\n";
-        String welcomeContent = self == 1 ? CommonConstants.WELCOME_PROMPT_SELF : welcomeMessage.getMsg();
-        welcomeContent += "\n";
+        String timestampContent = "\n" + DateUtil.convertTimestampToString(promptMessage.getTimestamp()) + "\n";
+        String promptContent = "";
+        if (promptMessage.getPromptType().equals(PromptType.WELCOME)) {
+            promptContent = self == 1 ? CommonConstants.WELCOME_PROMPT_SELF : promptMessage.getMsg();
+        } else {
+            promptContent = promptMessage.getMsg();
+        }
+        promptContent += "\n";
         // 创建段落样式
         MutableAttributeSet alignStyle = new SimpleAttributeSet();
         // 居中
@@ -251,7 +257,7 @@ public class SwingUIUtil {
             doc.insertString(doc.getLength(), timestampContent, doc.getStyle(SwingUIUtil.TIMESTAMP_STYLE_NAME));
 
             SwingUIUtil.buildWelcomeStyle(doc);
-            doc.insertString(doc.getLength(), welcomeContent, doc.getStyle(SwingUIUtil.WELCOME_STYLE_NAME));
+            doc.insertString(doc.getLength(), promptContent, doc.getStyle(SwingUIUtil.WELCOME_STYLE_NAME));
 
             // 将段落样式应用到指定范围内的文本
             doc.setParagraphAttributes(alignStart, doc.getLength() - alignStart, alignStyle, false);

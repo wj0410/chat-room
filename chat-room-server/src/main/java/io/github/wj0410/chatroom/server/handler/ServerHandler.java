@@ -1,5 +1,6 @@
 package io.github.wj0410.chatroom.server.handler;
 
+import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.util.ServerUtil;
@@ -23,13 +24,16 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+        ClientModel clientModel = ServerUtil.getClientModel(ctx);
         String formatClient = ServerUtil.formatClientAccount(ctx);
         ServerUtil.removeClient(ctx);
+        // 给所有客户端发送同步在线列表消息
+        ServerUtil.sendSyncOnlineMessage();
+        // 给所有客户端发送离开消息
+        ServerUtil.sendLeaveMessage(clientModel.getClientId(), clientModel.getUserName());
         if (ServerHolder.serverUI != null) {
             ServerHolder.serverUI.printConsole(String.format("客户端 %s 下线了...", formatClient));
             ServerHolder.serverUI.flushClientOnlineList();
-            // 给所有客户端发送同步在线列表消息
-            ServerUtil.sendSyncOnlineMessage();
         }
     }
 

@@ -8,7 +8,7 @@ public enum MessageType {
     BIND,
     NORMAL,
     SYNC_ONLINE,
-    WELCOME,
+    PROMPT,
     REFUSE
     ;
 }

@@ -2,7 +2,6 @@ package io.github.wj0410.chatroom.client.handler;
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.common.message.RefuseMessage;
-import io.github.wj0410.chatroom.common.message.WelcomeMessage;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

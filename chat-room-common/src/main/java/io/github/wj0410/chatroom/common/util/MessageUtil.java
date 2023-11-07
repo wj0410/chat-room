@@ -8,7 +8,6 @@ import io.netty.buffer.Unpooled;
 
 import java.nio.charset.Charset;
 import java.util.Base64;
-import java.util.List;
 
 import static io.github.wj0410.chatroom.common.enums.MessageType.*;
 
@@ -39,10 +38,10 @@ public class MessageUtil {
         return JSON.toJSONString(message);
     }
 
-    public static String createWelcomeMessageJsonStr(WelcomeMessage welcomeMessage) {
-        Message<WelcomeMessage> message = new Message();
-        message.setType(WELCOME);
-        message.setData(welcomeMessage);
+    public static String createPromptMessageJsonStr(PromptMessage promptMessage) {
+        Message<PromptMessage> message = new Message();
+        message.setType(PROMPT);
+        message.setData(promptMessage);
         return JSON.toJSONString(message);
     }
 
@@ -67,9 +66,9 @@ public class MessageUtil {
             case SYNC_ONLINE:
                 SyncOnlineMessage syncOnlineMessage = JSON.parseObject(data, SyncOnlineMessage.class);
                 return syncOnlineMessage;
-            case WELCOME:
-                WelcomeMessage welcomeMessage = JSON.parseObject(data, WelcomeMessage.class);
-                return welcomeMessage;
+            case PROMPT:
+                PromptMessage promptMessage = JSON.parseObject(data, PromptMessage.class);
+                return promptMessage;
             case REFUSE:
                 RefuseMessage refuseMessage = JSON.parseObject(data, RefuseMessage.class);
                 return refuseMessage;

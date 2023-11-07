@@ -1,5 +1,6 @@
 package io.github.wj0410.chatroom.common.message;
 
+import io.github.wj0410.chatroom.common.enums.PromptType;
 import lombok.Data;
 
 /**
@@ -7,18 +8,22 @@ import lombok.Data;
  * @date 2023/10/26
  */
 @Data
-public class WelcomeMessage {
+public class PromptMessage {
+    private PromptType promptType;
     private String clientId;
     private String msg;
     private long timestamp;
 
-    public WelcomeMessage(){
+
+    public PromptMessage(){
         this.timestamp = System.currentTimeMillis();
     }
+
     @Override
     public String toString() {
-        return "WelcomeMessage{" +
-                "clientId='" + clientId + '\'' +
+        return "PromptMessage{" +
+                "promptType=" + promptType +
+                ", clientId='" + clientId + '\'' +
                 ", msg='" + msg + '\'' +
                 ", timestamp=" + timestamp +
                 '}';

@@ -42,7 +42,7 @@ public class NettyClient {
                                 new JsonObjectDecoder(),
                                 new ClientHandler(),
                                 new ClientSyncOnlineHandler(),
-                                new ClientWelcomeHandler(),
+                                new ClientPromptHandler(),
                                 new ClientRefuseHandler(),
                                 new ClientNormalHandler()
                         );
