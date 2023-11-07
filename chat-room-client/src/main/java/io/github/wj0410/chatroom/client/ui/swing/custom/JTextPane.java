@@ -21,9 +21,9 @@ import java.io.IOException;
  * 自定义TextPane
  * @author wangjie
  */
-public class CustomTextPane extends JTextPane {
-    public CustomTextPane() {
-        CustomTextPane textPane = this;
+public class JTextPane extends javax.swing.JTextPane {
+    public JTextPane() {
+        JTextPane textPane = this;
 
         textPane.addMouseListener(new MouseAdapter() {
             @Override

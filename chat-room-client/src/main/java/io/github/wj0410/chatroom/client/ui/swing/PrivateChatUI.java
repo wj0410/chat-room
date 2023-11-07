@@ -46,6 +46,18 @@ public class PrivateChatUI {
         return recvPane;
     }
 
+    private void resetSendPane() {
+        // 清空发送框
+        sendPane.setText("");
+        // 将光标位置设置为0
+        sendPane.setCaretPosition(0);
+        // 清除掉发送框滚动条
+        JScrollBar verticalScrollBar = scrollPane2.getVerticalScrollBar();
+        scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        // 将滚动条位置设置为0
+        verticalScrollBar.setValue(0);
+    }
+
     private void sendPaneKeyPressed(KeyEvent e) {
         if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
             // ctrl+回车切换下一行
@@ -57,12 +69,12 @@ public class PrivateChatUI {
             e.consume(); // 停止事件的默认行为
             String sendContent = sendPane.getText();
             if (StringUtils.isNotBlank(sendContent)) {
-                // 清空发送框
-                sendPane.setText("");
                 // 发送私聊消息
                 NormalMessage normalMessage = ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(), ClientUtil.processTextPane(sendPane), ChatType.PRIVATE, Arrays.asList(this.targetClient.getClientId()));
                 // 渲染接收区域
                 SwingUIUtil.drawRecvPane(normalMessage, this.recvPane, 1);
+                // 重置发送框
+                resetSendPane();
             }
         }
     }

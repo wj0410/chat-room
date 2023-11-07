@@ -31,36 +31,41 @@ public class ClientNormalHandler extends SimpleChannelInboundHandler<NormalMessa
         // 在UI消息区域显示消息
         String fromClientId = normalMessage.getFromClientId();
         ChatType chatType = normalMessage.getChatType();
-        if (chatType.equals(ChatType.PUBLIC)) {
+        switch (chatType) {
             // 聊天室
-            int self = fromClientId.equals(ClientHolder.clientInfo.getClientId()) ? 1 : 0;
-            SwingUIUtil.drawRecvPane(normalMessage, ClientHolder.chatRoomUI.getRecvPane(), self);
-            if (!ClientHolder.chatRoomUI.getSendPane().isFocusOwner()) {
-                // 如果没有聚焦，绘制系统托盘
-                TrayUtil.noticeTray(true, ClientHolder.clientInfo.getAccount());
-            }
-        } else if (chatType.equals(ChatType.PRIVATE)) {
-            // 私聊消息
-            PrivateChatUI privateChatUI = ClientHolder.privateChatUIMap.get(fromClientId);
-            if (privateChatUI == null) {
-                OnlineModel onlineModel = ClientHolder.chatRoomUI.getOnlineModel(fromClientId);
-                if (onlineModel == null) {
-                    log.error("ERROR: clientId:{} 不在chatRoomUI.onlineList中！", fromClientId);
-                    return;
-                }
-                privateChatUI = new PrivateChatUI(onlineModel);
-            }
-            SwingUIUtil.drawRecvPane(normalMessage, privateChatUI.getRecvPane(), 0);
-            if (!privateChatUI.isShow()) {
-                // 私聊窗口未开启
-                // 未读消息+1
-                ClientHolder.chatRoomUI.flushUnread(fromClientId);
-                // 如果聊天室也没有鼠标焦点
+            case PUBLIC:
+                int self = fromClientId.equals(ClientHolder.clientInfo.getClientId()) ? 1 : 0;
+                SwingUIUtil.drawRecvPane(normalMessage, ClientHolder.chatRoomUI.getRecvPane(), self);
                 if (!ClientHolder.chatRoomUI.getSendPane().isFocusOwner()) {
                     // 如果没有聚焦，绘制系统托盘
                     TrayUtil.noticeTray(true, ClientHolder.clientInfo.getAccount());
                 }
-            }
+                break;
+            // 私聊消息
+            case PRIVATE:
+                PrivateChatUI privateChatUI = ClientHolder.privateChatUIMap.get(fromClientId);
+                if (privateChatUI == null) {
+                    OnlineModel onlineModel = ClientHolder.chatRoomUI.getOnlineModel(fromClientId);
+                    if (onlineModel == null) {
+                        log.error("ERROR: clientId:{} 不在chatRoomUI.onlineList中！", fromClientId);
+                        return;
+                    }
+                    privateChatUI = new PrivateChatUI(onlineModel);
+                }
+                SwingUIUtil.drawRecvPane(normalMessage, privateChatUI.getRecvPane(), 0);
+                if (!privateChatUI.isShow()) {
+                    // 私聊窗口未开启
+                    // 未读消息+1
+                    ClientHolder.chatRoomUI.flushUnread(fromClientId);
+                    // 如果聊天室也没有鼠标焦点
+                    if (!ClientHolder.chatRoomUI.getSendPane().isFocusOwner()) {
+                        // 如果没有聚焦，绘制系统托盘
+                        TrayUtil.noticeTray(true, ClientHolder.clientInfo.getAccount());
+                    }
+                }
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + chatType);
         }
     }
 
