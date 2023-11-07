@@ -19,6 +19,7 @@ import java.io.IOException;
 
 /**
  * 自定义TextPane
+ *
  * @author wangjie
  */
 public class JTextPane extends javax.swing.JTextPane {
@@ -37,7 +38,7 @@ public class JTextPane extends javax.swing.JTextPane {
             }
 
             private void showPopupMenu(MouseEvent e) {
-                if (e.isPopupTrigger()) {
+                if (e.isPopupTrigger() && textPane.isEditable()) {
                     JPopupMenu menu = createPopupMenu();
                     menu.show(e.getComponent(), e.getX(), e.getY());
                 }
