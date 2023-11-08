@@ -205,7 +205,7 @@ public class ChatRoomUI {
             String sendContent = sendPane.getText();
             if (StringUtils.isNotBlank(sendContent)) {
                 // 发送消息
-                ClientUtil.sendNormalMessage(ClientHolder.clientInfo.getCtx(),
+                ClientUtil.sendNormalMessage(ClientHolder.clientInfo,
                         ClientUtil.processSendTextPane(sendPane), ChatType.PUBLIC, null);
                 // 重置发送框
                 resetSendPane();

@@ -2,6 +2,7 @@ package io.github.wj0410.chatroom.server.util;
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
 import io.github.wj0410.chatroom.common.enums.ChatType;
+import io.github.wj0410.chatroom.common.enums.ClientOrigin;
 import io.github.wj0410.chatroom.common.enums.PromptType;
 import io.github.wj0410.chatroom.common.message.*;
 import io.github.wj0410.chatroom.common.model.ClientModel;
@@ -39,6 +40,7 @@ public class ServerUtil extends ServerData {
 
     public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage) {
         ClientModel clientModel = new ClientModel();
+        clientModel.setClientOrigin(ClientOrigin.SWING);
         clientModel.setClientId(bindMessage.getClientId());
         clientModel.setAccount(bindMessage.getAccount());
         clientModel.setUserName(bindMessage.getUserName());
@@ -82,7 +84,7 @@ public class ServerUtil extends ServerData {
         syncOnlineMessage.setClientOnlineList(newList);
         String syncOnlineMessageJsonStr = MessageUtil.createSyncOnlineMessageJsonStr(syncOnlineMessage);
         for (ClientModel clientModel : clientOnlineList) {
-            clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(syncOnlineMessageJsonStr));
+            clientModel.writeAndFlush(syncOnlineMessageJsonStr);
         }
         log.info("服务端向所有客户端发送同步在线列表消息：{}", syncOnlineMessageJsonStr);
     }
@@ -99,7 +101,7 @@ public class ServerUtil extends ServerData {
             promptMessage.setClientId(clientId);
             String welcomeMessageJsonStr = MessageUtil.createPromptMessageJsonStr(promptMessage);
             for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
-                clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(welcomeMessageJsonStr));
+                clientModel.writeAndFlush(welcomeMessageJsonStr);
             }
             log.info("服务端向所有客户端发送欢迎消息：{}", welcomeMessageJsonStr);
         }
@@ -115,7 +117,7 @@ public class ServerUtil extends ServerData {
         promptMessage.setClientId(clientId);
         String leaveMessageJsonStr = MessageUtil.createPromptMessageJsonStr(promptMessage);
         for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
-            clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(leaveMessageJsonStr));
+            clientModel.writeAndFlush(leaveMessageJsonStr);
         }
         log.info("服务端向所有客户端发送离开消息：{}", leaveMessageJsonStr);
     }
@@ -131,9 +133,8 @@ public class ServerUtil extends ServerData {
             refuseMessage.setMsg(msg);
             refuseMessage.setClientId(clientId);
             String refuseMessageJsonStr = MessageUtil.createRefuseMessageJsonStr(refuseMessage);
-            ChannelHandlerContext ctx = getClientModelByClientId(clientId).getCtx();
             // 发送拒绝消息，并关闭连接
-            ctx.writeAndFlush(MessageUtil.convert2ByteBuf(refuseMessageJsonStr)).addListener(ChannelFutureListener.CLOSE);
+            client.writeAndFlush(refuseMessageJsonStr).addListener(ChannelFutureListener.CLOSE);
         }
     }
 
@@ -148,7 +149,7 @@ public class ServerUtil extends ServerData {
             // 聊天室消息
             LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
             clientOnlineList.forEach(item -> {
-                item.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
+                item.writeAndFlush(normalMessageJsonStr);
             });
             log.info("服务端向客户端 {} 转发消息：{}", clientOnlineList.toString(), normalMessage.toString());
         } else if (chatType.equals(ChatType.PRIVATE)) {
@@ -157,7 +158,7 @@ public class ServerUtil extends ServerData {
                 ConcurrentHashMap<String, ClientModel> clientModelMap = ServerUtil.getClientModelMap();
                 ClientModel clientModel = clientModelMap.get(item);
                 if (clientModel != null) {
-                    clientModel.getCtx().writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
+                    clientModel.writeAndFlush(normalMessageJsonStr);
                     log.info("服务端向客户端 {} 转发消息：{}", targetClientIds.toString(), normalMessage.toString());
                 } else {
                     log.info("客户端[{}]已下线，消息停止转发：{}", item, normalMessage.toString());

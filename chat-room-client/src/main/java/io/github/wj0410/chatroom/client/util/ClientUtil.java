@@ -6,6 +6,7 @@ import io.github.wj0410.chatroom.common.constant.CommonConstants;
 import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
+import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.model.MessageContainer;
 import io.github.wj0410.chatroom.common.util.ImageUtil;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
@@ -49,25 +50,25 @@ public class ClientUtil {
     /**
      * 给服务端发送绑定消息
      *
-     * @param ctx
+     * @param clientModel
      * @param bindMessage
      */
-    public static void sendBindMessage(ChannelHandlerContext ctx, BindMessage bindMessage) {
+    public static void sendBindMessage(ClientModel clientModel, BindMessage bindMessage) {
         String bindMessageJsonStr = MessageUtil.createBindMessageJsonStr(bindMessage);
-        ctx.writeAndFlush(MessageUtil.convert2ByteBuf(bindMessageJsonStr));
+        clientModel.writeAndFlush(bindMessageJsonStr);
         log.info("客户端向服务端发送绑定ChannelId请求，{}", bindMessageJsonStr);
     }
 
     /**
      * 给服务端发送普通消息
      *
-     * @param ctx
+     * @param clientModel
      * @param msg
      * @param chatType
      * @param targetClientList
      * @return
      */
-    public static NormalMessage sendNormalMessage(ChannelHandlerContext ctx, List<MessageContainer> msg, ChatType chatType, List<String> targetClientList) {
+    public static NormalMessage sendNormalMessage(ClientModel clientModel, List<MessageContainer> msg, ChatType chatType, List<String> targetClientList) {
         NormalMessage message = new NormalMessage();
         message.setChatType(chatType);
         message.setMsg(msg);
@@ -76,7 +77,7 @@ public class ClientUtil {
         message.setFromUserName(ClientHolder.clientInfo.getUserName());
         message.setTargetClientIds(targetClientList);
         String normalMessageJsonStr = MessageUtil.createNormalMessageJsonStr(message);
-        ctx.writeAndFlush(MessageUtil.convert2ByteBuf(normalMessageJsonStr));
+        clientModel.writeAndFlush(normalMessageJsonStr);
         return message;
     }
 

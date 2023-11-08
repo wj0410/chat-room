@@ -4,17 +4,15 @@ import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.*;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author wangjie
  * @date 2023/11/8
  */
+@Slf4j
 public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
-    private static final Logger logger = Logger
-            .getLogger(WebSocketFrameHandler.class.getName());
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
@@ -39,9 +37,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
 
         // 返回应答消息
         String request = ((TextWebSocketFrame) frame).text();
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine(String.format("%s received %s", ctx.channel(), request));
-        }
+        log.info(String.format("received text: %s", request));
         ctx.channel().write(new TextWebSocketFrame(" 收到客户端请求：" + request));
     }
 

@@ -7,6 +7,7 @@ package io.github.wj0410.chatroom.client.ui.swing;
 import io.github.wj0410.chatroom.client.conf.AccountConf;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.netty.NettyClient;
+import io.github.wj0410.chatroom.common.enums.ClientOrigin;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import org.apache.commons.lang.StringUtils;
@@ -59,6 +60,7 @@ public class LoginUI {
     private void loginSuccess(String host, int port, ClientModel sysUser) {
         // 将客户端信息记录到ClientHolder
         ClientHolder.clientInfo = new ClientModel();
+        ClientHolder.clientInfo.setClientOrigin(ClientOrigin.SWING);
         ClientHolder.clientInfo.setAccount(sysUser.getAccount());
         ClientHolder.clientInfo.setUserName(sysUser.getUserName());
         if (connection(host, port)) {
@@ -156,6 +158,7 @@ public class LoginUI {
         }
         String account = sb.toString();
         ClientModel clientModel = new ClientModel();
+        clientModel.setClientOrigin(ClientOrigin.SWING);
         clientModel.setAccount(account);
         clientModel.setUserName("游客-" + account);
         return clientModel;
