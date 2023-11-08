@@ -1,5 +1,7 @@
 package io.github.wj0410.chatroom.websocketserver.netty;
 
+import io.github.wj0410.chatroom.websocketserver.handler.FullHttpRequestHandler;
+import io.github.wj0410.chatroom.websocketserver.handler.WebSocketFrameHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -8,8 +10,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.stream.ChunkedWriteHandler;
-import io.github.wj0410.chatroom.websocketserver.handler.FullHttpRequestHandler;
-import io.github.wj0410.chatroom.websocketserver.handler.WebSocketFrameHandler;
 
 /**
  * @author wangjie
@@ -20,11 +20,6 @@ public class WebSocketServer {
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
     private static volatile WebSocketServer instance;
-
-    public static void main(String[] args) {
-        WebSocketServer instance = WebSocketServer.getInstance(1234);
-        instance.start();
-    }
 
     private WebSocketServer(int port) {
         this.port = port;

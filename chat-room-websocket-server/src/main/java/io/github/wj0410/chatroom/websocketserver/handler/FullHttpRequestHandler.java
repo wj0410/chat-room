@@ -10,7 +10,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.util.CharsetUtil;
 
@@ -36,7 +35,7 @@ public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttp
         }
         // 构造握手响应返回，本机测试
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(
-                "ws://localhost:" + 1234, null, false);
+                "ws://localhost:" + ServerHolder.serverProperties.getServer().getPort(), null, false);
         ServerHolder.handshaker = wsFactory.newHandshaker(req);
         if (ServerHolder.handshaker == null) {
             WebSocketServerHandshakerFactory
@@ -45,6 +44,7 @@ public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttp
             ServerHolder.handshaker.handshake(ctx.channel(), req);
         }
     }
+
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
