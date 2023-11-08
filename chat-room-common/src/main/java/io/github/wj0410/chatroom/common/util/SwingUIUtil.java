@@ -21,6 +21,8 @@ import java.util.List;
  * @date 2023/10/24
  */
 public class SwingUIUtil {
+    public static final int IMAGE_MAX_WIDTH = 700;
+    public static final int IMAGE_MAX_HEIGHT = 400;
     public static final float SPACE_BELOW = 7.0f;
     // 绿色
     public static final Color GREEN_COLOR = new Color(51, 153, 102);
@@ -188,7 +190,7 @@ public class SwingUIUtil {
             }
             // 图片
             ImageIcon icon = new ImageIcon(image);
-            SwingUIUtil.buildImageStyle(doc, ImageUtil.getScaledIcon(icon), self);
+            SwingUIUtil.buildImageStyle(doc, ImageUtil.getScaledIcon(icon, IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT), self);
             doc.insertString(doc.getLength(), CommonConstants.PLACE_HOLDER_IMAGE + "\n", doc.getStyle(SwingUIUtil.IMAGE_STYLE_NAME));
 
             // 将段落样式应用到指定范围内的文本

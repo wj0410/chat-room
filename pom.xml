@@ -20,6 +20,7 @@
         <module>chat-room-client</module>
         <module>chat-room-common</module>
         <module>chat-room-test</module>
+        <module>chat-room-websocket-server</module>
     </modules>
 
     <properties>

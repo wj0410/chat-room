@@ -13,9 +13,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.json.JsonObjectDecoder;
-import io.netty.handler.codec.string.StringEncoder;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * @author wangjie
@@ -74,13 +71,16 @@ public class NettyServer {
                 }
             }
         });
+
     }
 
     public void shutDown() {
         try {
-            channelFuture.channel().close();
+            channelFuture.channel().close().sync();
             ServerHolder.nettyServer = null;
             ServerHolder.serverUI.printConsole("Server：服务已停止！");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             if (workerGroup != null) {
                 workerGroup.shutdownGracefully();

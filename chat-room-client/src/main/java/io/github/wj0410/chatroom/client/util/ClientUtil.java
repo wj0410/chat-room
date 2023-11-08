@@ -9,6 +9,7 @@ import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.model.MessageContainer;
 import io.github.wj0410.chatroom.common.util.ImageUtil;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
+import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -34,7 +35,6 @@ import java.util.List;
  */
 @Slf4j
 public class ClientUtil {
-
 
     /**
      * 格式化展示在线列表
@@ -80,8 +80,7 @@ public class ClientUtil {
         return message;
     }
 
-
-    public static List<MessageContainer> processTextPane(JTextPane textPane) {
+    public static List<MessageContainer> processSendTextPane(JTextPane textPane) {
         StyledDocument doc = textPane.getStyledDocument();
         ElementIterator iterator = new ElementIterator(doc);
         Element element;
@@ -92,13 +91,13 @@ public class ClientUtil {
             }
             AttributeSet attributes = element.getAttributes();
             Object obj = attributes.getAttribute(StyleConstants.IconAttribute);
-
+            // 发送的图片
             if (obj instanceof Icon) {
                 Icon icon = (Icon) obj;
                 if (icon instanceof ImageIcon) {
                     ImageIcon imageIcon = (ImageIcon) icon;
                     // 先缩放图片
-                    Image image = ImageUtil.getScaledIcon(imageIcon).getImage();
+                    Image image = ImageUtil.getScaledIcon(imageIcon, SwingUIUtil.IMAGE_MAX_WIDTH,SwingUIUtil.IMAGE_MAX_HEIGHT).getImage();
                     // 压缩图片
                     byte[] imageData = ImageUtil.compressImage(image, ImageUtil.getImageFormatName(image), 0.9f);
                     containerList.add(new MessageContainer(null, imageData));

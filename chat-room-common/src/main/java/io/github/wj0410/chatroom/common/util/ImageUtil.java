@@ -1,7 +1,5 @@
 package io.github.wj0410.chatroom.common.util;
 
-import org.apache.commons.lang.StringUtils;
-
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -29,20 +27,16 @@ public class ImageUtil {
      * @param icon
      * @return
      */
-    public static ImageIcon getScaledIcon(ImageIcon icon) {
+    public static ImageIcon getScaledIcon(ImageIcon icon, int maxWidth, int maxHeight) {
         // 获取插入图片的原始尺寸
         int originalWidth = icon.getIconWidth();
         int originalHeight = icon.getIconHeight();
         // 判断原始尺寸是否超过200x200
-        boolean isOverMaxSize = originalWidth > 700 || originalHeight > 400;
+        boolean isOverMaxSize = originalWidth > maxWidth || originalHeight > maxHeight;
         if (isOverMaxSize) {
             // 计算缩放比例
             // 超过最大尺寸，进行缩放
             // 计算缩放比例
-            // 最大宽度
-            int maxWidth = 700;
-            // 最大高度
-            int maxHeight = 400;
             double widthRatio = (double) maxWidth / originalWidth;
             double heightRatio = (double) maxHeight / originalHeight;
             double scaleRatio = Math.min(widthRatio, heightRatio);

@@ -63,24 +63,28 @@ public class JTextPane extends javax.swing.JTextPane {
     public void paste() {
         Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
         if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.imageFlavor)) {
-            try {
-                Image image = (Image) transferable.getTransferData(DataFlavor.imageFlavor);
-                if (image != null) {
-                    // 在这里处理获取到的图片，例如插入到文本框中
-                    StyledDocument doc = (StyledDocument) getDocument();
-                    Style style = doc.addStyle("CustomTextPaneStyle", null);
-                    StyleConstants.setIcon(style, new ImageIcon(image));
-                    try {
-                        doc.insertString(doc.getLength(), CommonConstants.PLACE_HOLDER_IMAGE, style);
-                    } catch (BadLocationException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (UnsupportedFlavorException | IOException e) {
-                e.printStackTrace();
-            }
-        } else {
+            imgHandler(transferable);
+        }else{
             super.paste();
+        }
+    }
+
+    private void imgHandler(Transferable transferable){
+        try {
+            Image image = (Image) transferable.getTransferData(DataFlavor.imageFlavor);
+            if (image != null) {
+                // 在这里处理获取到的图片，例如插入到文本框中
+                StyledDocument doc = (StyledDocument) getDocument();
+                Style style = doc.addStyle("CustomTextPaneStyle", null);
+                StyleConstants.setIcon(style, new ImageIcon(image));
+                try {
+                    doc.insertString(doc.getLength(), CommonConstants.PLACE_HOLDER_IMAGE, style);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (UnsupportedFlavorException | IOException e) {
+            e.printStackTrace();
         }
     }
 }
