@@ -1,0 +1,49 @@
+JFDML JFormDesigner: "8.2.0.0.331" Java: "11.0.10" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :::p, par l {comp scrollPane4::::446:x, seq l {comp button2:::p::p, space :0:396:x}, comp scrollPane2::l::446:x}, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp scrollPane4::::209:x, space :::p, comp button2:::p::p, space :::p, comp scrollPane2:::p:184:p, space :::p}}"
+		} ) {
+			name: "privateChatJFrame"
+			"$sizePolicy": 1
+			"preferredSize": new java.awt.Dimension( 700, 824 )
+			"minimumSize": new java.awt.Dimension( 750, 650 )
+			auxiliary() {
+				"JavaCodeGenerator.variableModifiers": 1
+			}
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane4"
+				"horizontalScrollBarPolicy": 31
+				add( new FormComponent( "javax.swing.JTextPane" ) {
+					name: "recvPane"
+					"background": &Color0 new java.awt.Color( 243, 243, 243, 255 )
+					"margin": &Insets0 new java.awt.Insets( 5, 5, 5, 5 )
+					"minimumSize": &Dimension0 new java.awt.Dimension( 426, 248 )
+					"preferredSize": &Dimension1 new java.awt.Dimension( 426, 248 )
+					"editable": false
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane2"
+				add( new FormComponent( "javax.swing.JTextPane" ) {
+					name: "sendPane"
+					"background": #Color0
+					"margin": #Insets0
+					"minimumSize": #Dimension0
+					"preferredSize": #Dimension1
+					addEvent( new FormEvent( "java.awt.event.KeyListener", "keyPressed", "sendPaneKeyPressed", true ) )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "button2"
+				"text": "text"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 15, 0 )
+			"size": new java.awt.Dimension( 460, 475 )
+		} )
+	}
+}
