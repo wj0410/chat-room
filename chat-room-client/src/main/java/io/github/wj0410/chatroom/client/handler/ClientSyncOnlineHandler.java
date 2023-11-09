@@ -7,7 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 
 /**
  * @author wangjie
@@ -19,7 +19,7 @@ public class ClientSyncOnlineHandler extends SimpleChannelInboundHandler<SyncOnl
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, SyncOnlineMessage message) throws InterruptedException {
         log.info("client: 读取到服务端同步在线列表消息：{}", message.toString());
-        LinkedList<ClientModel> clientOnlineList = message.getClientOnlineList();
+        LinkedHashSet<ClientModel> clientOnlineList = message.getClientOnlineList();
         /**
          * 这里睡眠100毫秒是因为登录时无法实时拿到服务器回传消息，导致消息有延迟
          * 可能消息已经过来了，但是登录成功还没来得及生成chatRoomUI对象

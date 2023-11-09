@@ -11,7 +11,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 
 
 /**
@@ -71,7 +71,7 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
 
     private boolean checkLogin(String account) {
         int count = 0;
-        LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
+        LinkedHashSet<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
         for (ClientModel clientModel : clientOnlineList) {
             if (clientModel.getAccount().equals(account)) {
                 count++;

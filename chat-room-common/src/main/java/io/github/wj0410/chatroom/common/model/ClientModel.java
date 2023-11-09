@@ -10,6 +10,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author wangjie
@@ -39,5 +40,22 @@ public class ClientModel implements Serializable {
             default:
                 throw new IllegalStateException("Unexpected clientOrigin: " + clientOrigin);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ClientModel that = (ClientModel) o;
+        return Objects.equals(clientId, that.clientId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(clientId);
     }
 }

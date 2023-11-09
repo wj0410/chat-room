@@ -3,7 +3,7 @@ package io.github.wj0410.chatroom.common.data;
 
 import io.github.wj0410.chatroom.common.model.ClientModel;
 
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -17,14 +17,14 @@ public class ServerData {
      */
     private static ConcurrentHashMap<String, ClientModel> clientModelMap = new ConcurrentHashMap<>();
 
-    private static LinkedList<ClientModel> clientOnlineList = new LinkedList<>();
+    private static LinkedHashSet<ClientModel> clientOnlineList = new LinkedHashSet<>();
 
 
     protected static ConcurrentHashMap<String, ClientModel> getClientModelMap() {
         return clientModelMap;
     }
 
-    protected static LinkedList<ClientModel> getClientOnlineList() {
+    protected static LinkedHashSet<ClientModel> getClientOnlineList() {
         return clientOnlineList;
     }
 }

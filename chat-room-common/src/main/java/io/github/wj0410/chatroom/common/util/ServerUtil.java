@@ -13,7 +13,7 @@ import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,7 +33,7 @@ public class ServerUtil extends ServerData {
         return ServerData.getClientModelMap();
     }
 
-    public static LinkedList<ClientModel> getClientOnlineList() {
+    public static LinkedHashSet<ClientModel> getClientOnlineList() {
         return ServerData.getClientOnlineList();
     }
 
@@ -55,8 +55,8 @@ public class ServerUtil extends ServerData {
     public static void removeClient(ChannelHandlerContext ctx) {
         String clientId = getClientId(ctx);
         ConcurrentHashMap<String, ClientModel> clientModelMap = ServerData.getClientModelMap();
-        LinkedList<ClientModel> clientOnlineList = ServerData.getClientOnlineList();
-        clientOnlineList.remove(clientModelMap.get(clientId));
+        LinkedHashSet<ClientModel> clientOnlineList = ServerData.getClientOnlineList();
+        clientOnlineList.removeIf(item -> item.getClientId().equals(clientId));
         clientModelMap.remove(clientId);
     }
 
@@ -78,8 +78,8 @@ public class ServerUtil extends ServerData {
     public static void sendSyncOnlineMessage() {
         // 服务端向所有客户端发送同步在线列表消息
         SyncOnlineMessage syncOnlineMessage = new SyncOnlineMessage();
-        LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
-        LinkedList<ClientModel> newList = new LinkedList<>();
+        LinkedHashSet<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
+        LinkedHashSet<ClientModel> newList = new LinkedHashSet<>();
         for (ClientModel clientModel : clientOnlineList) {
             ClientModel client = new ClientModel();
             BeanUtils.copyProperties(clientModel, client);
@@ -151,7 +151,7 @@ public class ServerUtil extends ServerData {
         ChatType chatType = normalMessage.getChatType();
         if (chatType.equals(ChatType.PUBLIC)) {
             // 聊天室消息
-            LinkedList<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
+            LinkedHashSet<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
             clientOnlineList.forEach(item -> {
                 item.writeAndFlush(normalMessageJsonStr);
             });

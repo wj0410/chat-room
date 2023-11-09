@@ -6,10 +6,10 @@ package io.github.wj0410.chatroom.client.ui.swing;
 
 
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
+import io.github.wj0410.chatroom.client.ui.swing.custom.JTextPane;
 import io.github.wj0410.chatroom.client.ui.swing.model.OnlineModel;
 import io.github.wj0410.chatroom.client.ui.swing.style.OnlineListCellRenderer;
 import io.github.wj0410.chatroom.client.ui.swing.style.WrapEditorKit;
-import io.github.wj0410.chatroom.client.ui.swing.custom.JTextPane;
 import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.client.util.TrayUtil;
 import io.github.wj0410.chatroom.common.enums.ChatType;
@@ -22,7 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 
 /**
  * @author wangjie
@@ -66,7 +66,7 @@ public class ChatRoomUI {
      *
      * @param clientModelLinkedList
      */
-    public void flushOnlineModelList(LinkedList<ClientModel> clientModelLinkedList) {
+    public void flushOnlineModelList(LinkedHashSet<ClientModel> clientModelLinkedList) {
         DefaultListModel<OnlineModel> model = new DefaultListModel<>();
         for (ClientModel clientModel : clientModelLinkedList) {
             OnlineModel onlineModel = new OnlineModel();
@@ -103,8 +103,8 @@ public class ChatRoomUI {
         }
     }
 
-    public LinkedList<OnlineModel> getOnlineModelList() {
-        LinkedList<OnlineModel> onlineModelList = new LinkedList<>();
+    public LinkedHashSet<OnlineModel> getOnlineModelList() {
+        LinkedHashSet<OnlineModel> onlineModelList = new LinkedHashSet<>();
         ListModel<OnlineModel> model = this.onlineList.getModel();
         for (int i = 0; i < model.getSize(); i++) {
             onlineModelList.add(model.getElementAt(i));
