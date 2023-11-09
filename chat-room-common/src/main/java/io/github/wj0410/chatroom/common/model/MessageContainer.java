@@ -11,7 +11,7 @@ import org.springframework.util.ObjectUtils;
 @Data
 public class MessageContainer {
     /**
-     * 1.文本 2.图片
+     * 文本、图片
      */
     private MessageContainerType type;
     private String text;
@@ -20,14 +20,13 @@ public class MessageContainer {
     public MessageContainer() {
     }
 
-    public MessageContainer(String text, byte[] imageData) {
-        if (StringUtils.isNotBlank(text)) {
-            this.text = text;
-            type = MessageContainerType.TEXT;
-        } else if (!ObjectUtils.isEmpty(imageData)) {
-            this.imageData = imageData;
-            type = MessageContainerType.IMAGE;
-        }
+    public MessageContainer(String text) {
+        this.text = text;
+        type = MessageContainerType.TEXT;
+    }
+    public MessageContainer(byte[] imageData) {
+        this.imageData = imageData;
+        type = MessageContainerType.IMAGE;
     }
 
 }

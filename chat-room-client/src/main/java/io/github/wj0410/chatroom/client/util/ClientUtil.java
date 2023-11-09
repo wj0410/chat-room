@@ -101,13 +101,13 @@ public class ClientUtil {
                     Image image = ImageUtil.getScaledIcon(imageIcon, SwingUIUtil.IMAGE_MAX_WIDTH,SwingUIUtil.IMAGE_MAX_HEIGHT).getImage();
                     // 压缩图片
                     byte[] imageData = ImageUtil.compressImage(image, ImageUtil.getImageFormatName(image), 0.9f);
-                    containerList.add(new MessageContainer(null, imageData));
+                    containerList.add(new MessageContainer(imageData));
                 }
             } else {
                 try {
                     String text = doc.getText(element.getStartOffset(), element.getEndOffset() - element.getStartOffset()).trim();
                     if (StringUtils.isNotBlank(text) && !text.contains(CommonConstants.PLACE_HOLDER_IMAGE)) {
-                        containerList.add(new MessageContainer(text, null));
+                        containerList.add(new MessageContainer(text));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
