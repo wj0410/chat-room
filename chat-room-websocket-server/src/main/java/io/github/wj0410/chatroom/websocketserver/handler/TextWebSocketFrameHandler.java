@@ -22,7 +22,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
         // 增加对象的引用计数，解决报错
         frame.retain();
         String content = frame.text();
-        Object message = MessageUtil.getMessage(content);
+        Object message = MessageUtil.getRealityMessageByMessageJsonStr(content);
         // 将msg交给下一个handler处理
         ctx.fireChannelRead(message);
     }

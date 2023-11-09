@@ -51,7 +51,7 @@ public class MessageUtil {
         return JSON.toJSONString(message);
     }
 
-    public static Object getMessage(String jsonStr) {
+    public static Object getRealityMessageByMessageJsonStr(String jsonStr) {
         Message message = JSON.parseObject(jsonStr, Message.class);
         MessageType type = message.getType();
         String data = message.getData().toString();

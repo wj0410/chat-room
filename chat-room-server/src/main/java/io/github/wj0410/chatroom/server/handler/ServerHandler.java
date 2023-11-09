@@ -21,7 +21,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof ByteBuf) {
             ByteBuf byteBuf = (ByteBuf) msg;
-            Object message = MessageUtil.getMessage(MessageUtil.convertByteBuf2String(byteBuf));
+            Object message = MessageUtil.getRealityMessageByMessageJsonStr(MessageUtil.convertByteBuf2String(byteBuf));
             // 将msg交给下一个handler处理
             ctx.fireChannelRead(message);
         } else {

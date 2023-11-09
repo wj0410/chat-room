@@ -60,7 +60,9 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
         // 给所有客户端发送同步在线列表消息
         ServerUtil.sendSyncOnlineMessage();
         // 给所有客户端发送离开消息
-        ServerUtil.sendLeaveMessage(clientModel.getClientId(), clientModel.getUserName());
+        if (clientModel != null) {
+            ServerUtil.sendLeaveMessage(clientModel.getClientId(), clientModel.getUserName());
+        }
     }
 }
 
