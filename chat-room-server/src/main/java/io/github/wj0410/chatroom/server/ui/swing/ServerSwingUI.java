@@ -25,9 +25,9 @@ import java.awt.event.MouseEvent;
  * @author wangjie
  */
 @Slf4j
-public class SwingUI extends AbstractServerUI {
+public class ServerSwingUI extends AbstractServerUI {
 
-    public SwingUI() {
+    public ServerSwingUI() {
         this.initComponents();
         this.show();
     }

@@ -31,6 +31,26 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>io.github.wj0410</groupId>
+                <artifactId>chat-room-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.wj0410</groupId>
+                <artifactId>chat-room-websocket-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.wj0410</groupId>
+                <artifactId>chat-room-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.wj0410</groupId>
+                <artifactId>chat-room-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>4.1.18.Final</version>

@@ -1,8 +1,7 @@
 package io.github.wj0410.chatroom.websocketserver.holder;
 
+import io.github.wj0410.chatroom.common.conf.ServerProperties;
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
-import io.github.wj0410.chatroom.websocketserver.conf.ServerProperties;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.util.AttributeKey;

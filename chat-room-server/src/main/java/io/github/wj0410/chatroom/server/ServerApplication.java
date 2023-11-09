@@ -1,7 +1,7 @@
 package io.github.wj0410.chatroom.server;
 
+import io.github.wj0410.chatroom.common.conf.ServerProperties;
 import io.github.wj0410.chatroom.common.util.ConfigUtil;
-import io.github.wj0410.chatroom.server.conf.ServerProperties;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import io.github.wj0410.chatroom.server.ui.console.Console;

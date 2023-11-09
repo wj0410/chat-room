@@ -1,4 +1,4 @@
-package io.github.wj0410.chatroom.server.conf;
+package io.github.wj0410.chatroom.common.conf;
 
 import lombok.Data;
 
