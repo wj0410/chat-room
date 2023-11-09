@@ -55,11 +55,12 @@ public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttp
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(req.uri());
         Map<String, List<String>> params = queryStringDecoder.parameters();
         String clientId = params.get(CommonConstants.CLIENT_ID).get(0);
+        String account = params.get("account").get(0);
+        String userName = params.get("userName").get(0);
         BindMessage bindMessage = new BindMessage();
         bindMessage.setClientId(clientId);
-        bindMessage.setAccount(clientId);
-        bindMessage.setUserName(clientId);
-        bindMessage.setClientVersion(clientId);
+        bindMessage.setAccount(account);
+        bindMessage.setUserName(userName);
 
         ServerHolder.setClientIdAttr(bindMessage.getClientId());
         ServerUtil.addClient(ctx, bindMessage, ClientOrigin.WEBSOCKET);
