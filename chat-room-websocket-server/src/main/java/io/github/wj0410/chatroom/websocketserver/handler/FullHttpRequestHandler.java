@@ -1,9 +1,10 @@
 package io.github.wj0410.chatroom.websocketserver.handler;
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
+import io.github.wj0410.chatroom.common.enums.ClientOrigin;
 import io.github.wj0410.chatroom.common.message.BindMessage;
+import io.github.wj0410.chatroom.common.util.ServerUtil;
 import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
-import io.github.wj0410.chatroom.websocketserver.util.ServerUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -61,7 +62,7 @@ public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttp
         bindMessage.setClientVersion(clientId);
 
         ServerHolder.setClientIdAttr(bindMessage.getClientId());
-        ServerUtil.addClient(ctx, bindMessage);
+        ServerUtil.addClient(ctx, bindMessage, ClientOrigin.WEBSOCKET);
         // 给所有客户端发送同步在线列表消息
         ServerUtil.sendSyncOnlineMessage();
         // 给所有客户端发送欢迎消息

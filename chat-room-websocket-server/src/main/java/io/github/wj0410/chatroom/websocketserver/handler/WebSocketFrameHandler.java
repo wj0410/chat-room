@@ -1,8 +1,8 @@
 package io.github.wj0410.chatroom.websocketserver.handler;
 
 import io.github.wj0410.chatroom.common.model.ClientModel;
+import io.github.wj0410.chatroom.common.util.ServerUtil;
 import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
-import io.github.wj0410.chatroom.websocketserver.util.ServerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.*;
@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
+ * websocket消息都通过此处接收
+ *
  * @author wangjie
  * @date 2023/11/8
  */

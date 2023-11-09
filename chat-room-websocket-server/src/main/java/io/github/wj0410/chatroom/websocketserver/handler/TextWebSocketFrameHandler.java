@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 文本格式的数据
+ * 在这里再次分发到指定类型的handler
  *
  * @author wangjie
  * @date 2023/11/8
@@ -18,7 +19,7 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame frame) {
-        // 增加对象的引用计数
+        // 增加对象的引用计数，解决报错
         frame.retain();
         String content = frame.text();
         Object message = MessageUtil.getMessage(content);

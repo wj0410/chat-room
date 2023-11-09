@@ -22,7 +22,4 @@ public class ServerHolder {
         }
     }
 
-    public static String getClientId(ChannelHandlerContext ctx) {
-        return (String) ctx.channel().attr(AttributeKey.valueOf(CommonConstants.CLIENT_ID)).get();
-    }
 }

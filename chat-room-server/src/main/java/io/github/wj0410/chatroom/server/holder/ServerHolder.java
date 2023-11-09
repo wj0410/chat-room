@@ -26,8 +26,4 @@ public class ServerHolder {
             serverSocketChannel.attr(AttributeKey.valueOf(CommonConstants.CLIENT_ID)).set(clientId);
         }
     }
-
-    public static String getClientId(ChannelHandlerContext ctx) {
-        return (String) ctx.channel().attr(AttributeKey.valueOf(CommonConstants.CLIENT_ID)).get();
-    }
 }

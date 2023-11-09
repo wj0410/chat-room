@@ -56,7 +56,6 @@ public class WebSocketServer {
                                     new WebSocketFrameHandler(),
                                     new TextWebSocketFrameHandler(),
                                     new ServerNormalHandler()
-//                                    new BinaryWebSocketFrameHandler()
                             );
                         }
                     })

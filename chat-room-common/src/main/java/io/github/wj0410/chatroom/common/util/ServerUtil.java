@@ -1,4 +1,4 @@
-package io.github.wj0410.chatroom.websocketserver.util;
+package io.github.wj0410.chatroom.common.util;
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
 import io.github.wj0410.chatroom.common.data.ServerData;
@@ -7,10 +7,9 @@ import io.github.wj0410.chatroom.common.enums.ClientOrigin;
 import io.github.wj0410.chatroom.common.enums.PromptType;
 import io.github.wj0410.chatroom.common.message.*;
 import io.github.wj0410.chatroom.common.model.ClientModel;
-import io.github.wj0410.chatroom.common.util.MessageUtil;
-import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
@@ -25,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 public class ServerUtil extends ServerData {
+
     public static ClientModel getClientModelByClientId(String clientId) {
         return getClientModelMap().get(clientId);
     }
@@ -37,25 +37,29 @@ public class ServerUtil extends ServerData {
         return ServerData.getClientOnlineList();
     }
 
-    public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage) {
+    public static String getClientId(ChannelHandlerContext ctx) {
+        return (String) ctx.channel().attr(AttributeKey.valueOf(CommonConstants.CLIENT_ID)).get();
+    }
+
+    public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage,ClientOrigin clientOrigin) {
         ClientModel clientModel = new ClientModel();
-        clientModel.setClientOrigin(ClientOrigin.WEBSOCKET);
+        clientModel.setClientOrigin(clientOrigin);
         clientModel.setClientId(bindMessage.getClientId());
         clientModel.setAccount(bindMessage.getAccount());
         clientModel.setUserName(bindMessage.getUserName());
         clientModel.setCtx(ctx);
         ServerData.getClientOnlineList().add(clientModel);
-        ServerData.getClientModelMap().put(ServerHolder.getClientId(ctx), clientModel);
+        ServerData.getClientModelMap().put(getClientId(ctx), clientModel);
     }
 
     public static void removeClient(ChannelHandlerContext ctx) {
-        String clientId = ServerHolder.getClientId(ctx);
+        String clientId = getClientId(ctx);
         ServerData.getClientOnlineList().remove(ServerData.getClientModelMap().get(clientId));
         ServerData.getClientModelMap().remove(clientId);
     }
 
     public static ClientModel getClientModel(ChannelHandlerContext ctx) {
-        return ServerData.getClientModelMap().get(ServerHolder.getClientId(ctx));
+        return ServerData.getClientModelMap().get(getClientId(ctx));
     }
 
     public static String formatClientAccount(ChannelHandlerContext ctx) {
@@ -167,4 +171,5 @@ public class ServerUtil extends ServerData {
             log.info("未知消息类型ChatType，服务端无法转发。" + normalMessage.toString());
         }
     }
+
 }

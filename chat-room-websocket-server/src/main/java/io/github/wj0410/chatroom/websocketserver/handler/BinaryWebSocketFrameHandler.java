@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 二进制格式的数据
- *
+ * 暂时不用，全部使用json通信
  * @author wangjie
  * @date 2023/11/8
  */

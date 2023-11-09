@@ -1,8 +1,8 @@
 package io.github.wj0410.chatroom.server.handler;
 
 import io.github.wj0410.chatroom.common.message.NormalMessage;
+import io.github.wj0410.chatroom.common.util.ServerUtil;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
-import io.github.wj0410.chatroom.server.util.ServerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;

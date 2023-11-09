@@ -1,10 +1,11 @@
 package io.github.wj0410.chatroom.server.handler;
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
+import io.github.wj0410.chatroom.common.enums.ClientOrigin;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.model.ClientModel;
+import io.github.wj0410.chatroom.common.util.ServerUtil;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
-import io.github.wj0410.chatroom.server.util.ServerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
         ServerHolder.setClientIdAttr(bindMessage.getClientId());
         log.info("服务端接收到客户端的绑定信息：{}", bindMessage.toString());
         // 新增客户端到内存
-        ServerUtil.addClient(ctx, bindMessage);
+        ServerUtil.addClient(ctx, bindMessage, ClientOrigin.SWING);
         // TODO 校验客户端版本 暂时在配置文件里设置
         if (!checkClientVersion(bindMessage.getClientVersion())) {
             ServerUtil.sendRefuseMessage(bindMessage.getClientId(), CommonConstants.CLIENT_VERSION_LAG_TIP);
