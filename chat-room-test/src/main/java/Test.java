@@ -14,7 +14,7 @@ public class Test {
     public static void main(String[] args) {
         // 服务端启动
         ServerApplication.startServer(new ServerSwingUI());
-        // web服务端启动
+        // websocket服务端启动
         WebsocketServerApplication.startServer();
         // swing客户端启动
         ClientApplication.startClient();
