@@ -136,7 +136,7 @@ public class SwingUIUtil {
                     drawRecvImageMessage(msg.getImageData(), recvPane, self);
                     break;
                 default:
-                    throw new IllegalStateException("Unexpected value: " + msg.getType());
+                    throw new IllegalStateException("Unexpected messageContainerType: " + msg.getType());
             }
         }
     }

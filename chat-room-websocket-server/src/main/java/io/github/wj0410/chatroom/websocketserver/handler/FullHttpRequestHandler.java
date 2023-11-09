@@ -1,6 +1,9 @@
 package io.github.wj0410.chatroom.websocketserver.handler;
 
+import io.github.wj0410.chatroom.common.constant.CommonConstants;
+import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
+import io.github.wj0410.chatroom.websocketserver.util.ServerUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -10,8 +13,12 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.util.CharsetUtil;
+
+import java.util.List;
+import java.util.Map;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
 import static io.netty.handler.codec.http.HttpUtil.isKeepAlive;
@@ -25,7 +32,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest req) {
         // 如果HTTP解码失败，返回HHTP异常
         if (!req.decoderResult().isSuccess()
                 || (!"websocket".equals(req.headers().get("Upgrade")))) {
@@ -43,6 +50,22 @@ public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttp
         } else {
             ServerHolder.handshaker.handshake(ctx.channel(), req);
         }
+        // 绑定clientId
+        QueryStringDecoder queryStringDecoder = new QueryStringDecoder(req.uri());
+        Map<String, List<String>> params = queryStringDecoder.parameters();
+        String clientId = params.get(CommonConstants.CLIENT_ID).get(0);
+        BindMessage bindMessage = new BindMessage();
+        bindMessage.setClientId(clientId);
+        bindMessage.setAccount(clientId);
+        bindMessage.setUserName(clientId);
+        bindMessage.setClientVersion(clientId);
+
+        ServerHolder.setClientIdAttr(bindMessage.getClientId());
+        ServerUtil.addClient(ctx, bindMessage);
+        // 给所有客户端发送同步在线列表消息
+        ServerUtil.sendSyncOnlineMessage();
+        // 给所有客户端发送欢迎消息
+        ServerUtil.sendWelcomeMessage(bindMessage.getClientId());
     }
 
     @Override

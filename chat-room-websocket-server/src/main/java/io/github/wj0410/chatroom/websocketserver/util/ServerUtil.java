@@ -1,4 +1,4 @@
-package io.github.wj0410.chatroom.server.util;
+package io.github.wj0410.chatroom.websocketserver.util;
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
 import io.github.wj0410.chatroom.common.data.ServerData;
@@ -8,7 +8,7 @@ import io.github.wj0410.chatroom.common.enums.PromptType;
 import io.github.wj0410.chatroom.common.message.*;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
-import io.github.wj0410.chatroom.server.holder.ServerHolder;
+import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 public class ServerUtil extends ServerData {
-
     public static ClientModel getClientModelByClientId(String clientId) {
         return getClientModelMap().get(clientId);
     }
@@ -40,7 +39,7 @@ public class ServerUtil extends ServerData {
 
     public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage) {
         ClientModel clientModel = new ClientModel();
-        clientModel.setClientOrigin(ClientOrigin.SWING);
+        clientModel.setClientOrigin(ClientOrigin.WEBSOCKET);
         clientModel.setClientId(bindMessage.getClientId());
         clientModel.setAccount(bindMessage.getAccount());
         clientModel.setUserName(bindMessage.getUserName());
@@ -168,5 +167,4 @@ public class ServerUtil extends ServerData {
             log.info("未知消息类型ChatType，服务端无法转发。" + normalMessage.toString());
         }
     }
-
 }

@@ -43,7 +43,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Object> {
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof ByteBuf) {
             ByteBuf byteBuf = (ByteBuf) msg;
-            Object message = MessageUtil.getMessage(MessageUtil.convert2String(byteBuf));
+            Object message = MessageUtil.getMessage(MessageUtil.convertByteBuf2String(byteBuf));
             // 将msg交给下一个handler处理
             ctx.fireChannelRead(message);
         }

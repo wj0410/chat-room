@@ -4,6 +4,7 @@ import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.enums.MessageContainerType;
 import io.github.wj0410.chatroom.common.model.MessageContainer;
 import lombok.Data;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -30,11 +31,13 @@ public class NormalMessage {
     @Override
     public String toString() {
         String msg = "";
-        for (MessageContainer messageContainer : this.msg) {
-            if (messageContainer.getType().equals(MessageContainerType.IMAGE)) {
-                msg += "[img],";
-            } else {
-                msg += messageContainer.getText() + ",";
+        if(!CollectionUtils.isEmpty(this.msg)){
+            for (MessageContainer messageContainer : this.msg) {
+                if (messageContainer.getType().equals(MessageContainerType.IMAGE)) {
+                    msg += "[img],";
+                } else {
+                    msg += messageContainer.getText() + ",";
+                }
             }
         }
         return "NormalMessage{" +

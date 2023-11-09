@@ -1,6 +1,8 @@
 package io.github.wj0410.chatroom.websocketserver.handler;
 
+import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
+import io.github.wj0410.chatroom.websocketserver.util.ServerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.*;
@@ -15,8 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
-
+    protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame frame) {
         // 判断是否是关闭链路的指令
         if (frame instanceof CloseWebSocketFrame) {
             ServerHolder.handshaker.close(ctx.channel(),
@@ -29,27 +30,35 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
                     new PongWebSocketFrame(frame.content().retain()));
             return;
         }
-        // 本例程仅支持文本消息，不支持二进制消息
-        if (!(frame instanceof TextWebSocketFrame)) {
+        if (frame instanceof TextWebSocketFrame) {
+            // 将msg交给下一个handler处理
+            ctx.fireChannelRead(frame);
+        } else {
             throw new UnsupportedOperationException(String.format(
                     "%s frame types not supported", frame.getClass().getName()));
         }
-
-        // 返回应答消息
-        String request = ((TextWebSocketFrame) frame).text();
-        log.info(String.format("received text: %s", request));
-        ctx.channel().write(new TextWebSocketFrame(" 收到客户端请求：" + request));
     }
 
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.flush();
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-            throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        // 异常处理逻辑
         cause.printStackTrace();
-        ctx.close();
+        System.err.println("Exception caught: " + cause);
+    }
+
+    /**
+     * 客户端下线
+     *
+     * @param ctx
+     */
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) {
+        ClientModel clientModel = ServerUtil.getClientModel(ctx);
+        ServerUtil.removeClient(ctx);
+        // 给所有客户端发送同步在线列表消息
+        ServerUtil.sendSyncOnlineMessage();
+        // 给所有客户端发送离开消息
+        ServerUtil.sendLeaveMessage(clientModel.getClientId(), clientModel.getUserName());
     }
 }
+

@@ -48,6 +48,12 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
         }
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        // 异常处理逻辑
+        System.err.println("Exception caught: " + cause);
+    }
+
     /**
      * 校验客户端版本
      * TODO 校验逻辑后面重构

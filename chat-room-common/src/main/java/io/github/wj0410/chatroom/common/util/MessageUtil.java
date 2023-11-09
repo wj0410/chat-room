@@ -7,7 +7,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 import java.nio.charset.Charset;
-import java.util.Base64;
 
 import static io.github.wj0410.chatroom.common.enums.MessageType.*;
 
@@ -73,27 +72,31 @@ public class MessageUtil {
                 RefuseMessage refuseMessage = JSON.parseObject(data, RefuseMessage.class);
                 return refuseMessage;
             default:
-                throw new IllegalStateException("Unexpected value: " + type);
+                throw new IllegalStateException("Unexpected messageType: " + type);
         }
     }
 
-    public static ByteBuf convert2ByteBuf(String jsonStr) {
-        byte[] bytes = jsonStr.getBytes(Charset.forName("UTF-8"));
-        ByteBuf buf = Unpooled.wrappedBuffer(bytes);
-        return buf;
+    public static ByteBuf convertString2ByteBuf(String str) {
+        byte[] bytes = convertString2ByteArray(str);
+        return convertByteArray2ByteBuf(bytes);
     }
 
-    public static String convert2String(ByteBuf buf) {
+    public static ByteBuf convertByteArray2ByteBuf(byte[] bytes) {
+        return Unpooled.wrappedBuffer(bytes);
+    }
+
+    public static byte[] convertString2ByteArray(String str) {
+        return str.getBytes(Charset.forName("UTF-8"));
+    }
+
+    public static byte[] convertByteBuf2ByteArray(ByteBuf buf) {
+        byte[] bytes = new byte[buf.readableBytes()];
+        buf.readBytes(bytes);
+        return bytes;
+    }
+
+    public static String convertByteBuf2String(ByteBuf buf) {
         return buf.toString(Charset.forName("UTF-8"));
     }
 
-    public static String convertByteArrayToString(byte[] byteArray) {
-        String encodedString = Base64.getEncoder().encodeToString(byteArray);
-        return encodedString;
-    }
-
-    public static byte[] convertStringToByteArray(String str) {
-        byte[] byteArray = Base64.getDecoder().decode(str);
-        return byteArray;
-    }
 }

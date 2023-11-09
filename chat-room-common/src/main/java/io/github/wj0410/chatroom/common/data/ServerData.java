@@ -1,4 +1,4 @@
-package io.github.wj0410.chatroom.server.data;
+package io.github.wj0410.chatroom.common.data;
 
 
 import io.github.wj0410.chatroom.common.model.ClientModel;
@@ -18,6 +18,7 @@ public class ServerData {
     private static ConcurrentHashMap<String, ClientModel> clientModelMap = new ConcurrentHashMap<>();
 
     private static LinkedList<ClientModel> clientOnlineList = new LinkedList<>();
+
 
     protected static ConcurrentHashMap<String, ClientModel> getClientModelMap() {
         return clientModelMap;

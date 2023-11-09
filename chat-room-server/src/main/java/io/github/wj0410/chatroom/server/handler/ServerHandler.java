@@ -17,6 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        if (msg instanceof ByteBuf) {
+            ByteBuf byteBuf = (ByteBuf) msg;
+            Object message = MessageUtil.getMessage(MessageUtil.convertByteBuf2String(byteBuf));
+            // 将msg交给下一个handler处理
+            ctx.fireChannelRead(message);
+        } else {
+            throw new UnsupportedOperationException(String.format(
+                    "%s types not supported", msg.getClass().getName()));
+        }
+    }
+
     /**
      * 客户端下线
      *
@@ -38,12 +51,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        if (msg instanceof ByteBuf) {
-            ByteBuf byteBuf = (ByteBuf) msg;
-            Object message = MessageUtil.getMessage(MessageUtil.convert2String(byteBuf));
-            // 将msg交给下一个handler处理
-            ctx.fireChannelRead(message);
-        }
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        // 异常处理逻辑
+        System.err.println("Exception caught: " + cause);
     }
 }

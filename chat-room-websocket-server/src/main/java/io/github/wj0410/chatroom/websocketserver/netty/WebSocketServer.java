@@ -1,7 +1,7 @@
 package io.github.wj0410.chatroom.websocketserver.netty;
 
-import io.github.wj0410.chatroom.websocketserver.handler.FullHttpRequestHandler;
-import io.github.wj0410.chatroom.websocketserver.handler.WebSocketFrameHandler;
+import io.github.wj0410.chatroom.websocketserver.handler.*;
+import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -47,12 +47,16 @@ public class WebSocketServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) {
+                            ServerHolder.serverSocketChannel = ch;
                             ch.pipeline().addLast(
                                     new HttpServerCodec(),
                                     new HttpObjectAggregator(65536),
                                     new ChunkedWriteHandler(),
                                     new FullHttpRequestHandler(),
-                                    new WebSocketFrameHandler()
+                                    new WebSocketFrameHandler(),
+                                    new TextWebSocketFrameHandler(),
+                                    new ServerNormalHandler()
+//                                    new BinaryWebSocketFrameHandler()
                             );
                         }
                     })
