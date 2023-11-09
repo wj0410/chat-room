@@ -21,6 +21,7 @@
         <module>chat-room-common</module>
         <module>chat-room-test</module>
         <module>chat-room-websocket-server</module>
+        <module>chat-room-system</module>
     </modules>
 
     <properties>

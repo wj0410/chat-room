@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  tomcat:
+    max-threads: 200
+    uri-encoding: UTF-8
+spring:
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.211.55.4:3306/chat_room?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+
+
+mybatis-plus:
+  check-config-location: true
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml
+  type-aliases-package: io.github.wj0410.chatroom.user.entity
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      table-underline: true
+      id-type: auto
+      logic-not-delete-value: 0
+      logic-delete-value: 1

@@ -41,7 +41,7 @@ public class ServerUtil extends ServerData {
         return (String) ctx.channel().attr(AttributeKey.valueOf(CommonConstants.CLIENT_ID)).get();
     }
 
-    public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage,ClientOrigin clientOrigin) {
+    public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage, ClientOrigin clientOrigin) {
         ClientModel clientModel = new ClientModel();
         clientModel.setClientOrigin(clientOrigin);
         clientModel.setClientId(bindMessage.getClientId());
@@ -49,13 +49,15 @@ public class ServerUtil extends ServerData {
         clientModel.setUserName(bindMessage.getUserName());
         clientModel.setCtx(ctx);
         ServerData.getClientOnlineList().add(clientModel);
-        ServerData.getClientModelMap().put(getClientId(ctx), clientModel);
+        ServerData.getClientModelMap().put(bindMessage.getClientId(), clientModel);
     }
 
     public static void removeClient(ChannelHandlerContext ctx) {
         String clientId = getClientId(ctx);
-        ServerData.getClientOnlineList().remove(ServerData.getClientModelMap().get(clientId));
-        ServerData.getClientModelMap().remove(clientId);
+        ConcurrentHashMap<String, ClientModel> clientModelMap = ServerData.getClientModelMap();
+        LinkedList<ClientModel> clientOnlineList = ServerData.getClientOnlineList();
+        clientOnlineList.remove(clientModelMap.get(clientId));
+        clientModelMap.remove(clientId);
     }
 
     public static ClientModel getClientModel(ChannelHandlerContext ctx) {

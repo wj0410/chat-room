@@ -15,6 +15,14 @@ public class BindMessage {
     private String userName;
     private String clientVersion;
 
+    public String getClientId() {
+        return clientId.trim();
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId.trim();
+    }
+
     @Override
     public String toString() {
         return "BindRequest{" +
