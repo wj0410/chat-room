@@ -6,10 +6,10 @@ import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.ServerUtil;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
+import io.github.wj0410.cloudbox.tools.util.StringUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.LinkedHashSet;
 

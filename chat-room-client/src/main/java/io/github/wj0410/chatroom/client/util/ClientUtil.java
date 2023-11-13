@@ -11,23 +11,13 @@ import io.github.wj0410.chatroom.common.model.MessageContainer;
 import io.github.wj0410.chatroom.common.util.ImageUtil;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
-import io.netty.channel.ChannelHandlerContext;
+import io.github.wj0410.cloudbox.tools.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 
-import javax.imageio.*;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.MemoryCacheImageOutputStream;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -98,7 +88,7 @@ public class ClientUtil {
                 if (icon instanceof ImageIcon) {
                     ImageIcon imageIcon = (ImageIcon) icon;
                     // 先缩放图片
-                    Image image = ImageUtil.getScaledIcon(imageIcon, SwingUIUtil.IMAGE_MAX_WIDTH,SwingUIUtil.IMAGE_MAX_HEIGHT).getImage();
+                    Image image = ImageUtil.getScaledIcon(imageIcon, SwingUIUtil.IMAGE_MAX_WIDTH, SwingUIUtil.IMAGE_MAX_HEIGHT).getImage();
                     // 压缩图片
                     byte[] imageData = ImageUtil.compressImage(image, ImageUtil.getImageFormatName(image), 0.9f);
                     containerList.add(new MessageContainer(imageData));

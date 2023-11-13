@@ -1,6 +1,6 @@
 package io.github.wj0410.chatroom.common.util;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import io.github.wj0410.chatroom.common.enums.MessageType;
 import io.github.wj0410.chatroom.common.message.*;
 import io.netty.buffer.ByteBuf;

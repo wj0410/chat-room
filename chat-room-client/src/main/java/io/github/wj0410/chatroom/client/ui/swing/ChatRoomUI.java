@@ -14,7 +14,7 @@ import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.client.util.TrayUtil;
 import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.model.ClientModel;
-import org.apache.commons.lang.StringUtils;
+import io.github.wj0410.cloudbox.tools.util.StringUtils;
 
 import javax.swing.*;
 import javax.swing.border.SoftBevelBorder;

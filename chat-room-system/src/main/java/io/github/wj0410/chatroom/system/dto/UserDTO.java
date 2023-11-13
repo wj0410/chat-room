@@ -1,10 +1,10 @@
 package io.github.wj0410.chatroom.system.dto;
 
 import io.github.wj0410.chatroom.system.entity.User;
-import io.github.wj0410.easycrudmp.Operation;
-import io.github.wj0410.easycrudmp.annotation.NotBlank;
-import io.github.wj0410.easycrudmp.annotation.Unique;
-import io.github.wj0410.easycrudmp.dto.BaseDTO;
+import io.github.wj0410.cloudbox.easycrudmp.Operation;
+import io.github.wj0410.cloudbox.easycrudmp.annotation.NotBlank;
+import io.github.wj0410.cloudbox.easycrudmp.annotation.Unique;
+import io.github.wj0410.cloudbox.easycrudmp.dto.BaseDTO;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 

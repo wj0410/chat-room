@@ -2,7 +2,7 @@ package io.github.wj0410.chatroom.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.github.wj0410.easycrudmp.entity.BaseEntity;
+import io.github.wj0410.cloudbox.easycrudmp.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

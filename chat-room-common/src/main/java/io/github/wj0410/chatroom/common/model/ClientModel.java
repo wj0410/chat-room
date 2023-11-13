@@ -2,10 +2,8 @@ package io.github.wj0410.chatroom.common.model;
 
 import io.github.wj0410.chatroom.common.enums.ClientOrigin;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.Data;
 

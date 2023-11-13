@@ -10,7 +10,7 @@ import io.github.wj0410.chatroom.client.netty.NettyClient;
 import io.github.wj0410.chatroom.common.enums.ClientOrigin;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
-import org.apache.commons.lang.StringUtils;
+import io.github.wj0410.cloudbox.tools.util.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;

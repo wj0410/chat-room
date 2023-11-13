@@ -1,6 +1,6 @@
 package io.github.wj0410.chatroom.system.conf;
 
-import io.github.wj0410.easycrudmp.handler.AbstractMetaObjectHandler;
+import io.github.wj0410.cloudbox.easycrudmp.handler.AbstractMetaObjectHandler;
 import org.springframework.stereotype.Component;
 
 /**

@@ -22,11 +22,15 @@
         <module>chat-room-test</module>
         <module>chat-room-websocket-server</module>
         <module>chat-room-system</module>
+        <module>chat-room-auth</module>
     </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <mybatis-plus.version>3.3.1</mybatis-plus.version>
+        <cloud-box.version>1.1.0-SNAPSHOT</cloud-box.version>
+        <jackson.core.version>2.12.5</jackson.core.version>
     </properties>
 
     <dependencyManagement>
@@ -52,40 +56,62 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>4.1.18.Final</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.5</version>
-            </dependency>
-            <dependency>
                 <groupId>io.github.wj0410</groupId>
                 <artifactId>chat-room-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>2.8.9</version>
+                <groupId>io.github.wj0410</groupId>
+                <artifactId>cloud-box-tools</artifactId>
+                <version>${cloud-box.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.83</version>
+                <groupId>io.github.wj0410</groupId>
+                <artifactId>cloud-box-easycrud-mp</artifactId>
+                <version>${cloud-box.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.wj0410</groupId>
+                <artifactId>cloud-box-rest-response-helper</artifactId>
+                <version>${cloud-box.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.wj0410</groupId>
+                <artifactId>cloud-box-redis-helper</artifactId>
+                <version>${cloud-box.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.12.5</version>
+                <version>${jackson.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
-                <version>2.12.5</version>
+                <version>${jackson.core.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

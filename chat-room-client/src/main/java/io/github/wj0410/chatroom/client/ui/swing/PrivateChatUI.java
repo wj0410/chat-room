@@ -11,7 +11,7 @@ import io.github.wj0410.chatroom.client.util.ClientUtil;
 import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
-import org.apache.commons.lang.StringUtils;
+import io.github.wj0410.cloudbox.tools.util.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;

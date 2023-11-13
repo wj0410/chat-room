@@ -2,8 +2,6 @@ package io.github.wj0410.chatroom.common.model;
 
 import io.github.wj0410.chatroom.common.enums.MessageContainerType;
 import lombok.Data;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.util.ObjectUtils;
 
 /**
  * @author wangjie

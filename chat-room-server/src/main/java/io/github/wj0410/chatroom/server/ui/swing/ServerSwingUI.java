@@ -9,8 +9,8 @@ import io.github.wj0410.chatroom.common.util.ServerUtil;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
+import io.github.wj0410.cloudbox.tools.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
