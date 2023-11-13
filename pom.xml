@@ -4,17 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
-
     <groupId>io.github.wj0410</groupId>
     <artifactId>chat-room</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>chat-room-server</module>
         <module>chat-room-client</module>
@@ -31,10 +25,20 @@
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <cloud-box.version>1.1.0-SNAPSHOT</cloud-box.version>
         <jackson.core.version>2.12.5</jackson.core.version>
+        <spring-boot.version>2.7.13</spring-boot.version>
+        <netty.version>4.1.79.Final</netty.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- SpringBoot 依赖配置 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>io.github.wj0410</groupId>
                 <artifactId>chat-room-server</artifactId>
@@ -100,7 +104,6 @@
                 <artifactId>netty-codec-http</artifactId>
                 <version>${netty.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>

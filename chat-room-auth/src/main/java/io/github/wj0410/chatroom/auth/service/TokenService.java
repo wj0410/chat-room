@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 public class TokenService {
     private static final Logger log = LoggerFactory.getLogger(TokenService.class);
 
-    @Autowired
-    private RedisService redisService;
+//    @Autowired
+//    private RedisService redisService;
 
     protected static final long MILLIS_SECOND = 1000;
 
