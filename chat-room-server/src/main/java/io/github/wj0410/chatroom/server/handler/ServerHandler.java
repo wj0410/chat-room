@@ -43,7 +43,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         // 给所有客户端发送同步在线列表消息
         ServerUtil.sendSyncOnlineMessage();
         // 给所有客户端发送离开消息
-        ServerUtil.sendLeaveMessage(clientModel.getClientId(), clientModel.getUserName());
+        ServerUtil.sendLeaveMessage(clientModel.getClientId(), clientModel.getNickName());
         if (ServerHolder.serverUI != null) {
             ServerHolder.serverUI.printConsole(String.format("客户端 %s 下线了...", formatClient));
             ServerHolder.serverUI.flushClientOnlineList();

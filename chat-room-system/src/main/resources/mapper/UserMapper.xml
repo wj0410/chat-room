@@ -5,9 +5,9 @@
     <!--@mbg.generated-->
     <!--@Table sys_user-->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="sex" jdbcType="BOOLEAN" property="sex" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -19,11 +19,11 @@
     <result column="update_by_name" jdbcType="VARCHAR" property="updateByName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="is_delete" jdbcType="BOOLEAN" property="isDelete" />
+    <result column="is_delete" jdbcType="BOOLEAN" property="deleted" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, user_name, nick_name, real_name, `password`, sex, email, phone, `state`, create_by_id, 
+    id, account, real_name, nick_name, `password`, sex, email, phone, `state`, create_by_id, 
     create_by_name, update_by_id, update_by_name, create_time, update_time, is_delete
   </sql>
 </mapper>

@@ -18,7 +18,7 @@ import java.util.Objects;
 public class ClientModel implements Serializable {
     private String clientId;
     private String account;
-    private String userName;
+    private String nickName;
     private ChannelHandlerContext ctx;
     private ClientOrigin clientOrigin;
 

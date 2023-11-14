@@ -62,7 +62,7 @@ public class LoginUI {
         ClientHolder.clientInfo = new ClientModel();
         ClientHolder.clientInfo.setClientOrigin(ClientOrigin.SWING);
         ClientHolder.clientInfo.setAccount(sysUser.getAccount());
-        ClientHolder.clientInfo.setUserName(sysUser.getUserName());
+        ClientHolder.clientInfo.setNickName(sysUser.getNickName());
         if (connection(host, port)) {
             // 隐藏登录UI
             this.hide();
@@ -160,7 +160,7 @@ public class LoginUI {
         ClientModel clientModel = new ClientModel();
         clientModel.setClientOrigin(ClientOrigin.SWING);
         clientModel.setAccount(account);
-        clientModel.setUserName("游客-" + account);
+        clientModel.setNickName("游客-" + account);
         return clientModel;
     }
 

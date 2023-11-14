@@ -27,6 +27,7 @@ import static io.netty.handler.codec.http.HttpUtil.setContentLength;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
+ * 客户端上线
  * @author wangjie
  * @date 2023/11/8
  */
@@ -51,7 +52,7 @@ public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttp
         } else {
             ServerHolder.handshaker.handshake(ctx.channel(), req);
         }
-        // 绑定clientId
+        // 客户端上线，绑定clientId
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(req.uri());
         Map<String, List<String>> params = queryStringDecoder.parameters();
         String clientId = params.get(CommonConstants.CLIENT_ID).get(0);

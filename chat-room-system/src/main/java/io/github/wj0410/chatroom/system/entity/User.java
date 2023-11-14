@@ -8,29 +8,28 @@ import lombok.EqualsAndHashCode;
 
 /**
  * 用户信息表
- * @author wangjie
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "sys_user")
 public class User extends BaseEntity {
     /**
-     * 用户名
+     * 账号
      */
-    @TableField(value = "user_name")
-    private String userName;
-
-    /**
-     * 用户昵称
-     */
-    @TableField(value = "nick_name")
-    private String nickName;
+    @TableField(value = "account")
+    private String account;
 
     /**
      * 真实姓名
      */
     @TableField(value = "real_name")
     private String realName;
+
+    /**
+     * 用户昵称
+     */
+    @TableField(value = "nick_name")
+    private String nickName;
 
     /**
      * 密码
@@ -42,7 +41,7 @@ public class User extends BaseEntity {
      * 性别 1.男 2.女 3.未知
      */
     @TableField(value = "sex")
-    private Integer sex;
+    private Boolean sex;
 
     /**
      * 邮箱
@@ -60,5 +59,6 @@ public class User extends BaseEntity {
      * 用户状态 1.正常 2.冻结
      */
     @TableField(value = "state")
-    private Integer state;
+    private Boolean state;
+
 }

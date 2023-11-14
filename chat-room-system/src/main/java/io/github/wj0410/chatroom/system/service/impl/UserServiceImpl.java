@@ -7,7 +7,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.wj0410.chatroom.system.mapper.UserMapper;
 import io.github.wj0410.chatroom.system.entity.User;
 import io.github.wj0410.chatroom.system.service.UserService;
+
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService{
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
 }
+
+

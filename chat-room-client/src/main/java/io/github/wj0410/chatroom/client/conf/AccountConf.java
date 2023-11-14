@@ -13,19 +13,19 @@ public class AccountConf {
     static {
         ClientModel lkw = new ClientModel();
         lkw.setAccount("lkw");
-        lkw.setUserName("廖开威");
+        lkw.setNickName("廖开威");
         ClientModel zh = new ClientModel();
         zh.setAccount("zh");
-        zh.setUserName("张恒");
+        zh.setNickName("张恒");
         ClientModel pwj = new ClientModel();
         pwj.setAccount("pwj");
-        pwj.setUserName("彭文杰");
+        pwj.setNickName("彭文杰");
         ClientModel wj = new ClientModel();
         wj.setAccount("wj");
-        wj.setUserName("王杰");
+        wj.setNickName("王杰");
         ClientModel zhouhui = new ClientModel();
         zhouhui.setAccount("zhouhui");
-        zhouhui.setUserName("周慧");
+        zhouhui.setNickName("周慧");
 
         accountMap.put("lkw", lkw);
         accountMap.put("zh", zh);

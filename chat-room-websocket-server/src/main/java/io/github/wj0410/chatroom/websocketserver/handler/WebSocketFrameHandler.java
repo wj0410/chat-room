@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * websocket消息都通过此处接收
- *
+ * 客户端下线
  * @author wangjie
  * @date 2023/11/8
  */
@@ -61,7 +61,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
         ServerUtil.sendSyncOnlineMessage();
         // 给所有客户端发送离开消息
         if (clientModel != null) {
-            ServerUtil.sendLeaveMessage(clientModel.getClientId(), clientModel.getUserName());
+            ServerUtil.sendLeaveMessage(clientModel.getClientId(), clientModel.getNickName());
         }
     }
 }

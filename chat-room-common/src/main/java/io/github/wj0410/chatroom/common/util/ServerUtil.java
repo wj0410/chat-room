@@ -46,7 +46,7 @@ public class ServerUtil extends ServerData {
         clientModel.setClientOrigin(clientOrigin);
         clientModel.setClientId(bindMessage.getClientId());
         clientModel.setAccount(bindMessage.getAccount());
-        clientModel.setUserName(bindMessage.getUserName());
+        clientModel.setNickName(bindMessage.getUserName());
         clientModel.setCtx(ctx);
         ServerData.getClientOnlineList().add(clientModel);
         ServerData.getClientModelMap().put(bindMessage.getClientId(), clientModel);
@@ -102,7 +102,7 @@ public class ServerUtil extends ServerData {
         if (client != null) {
             PromptMessage promptMessage = new PromptMessage();
             promptMessage.setPromptType(PromptType.WELCOME);
-            promptMessage.setMsg(String.format(CommonConstants.WELCOME_PROMPT_OTHER, client.getUserName()));
+            promptMessage.setMsg(String.format(CommonConstants.WELCOME_PROMPT_OTHER, client.getNickName()));
             promptMessage.setClientId(clientId);
             String welcomeMessageJsonStr = MessageUtil.createPromptMessageJsonStr(promptMessage);
             for (ClientModel clientModel : ServerUtil.getClientOnlineList()) {
