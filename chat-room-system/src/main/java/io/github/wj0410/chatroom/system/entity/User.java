@@ -41,7 +41,7 @@ public class User extends BaseEntity {
      * 性别 1.男 2.女 3.未知
      */
     @TableField(value = "sex")
-    private Boolean sex;
+    private Integer sex;
 
     /**
      * 邮箱
@@ -56,9 +56,15 @@ public class User extends BaseEntity {
     private String phone;
 
     /**
+     * 头像地址
+     */
+    @TableField(value = "avatar")
+    private String avatar;
+
+    /**
      * 用户状态 1.正常 2.冻结
      */
     @TableField(value = "state")
-    private Boolean state;
+    private Integer state;
 
 }

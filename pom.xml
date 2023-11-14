@@ -27,6 +27,7 @@
         <jackson.core.version>2.12.5</jackson.core.version>
         <spring-boot.version>2.7.13</spring-boot.version>
         <netty.version>4.1.79.Final</netty.version>
+        <mysql-connector.version>8.0.29</mysql-connector.version>
     </properties>
 
     <dependencyManagement>
@@ -52,11 +53,6 @@
             <dependency>
                 <groupId>io.github.wj0410</groupId>
                 <artifactId>chat-room-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.wj0410</groupId>
-                <artifactId>chat-room-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -113,6 +109,11 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
                 <version>${jackson.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
             </dependency>
 
         </dependencies>

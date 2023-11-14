@@ -12,6 +12,7 @@
     <result column="sex" jdbcType="BOOLEAN" property="sex" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="state" jdbcType="BOOLEAN" property="state" />
     <result column="create_by_id" jdbcType="BIGINT" property="createById" />
     <result column="create_by_name" jdbcType="VARCHAR" property="createByName" />
@@ -23,7 +24,8 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, account, real_name, nick_name, `password`, sex, email, phone, `state`, create_by_id, 
-    create_by_name, update_by_id, update_by_name, create_time, update_time, is_delete
+    id, account, real_name, nick_name, `password`, sex, email, phone, avatar, `state`, 
+    create_by_id, create_by_name, update_by_id, update_by_name, create_time, update_time, 
+    is_delete
   </sql>
 </mapper>
