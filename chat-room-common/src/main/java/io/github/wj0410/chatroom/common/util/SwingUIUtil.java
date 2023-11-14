@@ -126,7 +126,7 @@ public class SwingUIUtil {
         List<MessageContainer> msgList = normalMessage.getMsg();
         for (MessageContainer msg : msgList) {
             // 绘制头部
-            drawRecvHead(normalMessage.getFromUserName(), normalMessage.getTimestamp(), recvPane, self);
+            drawRecvHead(normalMessage.getFromNickName(), normalMessage.getTimestamp(), recvPane, self);
             // 绘制消息内容
             switch (msg.getType()) {
                 case TEXT:

@@ -64,7 +64,7 @@ public class ClientUtil {
         message.setMsg(msg);
         message.setFromAccount(ClientHolder.clientInfo.getAccount());
         message.setFromClientId(ClientHolder.clientInfo.getClientId());
-        message.setFromUserName(ClientHolder.clientInfo.getNickName());
+        message.setFromNickName(ClientHolder.clientInfo.getNickName());
         message.setTargetClientIds(targetClientList);
         String normalMessageJsonStr = MessageUtil.createNormalMessageJsonStr(message);
         clientModel.writeAndFlush(normalMessageJsonStr);

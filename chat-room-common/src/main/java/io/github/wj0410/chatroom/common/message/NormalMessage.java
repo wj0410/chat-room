@@ -18,7 +18,7 @@ import java.util.List;
 public class NormalMessage {
     private ChatType chatType;
     private String fromAccount;
-    private String fromUserName;
+    private String fromNickName;
     private String fromClientId;
     private List<String> targetClientIds;
     private long timestamp;
@@ -43,7 +43,7 @@ public class NormalMessage {
         return "NormalMessage{" +
                 "chatType=" + chatType +
                 ", fromAccount='" + fromAccount + '\'' +
-                ", fromUserName='" + fromUserName + '\'' +
+                ", fromNickName='" + fromNickName + '\'' +
                 ", fromClientId='" + fromClientId + '\'' +
                 ", targetClientIds=" + targetClientIds +
                 ", timestamp=" + timestamp +
