@@ -33,7 +33,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Object> {
         BindMessage bindMessage = new BindMessage();
         bindMessage.setClientId(clientId);
         bindMessage.setAccount(ClientHolder.clientInfo.getAccount());
-        bindMessage.setUserName(ClientHolder.clientInfo.getNickName());
+        bindMessage.setNickName(ClientHolder.clientInfo.getNickName());
         bindMessage.setClientVersion(ClientHolder.clientProperties.getClient().getVersion());
         // 发送绑定消息
         ClientUtil.sendBindMessage(ClientHolder.clientInfo, bindMessage);

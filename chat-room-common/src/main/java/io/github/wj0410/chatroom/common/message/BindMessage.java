@@ -12,7 +12,7 @@ import lombok.Data;
 public class BindMessage {
     private String clientId;
     private String account;
-    private String userName;
+    private String nickName;
     private String clientVersion;
 
     public String getClientId() {
@@ -28,7 +28,7 @@ public class BindMessage {
         return "BindRequest{" +
                 "clientId='" + clientId + '\'' +
                 ", account='" + account + '\'' +
-                ", userName='" + userName + '\'' +
+                ", userName='" + nickName + '\'' +
                 ", clientVersion='" + clientVersion + '\'' +
                 '}';
     }

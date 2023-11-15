@@ -9,6 +9,6 @@ import lombok.Data;
 public class OnlineModel {
     private String clientId;
     private String account;
-    private String userName;
+    private String nickName;
     private int unreadCount;
 }

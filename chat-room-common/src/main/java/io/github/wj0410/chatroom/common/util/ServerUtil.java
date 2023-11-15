@@ -46,7 +46,7 @@ public class ServerUtil extends ServerData {
         clientModel.setClientOrigin(clientOrigin);
         clientModel.setClientId(bindMessage.getClientId());
         clientModel.setAccount(bindMessage.getAccount());
-        clientModel.setNickName(bindMessage.getUserName());
+        clientModel.setNickName(bindMessage.getNickName());
         clientModel.setCtx(ctx);
         ServerData.getClientOnlineList().add(clientModel);
         ServerData.getClientModelMap().put(bindMessage.getClientId(), clientModel);

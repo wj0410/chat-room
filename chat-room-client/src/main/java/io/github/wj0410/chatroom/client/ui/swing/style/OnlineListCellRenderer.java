@@ -21,7 +21,7 @@ public class OnlineListCellRenderer extends DefaultListCellRenderer {
         //获取客户端模型对象
         OnlineModel onlineModel = (OnlineModel) value;
         //设置文本
-        String userName = ClientUtil.formatClientAccount(onlineModel);
+        String nickName = ClientUtil.formatClientAccount(onlineModel);
         String fontColor = "";
         //判断自己还是其他人
         if (onlineModel.getClientId().equals(ClientHolder.clientInfo.getClientId())) {
@@ -52,9 +52,9 @@ public class OnlineListCellRenderer extends DefaultListCellRenderer {
         String htmlText = "";
         int unreadCount = onlineModel.getUnreadCount();
         if (unreadCount > 0) {
-            htmlText = String.format(formatStr, fontColor, userName+"　", unreadCount);
+            htmlText = String.format(formatStr, fontColor, nickName+"　", unreadCount);
         } else {
-            htmlText = String.format(formatStr, fontColor, userName, "");
+            htmlText = String.format(formatStr, fontColor, nickName, "");
         }
         setText(htmlText);
         return this;

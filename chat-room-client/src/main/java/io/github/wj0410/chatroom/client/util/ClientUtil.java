@@ -34,7 +34,7 @@ public class ClientUtil {
      * @return
      */
     public static String formatClientAccount(OnlineModel onlineModel) {
-        return onlineModel.getUserName();
+        return onlineModel.getNickName();
     }
 
     /**

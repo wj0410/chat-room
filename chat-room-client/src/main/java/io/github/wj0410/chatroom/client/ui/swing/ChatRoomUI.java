@@ -72,7 +72,7 @@ public class ChatRoomUI {
             OnlineModel onlineModel = new OnlineModel();
             onlineModel.setClientId(clientModel.getClientId());
             onlineModel.setAccount(clientModel.getAccount());
-            onlineModel.setUserName(clientModel.getNickName());
+            onlineModel.setNickName(clientModel.getNickName());
             // 防止把未读消息刷新掉
             // 如果当前客户端已存在与JList中，则获取到未读数量
             OnlineModel oldClientModel = getOnlineModel(clientModel.getClientId());

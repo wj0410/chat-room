@@ -30,7 +30,7 @@ public class PrivateChatUI {
         this.initComponents();
         // 设置消息回显区自动换行
         this.recvPane.setEditorKit(new WrapEditorKit());
-        this.privateChatJFrame.setTitle(targetClient.getUserName());
+        this.privateChatJFrame.setTitle(targetClient.getNickName());
         ClientHolder.privateChatUIMap.put(targetClient.getClientId(), this);
     }
 
