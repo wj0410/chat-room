@@ -30,6 +30,7 @@ public class BindMessage {
                 "clientId='" + clientId + '\'' +
                 ", account='" + account + '\'' +
                 ", userName='" + nickName + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", clientVersion='" + clientVersion + '\'' +
                 '}';
     }

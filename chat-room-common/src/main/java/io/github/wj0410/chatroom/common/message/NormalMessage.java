@@ -20,6 +20,7 @@ public class NormalMessage {
     private String fromAccount;
     private String fromNickName;
     private String fromClientId;
+    private String fromClientAvatar;
     private List<String> targetClientIds;
     private long timestamp;
     private List<MessageContainer> msg;
@@ -45,6 +46,7 @@ public class NormalMessage {
                 ", fromAccount='" + fromAccount + '\'' +
                 ", fromNickName='" + fromNickName + '\'' +
                 ", fromClientId='" + fromClientId + '\'' +
+                ", fromClientAvatar=" + fromClientAvatar +
                 ", targetClientIds=" + targetClientIds +
                 ", timestamp=" + timestamp +
                 ", msg=" + String.format("[%s]", msg.replaceAll("^,|,$", "")) +
