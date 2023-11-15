@@ -118,4 +118,11 @@
 
         </dependencies>
     </dependencyManagement>
+    <!-- 依赖仓库 -->
+    <repositories>
+        <repository>
+            <id>sonatype-oss-public</id>
+            <url>https://s01.oss.sonatype.org/content/groups/public/</url>
+        </repository>
+    </repositories>
 </project>
