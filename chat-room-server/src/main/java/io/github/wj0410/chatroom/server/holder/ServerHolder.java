@@ -22,7 +22,7 @@ public class ServerHolder {
 
     public static void setClientIdAttr(String clientId) {
         if (serverSocketChannel != null) {
-            serverSocketChannel.attr(AttributeKey.valueOf(CommonConstants.CLIENT_ID)).set(clientId);
+            serverSocketChannel.attr(AttributeKey.valueOf(CommonConstants.BIND_CLIENT_ID)).set(clientId);
         }
     }
 }

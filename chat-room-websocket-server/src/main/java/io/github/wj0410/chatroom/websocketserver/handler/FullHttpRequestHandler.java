@@ -28,6 +28,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
  * 客户端上线
+ *
  * @author wangjie
  * @date 2023/11/8
  */
@@ -55,14 +56,16 @@ public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttp
         // 客户端上线，绑定clientId
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(req.uri());
         Map<String, List<String>> params = queryStringDecoder.parameters();
-        String clientId = params.get(CommonConstants.CLIENT_ID).get(0);
-        String account = params.get("account").get(0);
-        String nickName = params.get("nickName").get(0);
+        String clientId = params.get(CommonConstants.BIND_CLIENT_ID).get(0);
+        String account = params.get(CommonConstants.BIND_ACCOUNT).get(0);
+        String nickName = params.get(CommonConstants.BIND_NICK_NAME).get(0);
         BindMessage bindMessage = new BindMessage();
         bindMessage.setClientId(clientId);
         bindMessage.setAccount(account);
         bindMessage.setNickName(nickName);
-
+        if (params.get(CommonConstants.BIND_AVATAR) != null) {
+            bindMessage.setAvatar(params.get(CommonConstants.BIND_AVATAR).get(0));
+        }
         ServerHolder.setClientIdAttr(bindMessage.getClientId());
         ServerUtil.addClient(ctx, bindMessage, ClientOrigin.WEBSOCKET);
         // 给所有客户端发送同步在线列表消息

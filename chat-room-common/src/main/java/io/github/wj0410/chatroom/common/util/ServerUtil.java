@@ -38,7 +38,7 @@ public class ServerUtil extends ServerData {
     }
 
     public static String getClientId(ChannelHandlerContext ctx) {
-        return (String) ctx.channel().attr(AttributeKey.valueOf(CommonConstants.CLIENT_ID)).get();
+        return (String) ctx.channel().attr(AttributeKey.valueOf(CommonConstants.BIND_CLIENT_ID)).get();
     }
 
     public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage, ClientOrigin clientOrigin) {
@@ -46,6 +46,7 @@ public class ServerUtil extends ServerData {
         clientModel.setClientOrigin(clientOrigin);
         clientModel.setClientId(bindMessage.getClientId());
         clientModel.setAccount(bindMessage.getAccount());
+        clientModel.setAvatar(bindMessage.getAvatar());
         clientModel.setNickName(bindMessage.getNickName());
         clientModel.setCtx(ctx);
         ServerData.getClientOnlineList().add(clientModel);

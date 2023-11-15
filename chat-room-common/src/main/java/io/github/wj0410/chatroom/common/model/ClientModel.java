@@ -19,6 +19,7 @@ public class ClientModel implements Serializable {
     private String clientId;
     private String account;
     private String nickName;
+    private String avatar;
     private ChannelHandlerContext ctx;
     private ClientOrigin clientOrigin;
 

@@ -13,6 +13,7 @@ public class BindMessage {
     private String clientId;
     private String account;
     private String nickName;
+    private String avatar;
     private String clientVersion;
 
     public String getClientId() {
