@@ -118,6 +118,7 @@
 
         </dependencies>
     </dependencyManagement>
+
     <!-- 依赖仓库 -->
     <repositories>
         <repository>
