@@ -7,15 +7,18 @@ import io.github.wj0410.chatroom.common.enums.ClientOrigin;
 import io.github.wj0410.chatroom.common.enums.PromptType;
 import io.github.wj0410.chatroom.common.message.*;
 import io.github.wj0410.chatroom.common.model.ClientModel;
+import io.github.wj0410.cloudbox.tools.util.ObjectUtil;
+import io.github.wj0410.cloudbox.tools.util.StringUtils;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 /**
@@ -33,12 +36,16 @@ public class ServerUtil extends ServerData {
         return ServerData.getClientModelMap();
     }
 
-    public static LinkedHashSet<ClientModel> getClientOnlineList() {
+    public static CopyOnWriteArraySet<ClientModel> getClientOnlineList() {
         return ServerData.getClientOnlineList();
     }
 
     public static String getClientId(ChannelHandlerContext ctx) {
-        return (String) ctx.channel().attr(AttributeKey.valueOf(CommonConstants.BIND_CLIENT_ID)).get();
+        return ctx.channel().attr(AttributeKey.valueOf(CommonConstants.BIND_CLIENT_ID)).get() == null ? "" : (String) ctx.channel().attr(AttributeKey.valueOf(CommonConstants.BIND_CLIENT_ID)).get();
+    }
+
+    public static boolean hasClient(String clientId) {
+        return ObjectUtil.isNotEmpty(getClientModelMap().get(clientId));
     }
 
     public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage, ClientOrigin clientOrigin) {
@@ -49,16 +56,27 @@ public class ServerUtil extends ServerData {
         clientModel.setAvatar(bindMessage.getAvatar());
         clientModel.setNickName(bindMessage.getNickName());
         clientModel.setCtx(ctx);
+        // 存储客户端数据
         ServerData.getClientOnlineList().add(clientModel);
         ServerData.getClientModelMap().put(bindMessage.getClientId(), clientModel);
+        // 给所有客户端发送同步在线列表消息
+        ServerUtil.sendSyncOnlineMessage();
+        // 给所有客户端发送欢迎消息
+        ServerUtil.sendWelcomeMessage(bindMessage.getClientId());
     }
 
-    public static void removeClient(ChannelHandlerContext ctx) {
-        String clientId = getClientId(ctx);
+    public static void removeClient(ClientModel clientModel) {
+        if (clientModel == null || StringUtils.isBlank(clientModel.getClientId())) {
+            return;
+        }
         ConcurrentHashMap<String, ClientModel> clientModelMap = ServerData.getClientModelMap();
-        LinkedHashSet<ClientModel> clientOnlineList = ServerData.getClientOnlineList();
-        clientOnlineList.removeIf(item -> item.getClientId().equals(clientId));
-        clientModelMap.remove(clientId);
+        CopyOnWriteArraySet<ClientModel> clientOnlineList = ServerData.getClientOnlineList();
+        clientOnlineList.removeIf(item -> item.getClientId().equals(clientModel.getClientId()));
+        clientModelMap.remove(clientModel.getClientId());
+        // 给所有客户端发送同步在线列表消息
+        ServerUtil.sendSyncOnlineMessage();
+        // 给所有客户端发送离开消息
+        ServerUtil.sendLeaveMessage(clientModel.getClientId(), clientModel.getNickName());
     }
 
     public static ClientModel getClientModel(ChannelHandlerContext ctx) {
@@ -79,17 +97,15 @@ public class ServerUtil extends ServerData {
     public static void sendSyncOnlineMessage() {
         // 服务端向所有客户端发送同步在线列表消息
         SyncOnlineMessage syncOnlineMessage = new SyncOnlineMessage();
-        LinkedHashSet<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
         LinkedHashSet<ClientModel> newList = new LinkedHashSet<>();
-        for (ClientModel clientModel : clientOnlineList) {
-            ClientModel client = new ClientModel();
-            BeanUtils.copyProperties(clientModel, client);
-            client.setCtx(null);
-            newList.add(client);
+        CopyOnWriteArraySet<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
+        ArrayList<ClientModel> copyList = new ArrayList<>(clientOnlineList);
+        for (ClientModel clientModel : copyList) {
+            newList.add(clientModel.clone());
         }
         syncOnlineMessage.setClientOnlineList(newList);
         String syncOnlineMessageJsonStr = MessageUtil.createSyncOnlineMessageJsonStr(syncOnlineMessage);
-        for (ClientModel clientModel : clientOnlineList) {
+        for (ClientModel clientModel : copyList) {
             clientModel.writeAndFlush(syncOnlineMessageJsonStr);
         }
         log.info("服务端向所有客户端发送同步在线列表消息：{}", syncOnlineMessageJsonStr);
@@ -152,7 +168,7 @@ public class ServerUtil extends ServerData {
         ChatType chatType = normalMessage.getChatType();
         if (chatType.equals(ChatType.PUBLIC)) {
             // 聊天室消息
-            LinkedHashSet<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
+            CopyOnWriteArraySet<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
             clientOnlineList.forEach(item -> {
                 item.writeAndFlush(normalMessageJsonStr);
             });

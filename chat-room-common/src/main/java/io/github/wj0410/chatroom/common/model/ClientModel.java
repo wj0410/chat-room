@@ -15,7 +15,7 @@ import java.util.Objects;
  * @date 2023/10/25
  */
 @Data
-public class ClientModel implements Serializable {
+public class ClientModel implements Serializable, Cloneable {
     private String clientId;
     private String account;
     private String nickName;
@@ -56,5 +56,17 @@ public class ClientModel implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(clientId);
+    }
+
+    @Override
+    public ClientModel clone() {
+        try {
+            ClientModel cloned = (ClientModel) super.clone();
+            // 对于其他引用类型的属性，需要进行深度复制
+            cloned.setCtx(null);
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

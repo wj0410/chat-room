@@ -3,8 +3,8 @@ package io.github.wj0410.chatroom.common.data;
 
 import io.github.wj0410.chatroom.common.model.ClientModel;
 
-import java.util.LinkedHashSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @author wangjie
@@ -15,16 +15,16 @@ public class ServerData {
     /**
      * key : clientId
      */
-    private static ConcurrentHashMap<String, ClientModel> clientModelMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, ClientModel> clientModelMap = new ConcurrentHashMap<>();
 
-    private static LinkedHashSet<ClientModel> clientOnlineList = new LinkedHashSet<>();
+    private static final CopyOnWriteArraySet<ClientModel> clientOnlineList = new CopyOnWriteArraySet<>();
 
 
     protected static ConcurrentHashMap<String, ClientModel> getClientModelMap() {
         return clientModelMap;
     }
 
-    protected static LinkedHashSet<ClientModel> getClientOnlineList() {
+    protected static CopyOnWriteArraySet<ClientModel> getClientOnlineList() {
         return clientOnlineList;
     }
 }

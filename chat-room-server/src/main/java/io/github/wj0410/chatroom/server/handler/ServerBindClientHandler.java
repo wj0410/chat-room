@@ -11,7 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 
 /**
@@ -42,10 +42,6 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
             ServerHolder.serverUI.printConsole(String.format("客户端 %s 连接了...", ServerUtil.formatClientAccount(ctx)));
             // 刷新UI在线列表
             ServerHolder.serverUI.flushClientOnlineList();
-            // 给所有客户端发送同步在线列表消息
-            ServerUtil.sendSyncOnlineMessage();
-            // 给所有客户端发送欢迎消息
-            ServerUtil.sendWelcomeMessage(bindMessage.getClientId());
         }
     }
 
@@ -62,24 +58,17 @@ public class ServerBindClientHandler extends SimpleChannelInboundHandler<BindMes
      * @return
      */
     private boolean checkClientVersion(String clientVersion) {
-        if (StringUtils.isBlank(clientVersion)
-                || !clientVersion.equals(ServerHolder.serverProperties.getClient().getVersion())) {
-            return false;
-        }
-        return true;
+        return !StringUtils.isBlank(clientVersion)
+                && clientVersion.equals(ServerHolder.serverProperties.getClient().getVersion());
     }
 
     private boolean checkLogin(String account) {
         int count = 0;
-        LinkedHashSet<ClientModel> clientOnlineList = ServerUtil.getClientOnlineList();
-        for (ClientModel clientModel : clientOnlineList) {
+        for (ClientModel clientModel : new ArrayList<ClientModel>(ServerUtil.getClientOnlineList())) {
             if (clientModel.getAccount().equals(account)) {
                 count++;
             }
         }
-        if (count > 1) {
-            return false;
-        }
-        return true;
+        return count <= 1;
     }
 }

@@ -7,8 +7,8 @@ package io.github.wj0410.chatroom.server.ui.swing;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.ServerUtil;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
-import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
+import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import io.github.wj0410.cloudbox.tools.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +39,7 @@ public class ServerSwingUI extends AbstractServerUI {
             model.addElement(ServerUtil.formatClientAccount(clientModel));
         }
         this.onlineList.setModel(model);
-        this.onlineCount.setText(String.valueOf(ServerUtil.getClientOnlineList().size()));
+        this.onlineCount.setText(String.valueOf(model.size()));
     }
 
     @Override
