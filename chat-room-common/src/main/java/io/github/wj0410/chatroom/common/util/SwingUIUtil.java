@@ -123,7 +123,7 @@ public class SwingUIUtil {
      * @param recvPane
      */
     public static void drawRecvPane(NormalMessage normalMessage, JTextPane recvPane, int self) {
-        List<MessageContainer> msgList = normalMessage.getMsg();
+        List<MessageContainer> msgList = normalMessage.getMsgList();
         for (MessageContainer msg : msgList) {
             // 绘制头部
             drawRecvHead(normalMessage.getFromNickName(), normalMessage.getTimestamp(), recvPane, self);

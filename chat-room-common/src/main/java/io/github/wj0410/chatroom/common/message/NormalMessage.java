@@ -23,7 +23,7 @@ public class NormalMessage {
     private String fromClientAvatar;
     private List<String> targetClientIds;
     private long timestamp;
-    private List<MessageContainer> msg;
+    private List<MessageContainer> msgList;
 
     public NormalMessage() {
         this.timestamp = System.currentTimeMillis();
@@ -32,8 +32,8 @@ public class NormalMessage {
     @Override
     public String toString() {
         String msg = "";
-        if(!CollectionUtils.isEmpty(this.msg)){
-            for (MessageContainer messageContainer : this.msg) {
+        if(!CollectionUtils.isEmpty(this.msgList)){
+            for (MessageContainer messageContainer : this.msgList) {
                 if (messageContainer.getType().equals(MessageContainerType.IMAGE)) {
                     msg += "[img],";
                 } else {
@@ -49,7 +49,7 @@ public class NormalMessage {
                 ", fromClientAvatar=" + fromClientAvatar +
                 ", targetClientIds=" + targetClientIds +
                 ", timestamp=" + timestamp +
-                ", msg=" + String.format("[%s]", msg.replaceAll("^,|,$", "")) +
+                ", msgList=" + String.format("[%s]", msg.replaceAll("^,|,$", "")) +
                 '}';
     }
 }

@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * 用户信息表
+ * @author wangjie
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

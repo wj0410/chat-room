@@ -61,7 +61,7 @@ public class ClientUtil {
     public static NormalMessage sendNormalMessage(ClientModel clientModel, List<MessageContainer> msg, ChatType chatType, List<String> targetClientList) {
         NormalMessage message = new NormalMessage();
         message.setChatType(chatType);
-        message.setMsg(msg);
+        message.setMsgList(msg);
         message.setFromAccount(ClientHolder.clientInfo.getAccount());
         message.setFromClientId(ClientHolder.clientInfo.getClientId());
         message.setFromNickName(ClientHolder.clientInfo.getNickName());

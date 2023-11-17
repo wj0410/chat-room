@@ -13,5 +13,9 @@ public enum ChatType {
      * 私聊
      */
     PRIVATE,
+    /**
+     * 群组
+     */
+    GROUP,
     ;
 }
