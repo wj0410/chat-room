@@ -26,7 +26,6 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
         frame.retain();
         String content = frame.text();
         if (content.equals(CommonConstants.HEART_BEAT)) {
-            System.out.println(String.format("收到客户端[%s]心跳", ServerUtil.getClientId(ctx)));
             ctx.channel().writeAndFlush(new TextWebSocketFrame(CommonConstants.HEART_BEAT_SUCCESS));
             return;
         }
