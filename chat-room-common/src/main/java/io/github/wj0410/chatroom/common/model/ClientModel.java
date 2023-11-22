@@ -31,7 +31,7 @@ public class ClientModel implements Serializable, Cloneable {
             case WEBSOCKET:
                 // websocket消息以Frame传输
                 if (o instanceof String) {
-                    // 创建 TextWebSocketFrame 对象，并增加引用计数
+                    // 创建 TextWebSocketFrame 对象
                     return ctx.channel().writeAndFlush(new TextWebSocketFrame((String) o));
                 }
                 throw new UnsupportedOperationException(String.format(

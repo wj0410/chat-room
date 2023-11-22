@@ -15,4 +15,6 @@ public class CommonConstants {
     public static final String WELCOME_PROMPT_OTHER = "%s 进入了聊天室";
     public static final String LEAVE_PROMPT_OTHER = "%s 离开了";
     public static final String PLACE_HOLDER_IMAGE = "ф";
+    public static final String HEART_BEAT = "heart_beat";
+    public static final String HEART_BEAT_SUCCESS = "heart_beat:success";
 }
