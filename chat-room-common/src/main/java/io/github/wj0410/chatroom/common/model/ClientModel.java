@@ -1,6 +1,7 @@
 package io.github.wj0410.chatroom.common.model;
 
 import io.github.wj0410.chatroom.common.enums.ClientOrigin;
+import io.github.wj0410.chatroom.common.enums.ClientType;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,6 +23,7 @@ public class ClientModel implements Serializable, Cloneable {
     private String avatar;
     private ChannelHandlerContext ctx;
     private ClientOrigin clientOrigin;
+    private ClientType clientType;
 
     public ChannelFuture writeAndFlush(Object o) {
         switch (clientOrigin) {

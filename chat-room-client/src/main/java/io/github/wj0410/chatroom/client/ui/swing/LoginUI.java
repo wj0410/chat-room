@@ -8,6 +8,7 @@ import io.github.wj0410.chatroom.client.conf.AccountConf;
 import io.github.wj0410.chatroom.client.holder.ClientHolder;
 import io.github.wj0410.chatroom.client.netty.NettyClient;
 import io.github.wj0410.chatroom.common.enums.ClientOrigin;
+import io.github.wj0410.chatroom.common.enums.ClientType;
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.SwingUIUtil;
 import io.github.wj0410.cloudbox.tools.util.StringUtils;
@@ -61,6 +62,7 @@ public class LoginUI {
         // 将客户端信息记录到ClientHolder
         ClientHolder.clientInfo = new ClientModel();
         ClientHolder.clientInfo.setClientOrigin(ClientOrigin.SWING);
+        ClientHolder.clientInfo.setClientType(ClientType.PERSONAL);
         ClientHolder.clientInfo.setAccount(sysUser.getAccount());
         ClientHolder.clientInfo.setNickName(sysUser.getNickName());
         if (connection(host, port)) {

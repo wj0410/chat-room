@@ -4,6 +4,7 @@ import io.github.wj0410.chatroom.common.constant.CommonConstants;
 import io.github.wj0410.chatroom.common.data.ServerData;
 import io.github.wj0410.chatroom.common.enums.ChatType;
 import io.github.wj0410.chatroom.common.enums.ClientOrigin;
+import io.github.wj0410.chatroom.common.enums.ClientType;
 import io.github.wj0410.chatroom.common.enums.PromptType;
 import io.github.wj0410.chatroom.common.message.*;
 import io.github.wj0410.chatroom.common.model.ClientModel;
@@ -51,6 +52,7 @@ public class ServerUtil extends ServerData {
     public static void addClient(ChannelHandlerContext ctx, BindMessage bindMessage, ClientOrigin clientOrigin) {
         ClientModel clientModel = new ClientModel();
         clientModel.setClientOrigin(clientOrigin);
+        clientModel.setClientType(ClientType.PERSONAL);
         clientModel.setClientId(bindMessage.getClientId());
         clientModel.setAccount(bindMessage.getAccount());
         clientModel.setAvatar(bindMessage.getAvatar());
