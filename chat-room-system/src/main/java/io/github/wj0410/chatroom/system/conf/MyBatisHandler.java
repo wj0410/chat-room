@@ -1,8 +1,11 @@
 package io.github.wj0410.chatroom.system.conf;
 
-import io.github.wj0410.cloudbox.easycrudmp.handler.AbstractMetaObjectHandler;
+import io.github.wj0410.cloudbox.easycrud.mp.handler.AbstractMetaObjectHandler;
 import io.github.wj0410.cloudbox.tools.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wangjie
@@ -17,5 +20,10 @@ public class MyBatisHandler extends AbstractMetaObjectHandler {
     @Override
     protected String getLoginUserName() {
         return SecurityContextHolder.getUserName();
+    }
+
+    @Override
+    protected List<Class> needInsertIdClasses() {
+        return new ArrayList<>();
     }
 }

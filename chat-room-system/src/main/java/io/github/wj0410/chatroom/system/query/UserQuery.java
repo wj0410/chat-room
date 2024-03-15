@@ -1,8 +1,8 @@
 package io.github.wj0410.chatroom.system.query;
 
-import io.github.wj0410.cloudbox.easycrudmp.annotation.Keyword;
-import io.github.wj0410.cloudbox.easycrudmp.annotation.Query;
-import io.github.wj0410.cloudbox.easycrudmp.query.PageQuery;
+import io.github.wj0410.cloudbox.easycrud.mp.query.PageQuery;
+import io.github.wj0410.cloudbox.easycrud.mp.annotation.Keyword;
+import io.github.wj0410.cloudbox.easycrud.mp.annotation.Query;
 import lombok.Data;
 
 import java.time.LocalDateTime;
