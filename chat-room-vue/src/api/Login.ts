@@ -1,36 +1,35 @@
-import request from '@/utils/request'
+import Request from '@/util/request'
+import LoginDTO from '@/model/LoginDTO'
+import RegisterDTO from '@/model/RegisterDTO'
 
 // 登录方法
-export function login(username, password) {
-    const data = {
-        username,
-        password,
-    }
-    return request({
+export function login(loginDTO: LoginDTO) {
+
+    return Request({
         url: '/auth/login',
         headers: {
             isToken: false
         },
         method: 'post',
-        data: data
+        data: loginDTO
     })
 }
 
 // 注册方法
-export function register(data) {
-    return request({
+export function register(registerDTO: RegisterDTO) {
+    return Request({
         url: '/auth/register',
         headers: {
             isToken: false
         },
         method: 'post',
-        data: data
+        data: registerDTO
     })
 }
 
 // 获取用户详细信息
 export function getInfo() {
-    return request({
+    return Request({
         url: '/system/user/getInfo',
         method: 'get'
     })
@@ -38,7 +37,7 @@ export function getInfo() {
 
 // 退出方法
 export function logout() {
-    return request({
+    return Request({
         url: '/auth/logout',
         method: 'post'
     })

@@ -4,12 +4,9 @@ import useUserStore from "@/stores/User";
 import {onMounted} from 'vue'
 
 const userStore = useUserStore()
-onMounted(() => {
-  console.log(userStore.value)
-  userStore.login("aaa","aaa")
-})
-
-
+let user = new User("{}")
+console.log(user)
+console.log(user.socket)
 </script>
 
 <template>

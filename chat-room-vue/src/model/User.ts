@@ -1,4 +1,4 @@
-import {UserStatus} from "@/enum/UserStatus";
+import { UserStatus } from "@/enum/UserStatus";
 import MyWebSocket from "@/websocket/MyWebSocket";
 
 class User {
@@ -7,15 +7,15 @@ class User {
     private _nickName: string;
     private _userStatus: UserStatus;
     private _avatar: string;
-    private _socket: MyWebSocket;
+    private _socket: MyWebSocket | undefined;
 
     constructor(json: string) {
         const data = JSON.parse(json);
         this._id = data.id;
         this._username = data.username;
         this._nickName = data.nickName;
-        this._userStatus = data.userStatus as UserStatus;
         this._avatar = data.avatar;
+        this._userStatus = UserStatus.ON_LINE;
     }
 
     get id() {
@@ -38,7 +38,7 @@ class User {
         return this._avatar;
     }
 
-    get socket() {
+    get socket(): MyWebSocket | undefined {
         return this._socket;
     }
 
