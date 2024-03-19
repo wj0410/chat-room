@@ -12,7 +12,9 @@ const useUserStore = defineStore('user',{
         user: (state) => state.user,
     },
     actions: {
+        login(username: string, password: string){
 
+        }
     }
 })
 
