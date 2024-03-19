@@ -4,9 +4,18 @@ import useUserStore from "@/stores/User";
 import {onMounted} from 'vue'
 
 const userStore = useUserStore()
-let user = new User("{}")
-console.log(user)
-console.log(user.socket)
+let user1 = new User('{"id":1,"username":"admin","nickName":"管理员","avatar":"https://avatars.githubusercontent.com/u/43922975?v=4"}');
+let user2 = new User('{"id":2,"username":"user","nickName":"用户","avatar":"https://avatars.githubusercontent.com/u/43922975?v=4"}');
+userStore.addOnlineUser(user1)
+userStore.addOnlineUser(user2)
+console.log("onlineUserList",userStore.onlineUserList)
+console.log("onlineUserTotal",userStore.onlineUserTotal)
+console.log("getadminUser",userStore.getUser("admin"))
+userStore.removeOnlineUser(user2)
+console.log("删除用户后")
+console.log("onlineUserList",userStore.onlineUserList)
+console.log("onlineUserTotal",userStore.onlineUserTotal)
+
 </script>
 
 <template>
