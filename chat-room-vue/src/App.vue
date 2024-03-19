@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-console.log(import.meta.env.VITE_WEB_SOCKET_URL)
+import User from './model/User';
+import {UserStatus} from "@/enum/UserStatus";
+import DataCache from "@/util/DataCache";
+// console.log(import.meta.env.VITE_WEB_SOCKET_URL)
+console.log(DataCache.getOnlineUserTotal())
+let json = '{"id":123,"username":"aaa","nickName":"wangjie","userStatus":"ON_LINE","avatar":"http://aaa.com"}';
+let user1 = new User(json)
+console.log(user1)
+DataCache.addOnlineUser(user1)
+console.log(DataCache.getOnlineUserTotal())
 </script>
 
 <template>
