@@ -1,19 +1,20 @@
 import {defineStore} from "pinia";
+import LoginDTO from "@/model/LoginDTO";
 
-const useUserStore = defineStore('user',{
-    state:() => ({
-        onlineUserTotal: 0,
+const useUserStore: ReturnType<typeof defineStore> = defineStore('user', {
+    state: () => ({
         onlineUserList: [],
-        user: undefined,
+        user: {},
     }),
     getters: {
-        onlineUserTotal: (state) => state.onlineUserTotal,
+        onlineUserTotal: (state) => state.onlineUserList,
         onlineUserList: (state) => state.onlineUserList,
         user: (state) => state.user,
     },
     actions: {
-        login(username: string, password: string){
-
+        login(username: string, password: string) {
+            let loginDTO = new LoginDTO(username, password);
+            console.log("login exec")
         }
     }
 })

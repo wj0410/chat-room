@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import User from './model/User';
+import useUserStore from "@/stores/User";
+import {onMounted} from 'vue'
 
-let user1 = new User("{}")
-console.log(user1)
+const userStore = useUserStore()
+onMounted(() => {
+  console.log(userStore.value)
+  userStore.login("aaa","aaa")
+})
+
+
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld msg="You did it!"/>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -19,7 +26,7 @@ console.log(user1)
     </div>
   </header>
 
-  <RouterView />
+  <RouterView/>
 </template>
 
 <style scoped>
