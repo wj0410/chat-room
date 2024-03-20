@@ -1,4 +1,4 @@
-import Request from '@/util/request'
+import Request from '@/util/Request'
 import LoginDTO from '@/model/LoginDTO'
 import RegisterDTO from '@/model/RegisterDTO'
 
