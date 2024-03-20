@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import LoginDTO from "@/model/LoginDTO";
 import User from "@/model/User";
-import { login } from "@/api/Login";
+import { login } from "@/api/login";
 
 const useUserStore = defineStore('user', {
     state: () => ({
@@ -17,7 +17,7 @@ const useUserStore = defineStore('user', {
     actions: {
         async login(username: string, password: string) {
             let loginDTO = new LoginDTO(username, password);
-            await login(loginDTO)
+             login(loginDTO)
             this.loginUser = new User(JSON.stringify(loginDTO));
         },
         addOnlineUser(user: User) {
@@ -28,6 +28,11 @@ const useUserStore = defineStore('user', {
         },
         getUser(username: string) {
             return this.userMap.get(username);
+        },
+        logOut() {
+          return new Promise((resolve, reject) => {
+            
+          })
         }
     }
 })

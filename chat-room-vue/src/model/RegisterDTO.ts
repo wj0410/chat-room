@@ -29,7 +29,7 @@ class UserDTO {
         this._password = password;
     }
 
-    set password(nickName: string) {
+    set nickName(nickName: string) {
         this._nickName = nickName;
     }
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import User from './model/User';
-import useUserStore from "@/stores/User";
+import useUserStore from "@/store/user";
 import {onMounted} from 'vue'
 
 const userStore = useUserStore()
@@ -98,3 +98,4 @@ nav a:first-of-type {
   }
 }
 </style>
+@/stores/user@/store/user
