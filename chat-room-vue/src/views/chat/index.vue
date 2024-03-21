@@ -11,15 +11,17 @@ let chatObj = {
   type:'chat',
   avatar:'https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
   unread:5,
-  name:'测试',
+  name:'测试1',
   news:'最近消息摘要'
 }
-let gameObj = {
-  type:'gameCenter',
+let chatObj2 = {
+  type:'chat',
   avatar:'https://avatars.githubusercontent.com/u/43922975?v=4',
-  title:'斗地主'
+  unread:1,
+  name:'测试2',
+  news:'最近消息摘要'
 }
-let list = [chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj,chatObj]
+let list = [chatObj,chatObj2]
 </script>
 <style lang="scss" scoped>
   .chat{

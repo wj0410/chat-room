@@ -1,7 +1,7 @@
 <template>
   <div class="gameCenter">
     <middle :itemList="list" />
-    <chatView />
+    <!-- <chatView /> -->
   </div>
 </template>
 <script setup lang="ts">
