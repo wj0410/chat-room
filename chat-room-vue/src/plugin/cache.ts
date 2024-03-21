@@ -1,5 +1,5 @@
 const sessionCache = {
-  set(key, value) {
+  set(key:any, value:any) {
     if (!sessionStorage) {
       return
     }
@@ -7,7 +7,7 @@ const sessionCache = {
       sessionStorage.setItem(key, value)
     }
   },
-  get(key) {
+  get(key:any) {
     if (!sessionStorage) {
       return null
     }
@@ -16,23 +16,23 @@ const sessionCache = {
     }
     return sessionStorage.getItem(key)
   },
-  setJSON(key, jsonValue) {
+  setJSON(key:any, jsonValue:any) {
     if (jsonValue != null) {
       this.set(key, JSON.stringify(jsonValue))
     }
   },
-  getJSON(key) {
+  getJSON(key:any) {
     const value = this.get(key)
     if (value != null) {
       return JSON.parse(value)
     }
   },
-  remove(key) {
+  remove(key:any) {
     sessionStorage.removeItem(key);
   }
 }
 const localCache = {
-  set(key, value) {
+  set(key:any, value:any) {
     if (!localStorage) {
       return
     }
@@ -40,7 +40,7 @@ const localCache = {
       localStorage.setItem(key, value)
     }
   },
-  get(key) {
+  get(key:any) {
     if (!localStorage) {
       return null
     }
@@ -49,18 +49,18 @@ const localCache = {
     }
     return localStorage.getItem(key)
   },
-  setJSON(key, jsonValue) {
+  setJSON(key:any, jsonValue:any) {
     if (jsonValue != null) {
       this.set(key, JSON.stringify(jsonValue))
     }
   },
-  getJSON(key) {
+  getJSON(key:any) {
     const value = this.get(key)
     if (value != null) {
       return JSON.parse(value)
     }
   },
-  remove(key) {
+  remove(key:any) {
     localStorage.removeItem(key);
   }
 }
