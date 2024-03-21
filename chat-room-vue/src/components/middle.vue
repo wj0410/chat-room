@@ -37,7 +37,6 @@ const props = defineProps({
     default: [],
   },
 });
-console.log(props.itemList);
 </script>
 <style lang="scss" scoped>
 @import "@/assets/components/middle.scss";

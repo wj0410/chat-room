@@ -1,82 +1,7 @@
 <template>
   <div class="chatView">
-    <div class="head">
-      <div class="title">XXX</div>
-      <div class="more">
-        <svg
-          t="1700459172354"
-          class="icon"
-          viewBox="0 0 1024 1024"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          p-id="8224"
-          width="200"
-          height="200"
-        >
-          <path
-            d="M0 0h1024v1024H0z"
-            fill="#000000"
-            fill-opacity="0"
-            p-id="8225"
-          ></path>
-          <path
-            d="M234.666667 448a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m277.333333 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m277.333333 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z"
-            fill="#333231"
-            p-id="8226"
-          ></path>
-        </svg>
-      </div>
-      <div class="more-container">
-        <ul>
-          <li tabindex="0">
-            <div class="avatar">
-              <img
-                class="avatar"
-                src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-              />
-            </div>
-            <div class="nick-name">WWWWWWWWWWWW</div>
-          </li>
-          <li tabindex="0">
-            <div class="avatar">
-              <img
-                class="avatar"
-                src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-              />
-            </div>
-            <div class="nick-name">aaaaaaaaaaa</div>
-          </li>
-          <li tabindex="0">
-            <div class="avatar">
-              <img
-                class="avatar"
-                src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-              />
-            </div>
-            <div class="nick-name">aaaaaaaaaaa</div>
-          </li>
-          <li tabindex="0">
-            <div class="avatar">
-              <img
-                class="avatar"
-                src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-              />
-            </div>
-            <div class="nick-name">aaaaaaaaaaa</div>
-          </li>
-          <li tabindex="0">
-            <div class="avatar">
-              <img
-                class="avatar"
-                src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-              />
-            </div>
-            <div class="nick-name">aaaaaaaaaaa</div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <!-- <div class="chat-message-area">
+    <headView :headObj="chatObj.headObj" />
+    <div class="chat-message-area">
       <div class="chat-content">
         <div class="message incoming">
           <div class="head-img">
@@ -201,7 +126,7 @@
           </div>
         </div>
       </div>
-      <div class="new-message">
+      <!-- <div class="new-message">
         <svg
           t="1700206635508"
           class="icon"
@@ -219,8 +144,8 @@
           ></path>
         </svg>
         <span>1</span>条新消息
-      </div>
-      <div class="offline">
+      </div> -->
+      <!-- <div class="offline">
         <span class="warn">
           <svg
             t="1700553137490"
@@ -250,8 +175,8 @@
           </svg>
         </span>
         <span>当前网络不可用，需检查你的网络设置</span>
-      </div>
-    </div> -->
+      </div> -->
+    </div>
     <!-- <div class="chat-send-area">
       <div class="chat-send-tool-area">
         <div class="chat-send-tool-left">
@@ -464,7 +389,17 @@
     </div> -->
   </div>
 </template>
-<script lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue";
+import headView from "../headView.vue";
+const props = defineProps({
+  chatObj: {
+    type: Object,
+    default: {},
+  },
+});
+</script>
+
 <style lang="scss" scoped>
 .chatView {
   flex: 1;
@@ -472,77 +407,8 @@
   background-color: #f3f3f3;
   display: flex;
   flex-direction: column;
-  .head {
-    height: 60px;
-    display: flex;
-    border-bottom: 1px solid #ccc;
-    position: relative;
-    .title {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      margin-left: 25px;
-    }
-    .more {
-      display: flex;
-      align-items: center;
-      margin-right: 16px;
-    }
-    .more-container {
-      width: 260px;
-      height: 749px;
-      top: 61px;
-      right: 0;
-      background-color: #ffffff;
-      position: absolute;
-      z-index: 1;
-      // display: none;
-
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        border-bottom: 1px solid #ccc;
-      }
-    }
-  }
 }
 
-.more-container-show {
-  display: block;
-  animation: slideInFromRight 0.5s forwards;
-}
-.more-container-hide {
-  display: block;
-  animation: slideOutToRight 0.5s forwards;
-}
-.more-container li {
-  padding: 4px;
-  margin-bottom: 4px;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap; /* 不换行 */
-  overflow: hidden; /* 溢出隐藏 */
-  text-overflow: ellipsis; /* 文本省略号 */
-}
-.more-container li:focus {
-  background-color: #e1e1e1;
-}
-.more-container li .avatar {
-  width: 30px !important;
-  height: 30px !important;
-}
-.more-container li .nick-name {
-  width: 45px;
-  margin-top: 7px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* chat-message-area */
 .chat-message-area {
   flex: 0.7;
   min-height: 400px;
@@ -551,75 +417,76 @@
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-}
-.chat-content {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-.message {
-  position: relative;
-  margin: 5px 0;
-  max-width: 60%;
-  display: flex;
-  font-size: 14px;
-}
-.message .content {
-  margin: 0 10px;
-  padding: 10px;
-  border-radius: 5px;
-  position: relative;
-  display: inline-block;
-  white-space: pre-line;
-  word-break: break-all;
-}
-.message .nick-name {
-  margin: 0 10px 3px;
-  color: #adadad;
-  font-size: 12px;
-}
-.incoming {
-  align-self: flex-start;
-}
-.incoming .content {
-  background-color: #ffffff;
-}
-.incoming .content::before {
-  content: "";
-  position: absolute;
-  left: -15px;
-  border-width: 10px;
-  border-style: solid;
-  border-color: transparent #ffffff transparent transparent;
-  top: 20px;
-  transform: translateY(-50%);
-}
-.outgoing {
-  align-self: flex-end;
-  display: flex;
-  flex-direction: row-reverse;
-}
-.outgoing .content {
-  background-color: #95ec69;
-}
-.outgoing .head-img {
-  float: right;
-}
-.outgoing .content::before {
-  content: "";
-  position: absolute;
-  right: -15px;
-  border-width: 10px;
-  border-style: solid;
-  border-color: transparent transparent transparent #95ec69;
-  top: 20px;
-  transform: translateY(-50%);
-}
-.prompt {
-  text-align: center;
-  font-size: 13px;
-  color: #adadad;
+  .chat-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    .message {
+      position: relative;
+      margin: 5px 0;
+      max-width: 60%;
+      display: flex;
+      font-size: 14px;
+      .content {
+        margin: 0 10px;
+        padding: 10px;
+        border-radius: 5px;
+        position: relative;
+        display: inline-block;
+        white-space: pre-line;
+        word-break: break-all;
+      }
+      .nick-name {
+        margin: 0 10px 3px;
+        color: #adadad;
+        font-size: 12px;
+      }
+    }
+
+    .incoming {
+      align-self: flex-start;
+      .content {
+        background-color: #ffffff;
+      }
+      .content::before {
+        content: "";
+        position: absolute;
+        left: -15px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent #ffffff transparent transparent;
+        top: 20px;
+        transform: translateY(-50%);
+      }
+    }
+    .outgoing {
+      align-self: flex-end;
+      display: flex;
+      flex-direction: row-reverse;
+      .content {
+        background-color: #95ec69;
+      }
+      .content::before {
+        content: "";
+        position: absolute;
+        right: -15px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent transparent transparent #95ec69;
+        top: 20px;
+        transform: translateY(-50%);
+      }
+      .head-img {
+        float: right;
+      }
+    }
+    .prompt {
+      text-align: center;
+      font-size: 13px;
+      color: #adadad;
+    }
+  }
 }
 .new-message {
   line-height: 0;
@@ -639,10 +506,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.new-message svg {
-  height: 23px;
-  width: 23px;
+  svg {
+    height: 23px;
+    width: 23px;
+  }
 }
 .offline {
   background-color: #f8e8e8;
@@ -659,10 +526,10 @@
 }
 .warn {
   margin-right: 10px;
-}
-.warn svg {
-  width: 18px;
-  height: 18px;
+  svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 /* chat-send-area */
 .chat-send-area {

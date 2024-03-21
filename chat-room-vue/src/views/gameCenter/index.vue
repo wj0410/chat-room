@@ -1,19 +1,23 @@
 <template>
   <div class="gameCenter">
-    <middle :itemList="list" />
-    <!-- <chatView /> -->
+    <middle :itemList="gameList" />
+    <headView :headObj="headObj" />
   </div>
 </template>
 <script setup lang="ts">
 import middle from "@/components/middle.vue";
-import chatView from "@/components/chat/chatView.vue";
+import headView from "@/components/headView.vue";
 
 let gameObj = {
   type: "gameCenter",
   avatar: "https://avatars.githubusercontent.com/u/43922975?v=4",
   title: "斗地主",
 };
-let list = [gameObj, gameObj, gameObj, gameObj];
+let gameList = [gameObj, gameObj, gameObj, gameObj];
+
+let headObj = {
+  title: "斗地主"
+};
 </script>
 <style lang="scss" scoped>
 .gameCenter {

@@ -3,7 +3,7 @@ import { getToken } from '@/util/auth'
 import useUserStore from '@/store/user'
 import { tansParams } from '@/util/ruoyi'
 import cache from '@/plugin/cache'
-import { ErrorCode, ResponseCode } from '@/constant/ErrorCode'
+import { CodeMsg, ResponseCode } from '@/constant/Code'
 import { ElMessage, ElMessageBox, ElNotification } from 'element-plus'
 
 // 是否显示重新登录
@@ -75,7 +75,7 @@ service.interceptors.response.use(res => {
     // 未设置状态码则默认成功状态
     const code: ResponseCode = res.data.code || 200;
     // 获取错误信息
-    const msg = ErrorCode[code] || res.data.msg || ErrorCode[ResponseCode.SYSTEM_ERROR]
+    const msg = CodeMsg[code] || res.data.msg || CodeMsg[ResponseCode.SYSTEM_ERROR]
     // 二进制数据则直接返回
     if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
         return res.data

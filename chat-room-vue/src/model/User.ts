@@ -1,4 +1,4 @@
-import { UserStatus } from "@/enum/UserStatus";
+import { UserStatus } from "@/constant/Enums";
 import MyWebSocket from "@/websocket/MyWebSocket";
 
 class User {
