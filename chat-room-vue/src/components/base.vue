@@ -1,7 +1,7 @@
 <template>
   <div class="base">
     <div class="box">
-      <div class="box-left">
+      <div class="box-left no-copy no-right-click">
         <leftMenu />
       </div>
       <div class="box-right">
@@ -11,9 +11,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import leftMenu from "./leftMenu.vue";
+import leftMenu from './leftMenu.vue';
 </script>
-<style lang="scss">
+
+<style lang="scss" scoped>
 .base {
   height: 100vh;
   width: 100%;
@@ -39,7 +40,6 @@ import leftMenu from "./leftMenu.vue";
       width: 60px;
     }
     .box-right {
-      border: 1px blue solid;
       flex: 1;
     }
   }

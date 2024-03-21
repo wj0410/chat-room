@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="leftMenu">
     <div class="occupying-area"></div>
     <div class="menu-bar-area">
       <div class="menu-bar-self">
@@ -91,41 +91,13 @@ import type User from "@/model/User";
 import useUserStore from "@/store/user";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-let refLoginUser = ref<User | undefined>(undefined);
+const refLoginUser = ref<User | undefined>(undefined);
 refLoginUser.value = useUserStore().loginUser;
-const router = useRouter()
-const jump = (path:string) => {
-  router.push(path)
+const router = useRouter();
+const jump = (path: string) => {
+  router.push(path);
 };
 </script>
 <style lang="scss" scoped>
-.container {
-  background-color: #e5e5e5;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  .occupying-area {
-    height: 60px;
-  }
-  .menu-bar-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    ul {
-      text-align: center;
-    }
-    li {
-      margin: 20px 0;
-      cursor: pointer;
-    }
-    .menu-bar-self {
-      text-align: center;
-      margin-top: 8px;
-      margin-bottom: 5px;
-    }
-    .menu-bar-top {
-      flex: 1;
-    }
-  }
-}
+@import "@/assets/components/leftMenu.scss";
 </style>

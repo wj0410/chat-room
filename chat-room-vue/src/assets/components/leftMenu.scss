@@ -1,0 +1,29 @@
+.leftMenu {
+  background-color: #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .occupying-area {
+    height: 60px;
+  }
+  .menu-bar-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    ul {
+      text-align: center;
+    }
+    li {
+      margin: 20px 0;
+      cursor: pointer;
+    }
+    .menu-bar-self {
+      text-align: center;
+      margin-top: 8px;
+      margin-bottom: 5px;
+    }
+    .menu-bar-top {
+      flex: 1;
+    }
+  }
+}

@@ -22,9 +22,9 @@ userStore.loginUser = user1;
 // user1.socket = socket
 userStore.addOnlineUser(user1);
 userStore.addOnlineUser(user2);
-console.log("loginUser", userStore.loginUser);
-console.log("onlineUserList", userStore.onlineUserList);
-console.log("onlineUserTotal", userStore.onlineUserTotal);
+// console.log("loginUser", userStore.loginUser);
+// console.log("onlineUserList", userStore.onlineUserList);
+// console.log("onlineUserTotal", userStore.onlineUserTotal);
 </script>
 
 <style scoped></style>
