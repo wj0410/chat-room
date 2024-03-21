@@ -1,6 +1,9 @@
+import type User from "@/model/User";
+
 class MyWebSocket extends WebSocket {
 
-    constructor(token: string, url: string) {
+    constructor(user: User, url: string) {
+        url = url + "?username=" + user.username;
         super(url)
     }
 

@@ -1,25 +1,25 @@
 import type User from "@/model/User";
 
-interface ChatMiddle {
+interface ChatMiddleProp {
   type: "chat";
   avatar: string;
   unread: number;
   name: string;
   news: string;
 }
-interface GameCenterMiddle {
+interface GameCenterMiddleProp {
   type: "gameCenter";
   avatar: string;
   title: string;
 }
 
-interface ChatView {
-  head: Head;
+interface ChatViewProp {
+  headProp: HeadProp;
 }
-interface Head {
+interface HeadProp {
   title: string;
-  userCount: number;
-  groupUserList: Array<User>;
+  userCount?: number;
+  groupUserList?: Array<User>;
 }
 
-export type { ChatMiddle, GameCenterMiddle, ChatView, Head };
+export type { ChatMiddleProp, GameCenterMiddleProp, ChatViewProp, HeadProp };

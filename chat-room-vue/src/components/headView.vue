@@ -1,12 +1,12 @@
 <template>
   <div class="head no-copy">
     <div class="title">
-      {{ headObj.title }}
-      <div v-if="headObj.userCount" class="userCount">
-        （{{ headObj.userCount }}）
+      {{ headProp.title }}
+      <div v-if="headProp.userCount" class="userCount">
+        （{{ headProp.userCount }}）
       </div>
     </div>
-    <div class="more" v-if="headObj.groupUserList">
+    <div class="more" v-if="headProp.groupUserList">
       <svg
         @click="moreClick"
         t="1700459172354"
@@ -31,7 +31,7 @@
         ></path>
       </svg>
     </div>
-    <transition name="slide" appear>
+    <transition name="slide" appear v-if="headProp.groupUserList">
       <div
         class="more-container"
         v-show="refMoreShow"
@@ -48,7 +48,7 @@
         <ul>
           <li
             :tabindex="index"
-            v-for="(item, index) in headObj.groupUserList"
+            v-for="(item, index) in headProp.groupUserList"
             key="index"
           >
             <div class="avatar">
@@ -64,13 +64,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import type { HeadProp } from '@/constant/Props'
 const props = defineProps({
-  headObj: {  
-    type: Object,
+  headProp: {  
+    type: Object as () => HeadProp ,
     default: {},
   },
 });
-console.log(props.headObj)
 const refMoreShow = ref(false)
 const moreClick = () => {
   refMoreShow.value = !refMoreShow.value;
@@ -104,6 +104,7 @@ const moreClick = () => {
   animation: slideOutToRight 0.5s forwards;
 }
 .head {
+  background-color: #f3f3f3;
   height: 60px;
   display: flex;
   border-bottom: 1px solid #ccc;

@@ -7,7 +7,6 @@ class User {
     private _nickName: string;
     private _userStatus: UserStatus;
     private _avatar: string;
-    private _socket: MyWebSocket | undefined;
 
     constructor(json: string) {
         const data = JSON.parse(json);
@@ -38,10 +37,6 @@ class User {
         return this._avatar;
     }
 
-    get socket(): MyWebSocket | undefined {
-        return this._socket;
-    }
-
     set userStatus(userStatus: UserStatus) {
         this._userStatus = userStatus;
     }
@@ -52,10 +47,6 @@ class User {
 
     set avatar(avatar: string) {
         this._avatar = avatar;
-    }
-
-    set socket(socket: MyWebSocket) {
-        this._socket = socket;
     }
 
     toJSON() {

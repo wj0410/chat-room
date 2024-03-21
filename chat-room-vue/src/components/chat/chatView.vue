@@ -1,6 +1,6 @@
 <template>
   <div class="chatView">
-    <headView :headObj="chatObj.head" />
+    <headView :headProp="chatViewProp.headProp" />
     <div class="chat-message-area">
       <div class="chat-content">
         <div class="message incoming">
@@ -392,10 +392,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import headView from "../headView.vue";
-import type { ChatView } from "@/constant/Props";
+import type { ChatViewProp } from "@/constant/Props";
 const props = defineProps({
-  chatObj: {
-    type: Object as () => ChatView,
+  chatViewProp: {
+    type: Object as () => ChatViewProp,
     default: {},
   },
 });
