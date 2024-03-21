@@ -31,9 +31,10 @@
 </template>
 
 <script setup lang="ts">
+import type { ChatMiddle, GameCenterMiddle } from "@/constant/Props";
 const props = defineProps({
   itemList: {
-    type: Array,
+    type: Array<ChatMiddle | GameCenterMiddle>,
     default: [],
   },
 });

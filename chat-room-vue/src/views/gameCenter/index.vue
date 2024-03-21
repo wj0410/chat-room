@@ -7,8 +7,8 @@
 <script setup lang="ts">
 import middle from "@/components/middle.vue";
 import headView from "@/components/headView.vue";
-
-let gameObj = {
+import type { GameCenterMiddle } from "@/constant/Props";
+const gameObj:GameCenterMiddle = {
   type: "gameCenter",
   avatar: "https://avatars.githubusercontent.com/u/43922975?v=4",
   title: "斗地主",
