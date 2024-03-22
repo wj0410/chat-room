@@ -1,0 +1,318 @@
+.chatView {
+    flex: 1;
+    min-width: 510px;
+    background-color: #f3f3f3;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-message-area {
+    flex: 0.7;
+    min-height: 400px;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+  
+    .chat-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+  
+      .message {
+        position: relative;
+        margin: 5px 0;
+        max-width: 60%;
+        display: flex;
+        font-size: 14px;
+  
+        .content {
+          margin: 0 10px;
+          padding: 10px;
+          border-radius: 5px;
+          position: relative;
+          display: inline-block;
+          white-space: pre-line;
+          word-break: break-all;
+          user-select: text !important;
+        }
+  
+        .nick-name {
+          margin: 0 10px 3px;
+          color: #adadad;
+          font-size: 12px;
+        }
+      }
+  
+      .incoming {
+        align-self: flex-start;
+  
+        .content {
+          background-color: #ffffff;
+        }
+  
+        .content::before {
+          content: "";
+          position: absolute;
+          left: -15px;
+          border-width: 10px;
+          border-style: solid;
+          border-color: transparent #ffffff transparent transparent;
+          top: 20px;
+          transform: translateY(-50%);
+        }
+      }
+  
+      .outgoing {
+        align-self: flex-end;
+        display: flex;
+        flex-direction: row-reverse;
+  
+        .content {
+          background-color: #95ec69;
+        }
+  
+        .content::before {
+          content: "";
+          position: absolute;
+          right: -15px;
+          border-width: 10px;
+          border-style: solid;
+          border-color: transparent transparent transparent #95ec69;
+          top: 20px;
+          transform: translateY(-50%);
+        }
+  
+        .head-img {
+          float: right;
+        }
+      }
+  
+      .prompt {
+        text-align: center;
+        font-size: 13px;
+        color: #adadad;
+      }
+    }
+  
+  
+    .new-message {
+      line-height: 0;
+      height: 25px;
+      background: #ffffff;
+      width: 110px;
+      font-size: 13px;
+      border-top-right-radius: 25px;
+      border-bottom-right-radius: 25px;
+      border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      color: #03c160;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      svg {
+        height: 23px;
+        width: 23px;
+      }
+    }
+  
+    .offline {
+      background-color: #f8e8e8;
+      font-size: 12px;
+      color: #817374;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 5px;
+      width: 100%;
+      position: absolute;
+      height: 30px;
+      line-height: 1;
+  
+      .warn {
+        margin-right: 10px;
+  
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+  
+  .chat-send-area {
+    display: flex;
+    flex-direction: column;
+    flex: 0.3;
+    max-height: 350px;
+    min-height: 110px;
+  
+    textarea {
+      flex: 1;
+      padding: 0 15px;
+      border: 0;
+      resize: none;
+      outline: none;
+      background-color: #f3f3f3;
+    }
+  }
+  
+  .chat-send-tool-area {
+    border-top: 1px solid #ccc;
+    display: flex;
+  
+    li {
+      display: inline-block;
+      cursor: pointer;
+    }
+  }
+  
+  
+  .chat-send-tool-left {
+    display: flex;
+    flex: 1;
+  
+    li {
+      margin: 15px 0 15px 15px;
+    }
+  }
+  
+  .emoji:focus {
+    background-color: red !important;
+  }
+  
+  .chat-send-tool-right {
+    display: flex;
+  
+    li {
+      margin: 15px 15px 15px 0;
+    }
+  }
+  
+  /* 工具栏 emoji */
+  .tool-emoji-container {
+    position: relative;
+  }
+  
+  #emoji {
+    position: relative;
+    z-index: 999;
+  }
+  
+  .tool-emoji-container::before {
+    content: "";
+    position: absolute;
+    right: -3px;
+    top: -30px;
+    border-width: 15px;
+    border-style: solid;
+    border-color: #ffffff transparent transparent transparent;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+  
+  .tool-emoji-container::after {
+    content: "";
+    position: absolute;
+    right: -3px;
+    top: -44px;
+    border-width: 15px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.3) transparent transparent transparent;
+    z-index: 1;
+  }
+  
+  .emoji-container {
+    width: 400px;
+    height: 432px;
+    background-color: #ffffff;
+    position: absolute;
+    right: -188px;
+    bottom: 44px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    /* 边框样式 */
+    box-shadow: 2px 2px 5px #ddd;
+    /* 阴影样式 */
+    display: flex;
+    flex-direction: column;
+    cursor: auto;
+  }
+  
+  .emoji-content {
+    flex: 1;
+    overflow-y: auto;
+  
+    ul {
+      display: flex;
+      padding: 10px;
+      flex-wrap: wrap;
+    }
+  
+    li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 42px;
+      width: 42px;
+      border-radius: 5px;
+      margin: 1.5px 0;
+      line-height: 0;
+      font-size: 23px;
+    }
+  
+    li:hover {
+      background-color: #e5e5e5;
+    }
+  }
+  
+  .emoji-page {
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .emoji-page-dot {
+    height: 6px;
+    width: 6px;
+    margin: 0 5px;
+    background-color: #e5e5e5;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+  
+  .emoji-page-dot.active {
+    background-color: #b2b2b2;
+  }
+  
+  .emoji-icon {
+    border-top: 1px solid #ccc;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  
+    li {
+      margin: 10px;
+      padding: 7px;
+      line-height: 0;
+    }
+  
+    li.choose {
+      background-color: #e5e5e5;
+      border-radius: 5px;
+    }
+  }
