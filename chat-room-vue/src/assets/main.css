@@ -24,8 +24,4 @@ ul {
   user-select: none;
 }
 .no-right-click {
-  -webkit-user-select: initial !important; /* Chrome 和 Safari */
-  -moz-user-select: initial !important; /* Firefox */
-  -ms-user-select: initial !important; /* Internet Explorer/Edge */
-  user-select: text !important;
 }

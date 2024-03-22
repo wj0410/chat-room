@@ -1,130 +1,24 @@
 <template>
-  <div class="chatView">
+  <div class="chatView no-copy">
     <headView :headProp="chatViewProp.headProp" />
     <div class="chat-message-area">
       <div class="chat-content">
-        <div class="message incoming">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
+        <template v-for="(item, index) in chatViewProp.MessagePropList" :key="index">
+          <div :class="msgStyle(item)" v-if="item.type === 'normal'">
+            <div class="head-img">
+              <img class="avatar" :src="item.avatar" />
+            </div>
+            <div>
+              <div class="nick-name"
+                v-if="chatViewProp.chatType !== ChatType.PRIVATE && item.username !== userStore.loginUser?.username">
+                {{ item.nickName }}
+              </div>
+              <span class="content">{{ item.msg }}</span>
+            </div>
           </div>
-          <div>
-            <div class="nick-name">WWWWWWW</div>
-            <span class="content">你好，有什么问题？</span>
+          <div v-if="item.type === 'prompt'" class="prompt">{{ item.timestamp }} {{ item.nickName }} {{ item.msg }}
           </div>
-        </div>
-
-        <div class="message outgoing">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
-          </div>
-          <div>
-            <span class="content"
-              >我想请教一个问题。我想请教一个问题。我想请教一个问题。我想请教一个问题。我想请教一个问题。我想请教一个问题。我想请教一个问题。我想请教一个问题。</span
-            >
-          </div>
-        </div>
-        <div class="prompt">12:13 xxx 进入了</div>
-        <div class="prompt">12:13 xxx 进入了</div>
-        <div class="message outgoing">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
-          </div>
-          <div>
-            <span class="content">我想请教一个问题。</span>
-          </div>
-        </div>
-        <div class="message outgoing">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
-          </div>
-          <div>
-            <span class="content">我想请教一个问题。</span>
-          </div>
-        </div>
-        <div class="message incoming">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
-          </div>
-          <div>
-            <div class="nick-name">WWWWWWW</div>
-            <span class="content">[微笑]</span>
-          </div>
-        </div>
-        <div class="message incoming">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
-          </div>
-          <div>
-            <div class="nick-name">WWWWWWW</div>
-            <span class="content">[微笑]</span>
-          </div>
-        </div>
-        <div class="message incoming">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
-          </div>
-          <div>
-            <div class="nick-name">WWWWWWW</div>
-            <span class="content">[微笑]</span>
-          </div>
-        </div>
-        <div class="message incoming">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
-          </div>
-          <div>
-            <div class="nick-name">WWWWWWW</div>
-            <span class="content">[微笑]</span>
-          </div>
-        </div>
-        <div class="message incoming">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
-          </div>
-          <div>
-            <div class="nick-name">WWWWWWW</div>
-            <span class="content">[微笑]</span>
-          </div>
-        </div>
-        <div class="message incoming">
-          <div class="head-img">
-            <img
-              class="avatar"
-              src="https://img1.baidu.com/it/u=2961575590,2057372040&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
-            />
-          </div>
-          <div>
-            <div class="nick-name">WWWWWWW</div>
-            <span class="content">[微笑]</span>
-          </div>
-        </div>
+        </template>
       </div>
       <!-- <div class="new-message">
         <svg
@@ -391,14 +285,30 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import headView from "../headView.vue";
-import type { ChatViewProp } from "@/constant/Props";
+import headView from "@/components/headView.vue";
+import type { ChatViewProp, MessageProp } from "@/constant/Props";
+import useUserStore from "@/store/user";
+import { ChatType } from "@/constant/Enums";
+
+const userStore = useUserStore();
 const props = defineProps({
   chatViewProp: {
     type: Object as () => ChatViewProp,
     default: {},
   },
 });
+// 消息样式判断
+const msgStyle = (item: MessageProp) => {
+  if (item.username === userStore.loginUser?.username) {
+    return 'message outgoing'
+  } else {
+    return 'message incoming'
+  }
+}
+
+
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -418,17 +328,20 @@ const props = defineProps({
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
+
   .chat-content {
     padding: 20px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+
     .message {
       position: relative;
       margin: 5px 0;
       max-width: 60%;
       display: flex;
       font-size: 14px;
+
       .content {
         margin: 0 10px;
         padding: 10px;
@@ -437,7 +350,9 @@ const props = defineProps({
         display: inline-block;
         white-space: pre-line;
         word-break: break-all;
+        user-select:text !important;
       }
+
       .nick-name {
         margin: 0 10px 3px;
         color: #adadad;
@@ -447,9 +362,11 @@ const props = defineProps({
 
     .incoming {
       align-self: flex-start;
+
       .content {
         background-color: #ffffff;
       }
+
       .content::before {
         content: "";
         position: absolute;
@@ -461,13 +378,16 @@ const props = defineProps({
         transform: translateY(-50%);
       }
     }
+
     .outgoing {
       align-self: flex-end;
       display: flex;
       flex-direction: row-reverse;
+
       .content {
         background-color: #95ec69;
       }
+
       .content::before {
         content: "";
         position: absolute;
@@ -478,10 +398,12 @@ const props = defineProps({
         top: 20px;
         transform: translateY(-50%);
       }
+
       .head-img {
         float: right;
       }
     }
+
     .prompt {
       text-align: center;
       font-size: 13px;
@@ -489,6 +411,7 @@ const props = defineProps({
     }
   }
 }
+
 .new-message {
   line-height: 0;
   height: 25px;
@@ -507,11 +430,13 @@ const props = defineProps({
   display: flex;
   align-items: center;
   justify-content: center;
+
   svg {
     height: 23px;
     width: 23px;
   }
 }
+
 .offline {
   background-color: #f8e8e8;
   font-size: 12px;
@@ -525,13 +450,16 @@ const props = defineProps({
   height: 30px;
   line-height: 1;
 }
+
 .warn {
   margin-right: 10px;
+
   svg {
     width: 18px;
     height: 18px;
   }
 }
+
 /* chat-send-area */
 .chat-send-area {
   display: flex;
@@ -540,6 +468,7 @@ const props = defineProps({
   max-height: 350px;
   min-height: 110px;
 }
+
 .chat-send-tool-area {
   border-top: 1px solid #ccc;
   display: flex;
@@ -549,22 +478,28 @@ const props = defineProps({
   display: inline-block;
   cursor: pointer;
 }
+
 .chat-send-tool-left {
   display: flex;
   flex: 1;
 }
+
 .chat-send-tool-left li {
   margin: 15px 0 15px 15px;
 }
+
 .emoji:focus {
   background-color: red !important;
 }
+
 .chat-send-tool-right {
   display: flex;
 }
+
 .chat-send-tool-right li {
   margin: 15px 15px 15px 0;
 }
+
 .chat-send-area textarea {
   flex: 1;
   padding: 0 15px;
@@ -573,10 +508,12 @@ const props = defineProps({
   outline: none;
   background-color: #f3f3f3;
 }
+
 /* 工具栏 emoji */
 .tool-emoji-container {
   position: relative;
 }
+
 .tool-emoji-container::before {
   content: "";
   position: absolute;
@@ -588,6 +525,7 @@ const props = defineProps({
   transform: translateY(-50%);
   z-index: 2;
 }
+
 .tool-emoji-container::after {
   content: "";
   position: absolute;
@@ -598,6 +536,7 @@ const props = defineProps({
   border-color: rgba(0, 0, 0, 0.3) transparent transparent transparent;
   z-index: 1;
 }
+
 .emoji-container {
   width: 400px;
   height: 432px;
@@ -606,21 +545,26 @@ const props = defineProps({
   right: -188px;
   bottom: 44px;
   border-radius: 10px;
-  border: 1px solid #ccc; /* 边框样式 */
-  box-shadow: 2px 2px 5px #ddd; /* 阴影样式 */
+  border: 1px solid #ccc;
+  /* 边框样式 */
+  box-shadow: 2px 2px 5px #ddd;
+  /* 阴影样式 */
   display: flex;
   flex-direction: column;
   cursor: auto;
 }
+
 .emoji-content {
   flex: 1;
   overflow-y: auto;
 }
+
 .emoji-content ul {
   display: flex;
   padding: 10px;
   flex-wrap: wrap;
 }
+
 .emoji-content li {
   display: flex;
   justify-content: center;
@@ -632,6 +576,7 @@ const props = defineProps({
   line-height: 0;
   font-size: 23px;
 }
+
 .emoji-content li:hover {
   background-color: #e5e5e5;
 }
@@ -642,6 +587,7 @@ const props = defineProps({
   justify-content: center;
   align-items: center;
 }
+
 .emoji-page-dot {
   height: 6px;
   width: 6px;
@@ -651,6 +597,7 @@ const props = defineProps({
   display: inline-block;
   transition: background-color 0.6s ease;
 }
+
 .emoji-page-dot.active {
   background-color: #b2b2b2;
 }
@@ -661,15 +608,18 @@ const props = defineProps({
   display: flex;
   align-items: center;
 }
+
 .emoji-icon svg {
   width: 20px;
   height: 20px;
 }
+
 .emoji-icon li {
   margin: 10px;
   padding: 7px;
   line-height: 0;
 }
+
 .emoji-icon li.choose {
   background-color: #e5e5e5;
   border-radius: 5px;

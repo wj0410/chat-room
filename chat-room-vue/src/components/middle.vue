@@ -6,7 +6,7 @@
     <div class="middle-item">
       <ul>
         <template v-for="(item, index) in itemList" :key="index">
-          <li :tabindex="index" v-if="item.type == 'chat'">
+          <li :tabindex="index" v-if="item.type == 'chat'" @click="clickItem(item)">
             <div class="avatar">
               <img class="avatar" :src="item.avatar" />
               <div class="unread-count">{{ item.unread }}</div>
@@ -16,7 +16,7 @@
               <span>{{ item.news }}</span>
             </div>
           </li>
-          <li :tabindex="index" v-else-if="item.type == 'gameCenter'">
+          <li :tabindex="index" v-else-if="item.type == 'gameCenter'" @click="clickItem(item)">
             <div class="avatar">
               <img class="avatar" :src="item.avatar" />
             </div>
@@ -31,13 +31,17 @@
 </template>
 
 <script setup lang="ts">
-import type { ChatMiddle, GameCenterMiddle } from "@/constant/Props";
+import type { ChatMiddleProp, GameCenterMiddleProp } from "@/constant/Props";
 const props = defineProps({
   itemList: {
-    type: Array<ChatMiddle | GameCenterMiddle>,
+    type: Array<ChatMiddleProp | GameCenterMiddleProp>,
     default: [],
   },
 });
+const emit = defineEmits(["middleClick"])
+const clickItem = (item: ChatMiddleProp | GameCenterMiddleProp) => {
+  emit("middleClick", item)
+};
 </script>
 <style lang="scss" scoped>
 @import "@/assets/components/middle.scss";

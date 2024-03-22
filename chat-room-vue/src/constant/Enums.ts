@@ -8,6 +8,7 @@ export enum ChatType {
   GROUP = "GROUP", // 群聊
 }
 export enum MessageType {
+  NOTICE = "NOTICE", // 公告消息
   CHAT = "CHAT", // 聊天消息
   SYNC_ONLINE = "SYNC_ONLINE", // 同步在线用户
   USER_ONLINE = "USER_ONLINE", // 新用户上线
