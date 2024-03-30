@@ -142,7 +142,11 @@
           </ul>
         </div>
       </div>
-      <textarea autofocus></textarea>
+      <textarea ref="sendTextareaRef" v-model="sendTextRef" maxlength="1000" autofocus @paste="handlePaste" @keydown="keydown"
+        @keyup.ctrl.enter="handleCtrlEnter"></textarea>
+      <div class="send-area-button-container">
+        <el-button type="success" @click="handleSending">发送(S)</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -160,6 +164,56 @@ const props = defineProps({
     default: {},
   },
 });
+const sendTextRef = ref('');
+const sendTextareaRef = ref();
+const keydown = (event: KeyboardEvent) => {
+  if (event.key === 'Enter' && !event.ctrlKey) {
+    //说明是发送事件
+    event.preventDefault(); // 阻止默认的换行行为
+    handleSending()
+  }
+}
+
+const handleSending = () => {
+  if (!sendTextRef || sendTextRef.value.trim() === '') {
+    return
+  }
+  sendTextRef.value = ''
+  sendTextareaRef.value.focus()
+}
+// ctrl+enter
+const handleCtrlEnter = (event: KeyboardEvent) => {
+  const input = event.target as HTMLInputElement;
+  if (!input) {
+    return;
+  }
+  const start = input.selectionStart ?? 0;
+  const end = input.selectionEnd ?? 0;
+  const value = sendTextRef.value;
+  event.preventDefault(); // 阻止默认的换行行为
+  sendTextRef.value = value.substring(0, start) + '\n' + value.substring(end);
+  input.selectionStart = input.selectionEnd = start + 1; // 将光标移至新的一行
+}
+// 粘贴
+const handlePaste = (event: ClipboardEvent) => {
+  const items = (event.clipboardData || (event as any).clipboardData).items;
+  for (const item of items) {
+    if (item.kind === 'file' && item.type.includes('image')) {
+      const file = item.getAsFile();
+      // 处理图片文件：例如上传、显示预览等操作
+      processImage(file);
+    }
+  }
+}
+const processImage = (imageFile: File) => {
+  // 这里只是将图片转成 base64 编码，实际应用中可能需要上传到服务器或进行其他处理
+  const reader = new FileReader();
+  reader.readAsDataURL(imageFile);
+  reader.onload = () => {
+    console.log(reader.result);
+  };
+}
+
 // 消息样式判断
 const msgStyle = (item: MessageProp) => {
   if (item.username === userStore.loginUser?.username) {

@@ -13,7 +13,6 @@
         <module>chat-room-server</module>
         <module>chat-room-client</module>
         <module>chat-room-common</module>
-        <module>chat-room-test</module>
         <module>chat-room-websocket-server</module>
         <module>chat-room-system</module>
         <module>chat-room-api</module>
@@ -28,6 +27,7 @@
         <spring-boot.version>2.7.13</spring-boot.version>
         <netty.version>4.1.79.Final</netty.version>
         <mysql-connector.version>8.0.29</mysql-connector.version>
+        <ip2region.version>2.6.4</ip2region.version>
     </properties>
 
     <dependencyManagement>
@@ -115,7 +115,12 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector.version}</version>
             </dependency>
-
+            <!-- 离线地址库 -->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

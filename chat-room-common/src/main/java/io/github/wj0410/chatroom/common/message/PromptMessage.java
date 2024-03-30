@@ -1,6 +1,6 @@
 package io.github.wj0410.chatroom.common.message;
 
-import io.github.wj0410.chatroom.common.enums.PromptType;
+import io.github.wj0410.chatroom.common.enums.old.PromptType;
 import lombok.Data;
 
 /**

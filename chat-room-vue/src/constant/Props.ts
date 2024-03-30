@@ -6,7 +6,7 @@ export interface ChatMiddleProp {
   avatar: string;
   unread: number;
   name: string;
-  news: string;
+  news?: string;// 最近消息摘要
   user?: User;
   chatViewProp?: ChatViewProp;
 }
@@ -19,7 +19,7 @@ export interface GameCenterMiddleProp {
 export interface ChatViewProp {
   chatType: ChatType;
   headProp: HeadProp;
-  MessagePropList: Array<MessageProp>;
+  MessagePropList?: Array<MessageProp>;
 }
 // 头部prop属性
 export interface HeadProp {

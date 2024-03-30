@@ -27,6 +27,16 @@ public class ServerProperties {
     public class ServerConfig {
         private int port;
 
+        public boolean isEnableWebSocket() {
+            return enableWebSocket;
+        }
+
+        public void setEnableWebSocket(boolean enableWebSocket) {
+            this.enableWebSocket = enableWebSocket;
+        }
+
+        private boolean enableWebSocket;
+
         public int getPort() {
             return port;
         }

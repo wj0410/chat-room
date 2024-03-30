@@ -9,7 +9,7 @@
           <li :tabindex="index" v-if="item.type == 'chat'" @click="clickItem(item)">
             <div class="avatar">
               <img class="avatar" :src="item.avatar" />
-              <div class="unread-count">{{ item.unread }}</div>
+              <div class="unread-count" v-if="item.unread > 0">{{ item.unread }}</div>
             </div>
             <div class="chat-content">
               <h3>{{ item.name }}</h3>

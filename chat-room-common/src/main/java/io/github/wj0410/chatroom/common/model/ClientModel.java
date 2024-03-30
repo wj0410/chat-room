@@ -1,7 +1,7 @@
 package io.github.wj0410.chatroom.common.model;
 
-import io.github.wj0410.chatroom.common.enums.ClientOrigin;
-import io.github.wj0410.chatroom.common.enums.ClientType;
+import io.github.wj0410.chatroom.common.enums.old.ClientOrigin;
+import io.github.wj0410.chatroom.common.enums.old.ClientType;
 import io.github.wj0410.chatroom.common.util.MessageUtil;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
