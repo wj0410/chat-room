@@ -1,68 +1,83 @@
 .middle {
-    border-right: 1px solid #ccc;
-    background-color: #f7f7f7;
-    .middle-search {
-      height: 60px;
-      background-color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      input {
-        background-color: #eaeaea;
-        border: 0 solid #eaeaea;
-        padding: 5px;
-      }
-    }
-    .middle-item {
-      overflow-y: auto;
-      height: 100%;
-      li {
-        margin: 0;
-        display: flex;
-        padding: 16px 12px;
-        cursor: pointer;
-        .avatar {
-          position: relative;
-        }
-        .chat-content {
-          line-height: 1;
-          font-size: 13px;
-          margin-left: 10px;
-          display: flex;
-          flex-direction: column;
-          h3 {
-            margin: 0;
-            flex: 1;
-          }
-        }
-        .gameCenter-content {
-          line-height: 1;
-          font-size: 13px;
-          margin-left: 10px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          .title {
-            font-weight: bolder;
-            font-size: 15px;
-          }
-        }
-      }
-      li:focus {
-        background-color: #d3d3d3;
-      }
-      .unread-count {
-        position: absolute;
-        top: -10px;
-        left: 25px;
-        width: 18px;
-        height: 18px;
-        line-height: 18px;
-        text-align: center;
-        font-size: 11px;
-        color: #ffffff;
-        background-color: #fa5151; /* 设置背景颜色 */
-        border-radius: 50%; /* 将元素设置为圆形 */
-      }
+  border-right: 1px solid #ccc;
+  background-color: #f7f7f7;
+
+  .middle-search {
+    height: 60px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 10px;
+    input {
+      margin-left: 12px;
+      background-color: #eaeaea;
+      border: 0 solid #eaeaea;
+      padding: 5px;
+      flex: 1;
     }
   }
+
+  .middle-item {
+    overflow-y: auto;
+    height: 100%;
+
+    li {
+      margin: 0;
+      display: flex;
+      padding: 16px 12px;
+      cursor: pointer;
+
+      .avatar {
+        position: relative;
+      }
+
+      .chat-content {
+        line-height: 1;
+        font-size: 13px;
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+
+        h3 {
+          margin: 0;
+          flex: 1;
+        }
+      }
+
+      .gameCenter-content {
+        line-height: 1;
+        font-size: 13px;
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .title {
+          font-weight: bolder;
+          font-size: 15px;
+        }
+      }
+    }
+
+    li:focus {
+      background-color: #d3d3d3;
+    }
+
+    .unread-count {
+      position: absolute;
+      top: -10px;
+      left: 25px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+      text-align: center;
+      font-size: 11px;
+      color: #ffffff;
+      background-color: #fa5151;
+      /* 设置背景颜色 */
+      border-radius: 50%;
+      /* 将元素设置为圆形 */
+    }
+  }
+}

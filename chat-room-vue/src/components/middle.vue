@@ -2,7 +2,7 @@
   <div class="middle no-copy" :style="{ width: middleWidth + 'px', position: 'relative' }">
     <div class="line" @mousedown="mousedown"></div>
     <div class="middle-search">
-      <input style="width: 200px" type="text" placeholder="🔍搜索" />
+      <input type="text" placeholder="🔍搜索" />
     </div>
     <div class="middle-item">
       <ul>
@@ -44,7 +44,7 @@ const emit = defineEmits(["middleClick"])
 const clickItem = (item: ChatMiddleProp | GameCenterMiddleProp) => {
   emit("middleClick", item)
 };
-const middleWidth = ref(260)
+const middleWidth = ref(240)
 const dragSwitch = ref(false)
 // 点击拖拽时x轴位置
 const startX = ref(0);
@@ -70,8 +70,8 @@ const mousemove = (event: any) => {
 
   let newDragWidth = dragWidth.value + offsetX;
   // 添加最小宽度和最大宽度限制
-  if (newDragWidth < 220) {
-    newDragWidth = 220;
+  if (newDragWidth < 200) {
+    newDragWidth = 200;
   } else if (newDragWidth > 300) {
     newDragWidth = 300;
   }
@@ -87,7 +87,7 @@ const mouseup = () => {
 
 .line {
   height: 100%;
-  width: 3px;
+  width:  5px;
   position: absolute;
   right: 0;
   cursor: ew-resize;
