@@ -1,7 +1,8 @@
 <template>
-  <div class="middle">
+  <div class="middle no-copy" :style="{ width: middleWidth + 'px', position: 'relative' }">
+    <div class="line" @mousedown="mousedown"></div>
     <div class="middle-search">
-      <div><input style="width: 200px" type="text" placeholder="🔍搜索" /></div>
+      <input style="width: 200px" type="text" placeholder="🔍搜索" />
     </div>
     <div class="middle-item">
       <ul>
@@ -32,6 +33,7 @@
 
 <script setup lang="ts">
 import type { ChatMiddleProp, GameCenterMiddleProp } from "@/constant/Props";
+import { onMounted, ref } from 'vue'
 const props = defineProps({
   itemList: {
     type: Array<ChatMiddleProp | GameCenterMiddleProp>,
@@ -42,7 +44,53 @@ const emit = defineEmits(["middleClick"])
 const clickItem = (item: ChatMiddleProp | GameCenterMiddleProp) => {
   emit("middleClick", item)
 };
+const middleWidth = ref(260)
+const dragSwitch = ref(false)
+// 点击拖拽时x轴位置
+const startX = ref(0);
+// middle点击时的宽度
+const dragWidth = ref(0);
+onMounted(() => {
+  document.documentElement.addEventListener('mousemove', mousemove);
+  document.documentElement.addEventListener('mouseup', mouseup);
+})
+const mousedown = (event: any) => {
+  event.preventDefault();
+  dragSwitch.value = true
+  const middleWidth: any = document.querySelector('.middle')
+  startX.value = event.clientX || event.touches[0].clientX;
+  dragWidth.value = middleWidth.offsetWidth;
+}
+const mousemove = (event: any) => {
+  if (!dragSwitch.value) {
+    return
+  }
+  const clientX = event.clientX || event.touches[0].clientX;
+  const offsetX = clientX - startX.value;
+
+  let newDragWidth = dragWidth.value + offsetX;
+  // 添加最小宽度和最大宽度限制
+  if (newDragWidth < 220) {
+    newDragWidth = 220;
+  } else if (newDragWidth > 300) {
+    newDragWidth = 300;
+  }
+  middleWidth.value = newDragWidth
+}
+const mouseup = () => {
+  dragSwitch.value = false
+}
+
 </script>
 <style lang="scss" scoped>
 @import "@/assets/components/middle.scss";
+
+.line {
+  height: 100%;
+  width: 3px;
+  position: absolute;
+  right: 0;
+  cursor: ew-resize;
+  z-index: 1;
+}
 </style>

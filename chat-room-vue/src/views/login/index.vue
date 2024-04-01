@@ -1,12 +1,12 @@
 <template>
     <div class="login-container">
-        <div class="form">
+        <form @submit="onSubmit">
             <h2>欢迎登录</h2>
             <input type="text" placeholder="用户名或邮箱" v-model="form.username" required>
             <input type="password" placeholder="密码" v-model="form.password" required>
-            <button type="submit" @click="onSubmit">登录</button>
-            <p>还没有账号？<a href="#" @click="jump('register')">立即注册</a></p>
-        </div>
+            <button type="submit">登录</button>
+            <p>还没有账号？<a href="#" @click="jump('/register')">立即注册</a></p>
+        </form>
     </div>
 
 </template>
@@ -21,11 +21,9 @@ const form = reactive({
     username: '',
     password: ''
 })
-const onSubmit = () => {
-    if (!(form.username && form.password)) {
-        return;
-    }
+const onSubmit = (event: any) => {
     console.log('submit!')
+    event.preventDefault()
 }
 </script>
 <style lang="scss" scoped>
@@ -38,7 +36,7 @@ const onSubmit = () => {
     height: 100vh;
     margin: 0;
 
-    .form {
+    form {
         background-color: #fff;
         padding: 20px;
         border-radius: 5px;

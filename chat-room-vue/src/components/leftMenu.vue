@@ -7,7 +7,7 @@
       </div>
       <div class="menu-bar-top">
         <ul>
-          <li @click="jump('chat')">
+          <li @click="jump('/chat')">
             <svg
               t="1701672952346"
               class="icon"
@@ -25,7 +25,7 @@
               ></path>
             </svg>
           </li>
-          <li @click="jump('gameCenter')">
+          <li @click="jump('/gameCenter')">
             <svg
               t="1701672968734"
               class="icon"
