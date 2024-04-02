@@ -90,7 +90,7 @@ const mouseup = () => {
   width:  5px;
   position: absolute;
   right: 0;
-  cursor: ew-resize;
-  z-index: 1;
+  cursor: col-resize;
+  border-right: 1px solid #ccc;
 }
 </style>

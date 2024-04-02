@@ -1,7 +1,7 @@
 <template>
   <div class="chatView no-copy">
     <headView :headProp="chatViewProp.headProp" />
-    <div class="chat-message-area">
+    <div class="chat-message-area" :style="{ height: chatHeight + 'px', position: 'relative' }">
       <div class="chat-content">
         <template v-for="(item, index) in chatViewProp.MessagePropList" :key="index">
           <div :class="msgStyle(item)" v-if="item.type === 'normal'">
@@ -46,6 +46,7 @@
         </span>
         <span>当前网络不可用，需检查你的网络设置</span>
       </div>
+      <div class="line" @mousedown="mousedown"></div>
     </div>
     <div class="chat-send-area">
       <div class="chat-send-tool-area">
@@ -69,7 +70,7 @@
                 </path>
               </svg>
 
-              <div class="tool-emoji-container" v-show="emojiShow">
+              <div class="tool-emoji-container" v-show="emojiShowRef">
                 <div class="emoji-container">
                   <div class="emoji-content">
                     <ul id="system">
@@ -142,8 +143,8 @@
           </ul>
         </div>
       </div>
-      <textarea ref="sendTextareaRef" v-model="sendTextRef" maxlength="1000" autofocus @paste="handlePaste" @keydown="keydown"
-        @keyup.ctrl.enter="handleCtrlEnter"></textarea>
+      <textarea ref="sendTextareaRef" v-model="sendTextRef" maxlength="5000" autofocus @paste="handlePaste"
+        @keydown="keydown" @keyup.ctrl.enter="handleCtrlEnter"></textarea>
       <div class="send-area-button-container">
         <el-button type="success" @click="handleSending">发送(S)</el-button>
       </div>
@@ -153,19 +154,23 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import headView from "@/components/headView.vue";
-import type { ChatViewProp, MessageProp } from "@/constant/Props";
+import type { ChatViewProp } from "@/constant/Props";
 import useUserStore from "@/store/user";
 import { ChatType } from "@/constant/Enums";
+import { usePageLogic, useDrag } from "./hook"
+import { onMounted } from "vue";
 
 const userStore = useUserStore();
+const { sendTextRef, emojiShowRef, handleCtrlEnter, msgStyle, handlePaste, showEmoji, chooseEmoji } = usePageLogic();
+const { chatHeight, mousemove, mouseup, mousedown } = useDrag()
 const props = defineProps({
   chatViewProp: {
     type: Object as () => ChatViewProp,
     default: {},
   },
 });
-const sendTextRef = ref('');
 const sendTextareaRef = ref();
+// 回车
 const keydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter' && !event.ctrlKey) {
     //说明是发送事件
@@ -173,7 +178,6 @@ const keydown = (event: KeyboardEvent) => {
     handleSending()
   }
 }
-
 const handleSending = () => {
   if (!sendTextRef || sendTextRef.value.trim() === '') {
     return
@@ -181,52 +185,13 @@ const handleSending = () => {
   sendTextRef.value = ''
   sendTextareaRef.value.focus()
 }
-// ctrl+enter
-const handleCtrlEnter = (event: KeyboardEvent) => {
-  const input = event.target as HTMLInputElement;
-  if (!input) {
-    return;
-  }
-  const start = input.selectionStart ?? 0;
-  const end = input.selectionEnd ?? 0;
-  const value = sendTextRef.value;
-  event.preventDefault(); // 阻止默认的换行行为
-  sendTextRef.value = value.substring(0, start) + '\n' + value.substring(end);
-  input.selectionStart = input.selectionEnd = start + 1; // 将光标移至新的一行
-}
-// 粘贴
-const handlePaste = (event: ClipboardEvent) => {
-  const items = (event.clipboardData || (event as any).clipboardData).items;
-  for (const item of items) {
-    if (item.kind === 'file' && item.type.includes('image')) {
-      const file = item.getAsFile();
-      // 处理图片文件：例如上传、显示预览等操作
-      processImage(file);
-    }
-  }
-}
-const processImage = (imageFile: File) => {
-  // 这里只是将图片转成 base64 编码，实际应用中可能需要上传到服务器或进行其他处理
-  const reader = new FileReader();
-  reader.readAsDataURL(imageFile);
-  reader.onload = () => {
-    console.log(reader.result);
-  };
-}
 
-// 消息样式判断
-const msgStyle = (item: MessageProp) => {
-  if (item.username === userStore.loginUser?.username) {
-    return 'message outgoing'
-  } else {
-    return 'message incoming'
-  }
-}
-const emojiShow = ref(false)
-const showEmoji = () => {
-  emojiShow.value = !emojiShow.value
-}
-// emoji表情
+onMounted(() => {
+  document.documentElement.addEventListener('mousemove', mousemove);
+  document.documentElement.addEventListener('mouseup', mouseup);
+})
+
+
 const emoticons = [
   "😀", "😃", "😄", "😁", "😆", "😅", "😉", "😊", "😇", "😍",
   "😘", "😗", "😙", "😚", "😋", "😛", "😜", "🤪", "😝", "🤑",
@@ -239,11 +204,17 @@ const emoticons = [
   "🤯", "😷", "🥺", "🤧", "🤠", "🤕", "😷", "🤖", "🥸", "🤡",
   "👽", "🤯", "🤑", "🥺", "🧔", "👦", "👨", "👴", "👩", "👵"
 ]
-const chooseEmoji = (item: string) => {
-  console.log(item)
-}
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/components/chatView.scss";
+
+.line {
+  height: 1px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  cursor: row-resize;
+  border-top: 1px solid #ccc;
+}
 </style>

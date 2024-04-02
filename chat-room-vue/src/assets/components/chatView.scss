@@ -7,9 +7,6 @@
   }
   
   .chat-message-area {
-    flex: 0.7;
-    min-height: 400px;
-    position: relative;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
@@ -150,9 +147,7 @@
   .chat-send-area {
     display: flex;
     flex-direction: column;
-    flex: 0.3;
-    max-height: 350px;
-    min-height: 110px;
+    flex: 1;
   
     textarea {
       flex: 1;
@@ -166,7 +161,6 @@
   }
   
   .chat-send-tool-area {
-    border-top: 1px solid #ccc;
     display: flex;
   
     li {
