@@ -68,7 +68,9 @@ export class StatusUpdateMessageHandler implements MessageHandler<Object> {
  */
 export class HistoryMessageHandler implements MessageHandler<HistoryMsgDTO> {
     handle(response: Response<HistoryMsgDTO>) {
+        const userStore = useUserStore()
         const msgList = response.body.msgList
         console.log('历史记录消息', msgList)
+        userStore.setOnlineChatRoomHisMsgList(msgList)
     }
 };

@@ -1,6 +1,6 @@
-import type {Response} from "./Response";
+import type { Response } from "./Response";
 import User from "./User";
-import {ChatType, UserStatus} from "@/constant/Enums";
+import { ChatType, UserStatus } from "@/constant/Enums";
 
 export class UserMsgDTO {
     private _content: any;
@@ -68,9 +68,9 @@ export class UserStateMsgDTO {
 }
 
 export class HistoryMsgDTO {
-    private _msgList: Response<UserMsgDTO>;
+    private _msgList: Array<Response<UserMsgDTO>>;
 
-    constructor(msgList: Response<UserMsgDTO>) {
+    constructor(msgList: Array<Response<UserMsgDTO>>) {
         this._msgList = msgList;
     }
 

@@ -1,9 +1,10 @@
 import useUserStore from '@/store/user';
 import User from '@/model/User';
-import type { ChatMiddleProp, ChatViewProp, GameCenterMiddleProp } from './constant/Props';
-import { ChatType } from './constant/Enums';
-
-
+import { ChatMiddleProp, ChatMiddlePropBuilder } from "@/prop/ChatMiddleProp";
+import ChatViewProp from "@/prop/ChatViewProp";
+import MessageProp from './prop/MessageProp';
+import { useMsgCache } from "@/cache/userCache";
+const { addMsg } = useMsgCache()
 const userStore = useUserStore();
 
 export const admin = new User(
@@ -14,82 +15,9 @@ export const user = new User(
 );
 
 // chatMiddle
-export const chatUserObj: ChatMiddleProp = {
-    chatType: ChatType.PRIVATE,
-    type: "chat",
-    avatar: user.avatar,
-    unread: 5,
-    name: user.nickName,
-    news: "最近消息摘要",
-    user: user
-};
-export const chatPublicObj: ChatMiddleProp = {
-    chatType: ChatType.GROUP,
-    type: "chat",
-    avatar: admin.avatar,
-    unread: 1,
-    name: "在线聊天室",
-    news: "最近消息摘要",
-};
+export const chatUserMiddle: ChatMiddleProp = ChatMiddlePropBuilder.buildByUser(user)
+chatUserMiddle.unread = 5
+chatUserMiddle.news = '最近消息摘要'
 
-const chatUserViewProp: ChatViewProp = {
-    chatType: chatUserObj.chatType,
-    headProp: {
-        title: chatUserObj.name,
-        groupUserList: [chatUserObj.user] as User[]
-    },
-    MessagePropList: [
-        {
-            username: admin.username,
-            nickName: admin.nickName,
-            avatar: admin.avatar,
-            msg: 'hello',
-            timestamp: 111111,
-            type: 'normal'
-        },
-        {
-            username: user.username,
-            nickName: user.nickName,
-            avatar: user.avatar,
-            msg: 'hi',
-            timestamp: 22222,
-            type: 'normal'
-        }
-    ]
-};
-const chatPublicViewProp: ChatViewProp = {
-    chatType: chatPublicObj.chatType,
-    headProp: {
-        title: chatPublicObj.name,
-        groupUserList: userStore.onlineUserList,
-        userCount: userStore.onlineUserTotal,
-    },
-    MessagePropList: [
-        {
-            nickName: admin.nickName,
-            msg: '进来了',
-            timestamp: 111111,
-            type: 'prompt'
-        },
-        {
-            username: admin.username,
-            nickName: admin.nickName,
-            avatar: admin.avatar,
-            msg: '你好',
-            timestamp: 111111,
-            type: 'normal'
-        },
-        {
-            username: user.username,
-            nickName: user.nickName,
-            avatar: user.avatar,
-            msg: '你好呀',
-            timestamp: 22222,
-            type: 'normal'
-        }
-    ]
-};
-chatUserObj.chatViewProp = chatUserViewProp;
-chatPublicObj.chatViewProp = chatPublicViewProp;
-
-
+export const msg1 = new MessageProp(admin.username, admin.nickName, admin.avatar, 'hello', '2024/4/3 13:06', 'normal')
+export const msg2 = new MessageProp(user.username, user.nickName, user.avatar, 'hi', '2024/4/3 13:06', 'normal')

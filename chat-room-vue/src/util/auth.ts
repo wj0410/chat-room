@@ -1,13 +1,14 @@
+import { localCache } from './cache'
 const TokenKey = 'token'
 
 export function getToken() {
-    return localStorage.getItem(TokenKey)
+    return localCache.get(TokenKey)
 }
 
-export function setToken(token:string) {
-    return localStorage.setItem(TokenKey, token)
+export function setToken(token: string) {
+    return localCache.set(TokenKey, token)
 }
 
 export function removeToken() {
-    return localStorage.removeItem(TokenKey)
+    return localCache.remove(TokenKey)
 }

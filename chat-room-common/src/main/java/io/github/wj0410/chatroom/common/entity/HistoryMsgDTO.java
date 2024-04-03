@@ -14,8 +14,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-    public class HistoryMsgDTO implements Serializable {
-
+public class HistoryMsgDTO implements Serializable {
     private List<Response> msgList;
-
 }

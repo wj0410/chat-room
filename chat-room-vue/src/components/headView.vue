@@ -1,56 +1,32 @@
 <template>
   <div class="head no-copy">
     <div class="title">
-      {{ headProp.title }}
-      <div v-if="headProp.userCount" class="userCount">
-        （{{ headProp.userCount }}）
+      {{ middleProp.title }}
+      <div v-if="middleProp.chatType && middleProp.chatType !== 'PRIVATE'" class="userCount">
+        （{{ middleProp.groupUserList?.length }}）
       </div>
     </div>
-    <div class="more" v-if="headProp.groupUserList">
-      <svg
-        @click="moreClick"
-        t="1700459172354"
-        class="icon"
-        viewBox="0 0 1024 1024"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        p-id="8224"
-        width="200"
-        height="200"
-      >
-        <path
-          d="M0 0h1024v1024H0z"
-          fill="#000000"
-          fill-opacity="0"
-          p-id="8225"
-        ></path>
+    <div class="more" v-if="middleProp.groupUserList">
+      <svg @click="moreClick" t="1700459172354" class="icon" viewBox="0 0 1024 1024" version="1.1"
+        xmlns="http://www.w3.org/2000/svg" p-id="8224" width="200" height="200">
+        <path d="M0 0h1024v1024H0z" fill="#000000" fill-opacity="0" p-id="8225"></path>
         <path
           d="M234.666667 448a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m277.333333 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m277.333333 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z"
-          fill="#333231"
-          p-id="8226"
-        ></path>
+          fill="#333231" p-id="8226"></path>
       </svg>
     </div>
-    <transition name="slide" appear v-if="headProp.groupUserList">
-      <div
-        class="more-container"
-        v-show="refMoreShow"
-        :class="{
-          'more-container-show': refMoreShow,
-          'more-container-hide': !refMoreShow,
-        }"
-      >
+    <transition name="slide" appear v-if="middleProp.groupUserList">
+      <div class="more-container" v-show="refMoreShow" :class="{
+        'more-container-show': refMoreShow,
+        'more-container-hide': !refMoreShow,
+      }">
         <div class="middle-search">
           <div>
             <input style="width: 200px" type="text" placeholder="🔍搜索" />
           </div>
         </div>
         <ul>
-          <li
-            :tabindex="index"
-            v-for="(item, index) in headProp.groupUserList"
-            key="index"
-          >
+          <li :tabindex="index" v-for="(item, index) in middleProp.groupUserList" key="index">
             <div class="avatar">
               <img class="avatar" :src="item.avatar" />
             </div>
@@ -64,10 +40,10 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { HeadProp } from '@/constant/Props'
+import type { IMiddleProp } from '@/prop/interfaces/IProps'
 const props = defineProps({
-  headProp: {  
-    type: Object as () => HeadProp ,
+  middleProp: {
+    type: Object as () => IMiddleProp,
     default: {},
   },
 });
@@ -82,6 +58,7 @@ const moreClick = () => {
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -91,18 +68,22 @@ const moreClick = () => {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(100%);
   }
 }
+
 .more-container-show {
   display: block;
   animation: slideInFromRight 0.5s forwards;
 }
+
 .more-container-hide {
   display: block;
   animation: slideOutToRight 0.5s forwards;
 }
+
 .head {
   background-color: #f3f3f3;
   height: 60px;
@@ -110,20 +91,24 @@ const moreClick = () => {
   border-bottom: 1px solid #ccc;
   position: relative;
   width: 100%;
+
   .title {
     flex: 1;
     display: flex;
     align-items: center;
     margin-left: 25px;
+
     .userCount {
       line-height: 0;
     }
   }
+
   .more {
     display: flex;
     align-items: center;
     margin-right: 16px;
   }
+
   .more-container {
     width: 260px;
     height: 750px;
@@ -136,6 +121,7 @@ const moreClick = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     // display: none;
     .middle-search {
       height: 60px;
@@ -143,12 +129,14 @@ const moreClick = () => {
       display: flex;
       align-items: center;
       justify-content: center;
+
       input {
         background-color: #eaeaea;
         border: 0 solid #eaeaea;
         padding: 5px;
       }
     }
+
     ul {
       display: flex;
       flex-wrap: wrap;
@@ -157,6 +145,7 @@ const moreClick = () => {
       max-height: 689px;
       overflow-y: auto;
     }
+
     li {
       margin-bottom: 4px;
       font-size: 12px;
@@ -164,10 +153,14 @@ const moreClick = () => {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      white-space: nowrap; /* 不换行 */
-      overflow: hidden; /* 溢出隐藏 */
-      text-overflow: ellipsis; /* 文本省略号 */
+      white-space: nowrap;
+      /* 不换行 */
+      overflow: hidden;
+      /* 溢出隐藏 */
+      text-overflow: ellipsis;
+      /* 文本省略号 */
       padding: 5px;
+
       .nick-name {
         width: 50px;
         margin-top: 7px;
@@ -176,6 +169,7 @@ const moreClick = () => {
         text-overflow: ellipsis;
         text-align: center;
       }
+
       .avatar {
         width: 30px !important;
         height: 30px !important;

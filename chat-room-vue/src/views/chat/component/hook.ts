@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import useUserStore from "@/store/user";
-import type { MessageProp } from "@/constant/Props";
+import MessageProp from "@/prop/MessageProp";
 const userStore = useUserStore();
 
 export const usePageLogic = () => {

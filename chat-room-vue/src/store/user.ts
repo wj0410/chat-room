@@ -1,19 +1,25 @@
 import { defineStore } from "pinia";
 import LoginDTO from "@/model/LoginDTO";
 import User from "@/model/User";
-import { login } from "@/api/login";
-
+import { UserMsgDTO } from "@/model/MessageDTO";
 import MyWebSocket from "@/websocket/MyWebSocket";
-
+import { Response } from "@/model/Response";
 const useUserStore = defineStore("user", {
   state: () => ({
     userMap: new Map<string, User>(),
     loginUser: undefined as User | undefined,
+    onlineChatRoomHisMsg: [] as Array<Response<UserMsgDTO>>
   }),
   getters: {
     onlineUserTotal: (state) => state.userMap.size,
     onlineUserList: (state): User[] => {
       return Array.from(state.userMap.values()) as User[];
+    },
+    onlineChatRoomHisMsgList: (state): Array<Response<UserMsgDTO>> => {
+      if (state.onlineChatRoomHisMsg) {
+        return state.onlineChatRoomHisMsg as Array<Response<UserMsgDTO>>;
+      }
+      return [];
     },
   },
   actions: {
@@ -49,6 +55,9 @@ const useUserStore = defineStore("user", {
     },
     logOut() {
       return new Promise((resolve, reject) => { });
+    },
+    setOnlineChatRoomHisMsgList(msgList: Array<Response<UserMsgDTO>>) {
+      this.onlineChatRoomHisMsg = msgList
     },
   },
 });

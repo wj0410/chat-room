@@ -1,35 +1,24 @@
 <template>
   <div class="gameCenter">
-    <middle :itemList="gameList" @middleClick="middleClick" />
-    <headView :headProp="refHeadProp" />
+    <middle :middleList="gameListProp" @middleClick="middleClick" />
+    <headView :middleProp="selectMiddleProp" />
   </div>
 </template>
 <script setup lang="ts">
 import middle from "@/components/middle.vue";
 import headView from "@/components/headView.vue";
-import type { GameCenterMiddleProp, HeadProp } from "@/constant/Props";
+import GameCenterMiddleProp from "@/prop/GameCenterMiddleProp";
 import { admin, user } from "@/Data";
 import { ref } from "vue";
-// gameCenterMiddle
-const gameObj1: GameCenterMiddleProp = {
-  type: "gameCenter",
-  avatar: admin.avatar,
-  title: "欢乐斗地主",
-};
-const gameObj2: GameCenterMiddleProp = {
-  type: "gameCenter",
-  avatar: user.avatar,
-  title: "五子棋",
-};
-let gameList = [gameObj1, gameObj2];
-const refHeadProp = ref<HeadProp>()
-refHeadProp.value = {
-  title: gameList[0].title
-};
+const gameObj1 = new GameCenterMiddleProp("game:doudizhu", admin.avatar, '欢乐斗地主');
+const gameObj2 = new GameCenterMiddleProp("game:wuziqi", user.avatar, '五子棋');
+
+const gameListProp = ref([gameObj1, gameObj2]);
+const selectMiddleProp = ref()
+selectMiddleProp.value = gameListProp.value[0]
+console.log(selectMiddleProp.value)
 const middleClick = (item: GameCenterMiddleProp) => {
-  refHeadProp.value = {
-    title: item.title
-  };
+  selectMiddleProp.value = item
 };
 </script>
 <style lang="scss" scoped>

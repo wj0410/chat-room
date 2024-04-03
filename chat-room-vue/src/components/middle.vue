@@ -6,18 +6,20 @@
     </div>
     <div class="middle-item">
       <ul>
-        <template v-for="(item, index) in itemList" :key="index">
-          <li :tabindex="index" v-if="item.type == 'chat'" @click="clickItem(item)">
+        <template v-for="(item, index) in  middleList " :key="index">
+          <li :tabindex="index" v-if="item.type==='chat'"
+            @click="clickItem(item)">
             <div class="avatar">
               <img class="avatar" :src="item.avatar" />
-              <div class="unread-count" v-if="item.unread > 0">{{ item.unread }}</div>
+              <div class="unread-count" v-if="item.unread && item.unread > 0">{{ item.unread }}</div>
             </div>
             <div class="chat-content">
-              <h3>{{ item.name }}</h3>
+              <h3>{{ item.title }}</h3>
               <span>{{ item.news }}</span>
             </div>
           </li>
-          <li :tabindex="index" v-else-if="item.type == 'gameCenter'" @click="clickItem(item)">
+          <li :tabindex="index" v-else-if="item.type==='gameCenter'"
+            @click="clickItem(item)">
             <div class="avatar">
               <img class="avatar" :src="item.avatar" />
             </div>
@@ -32,11 +34,14 @@
 </template>
 
 <script setup lang="ts">
-import type { ChatMiddleProp, GameCenterMiddleProp } from "@/constant/Props";
+import { ChatMiddleProp } from "@/prop/ChatMiddleProp";
+import type { IMiddleProp } from "@/prop/interfaces/IProps";
+import GameCenterMiddleProp from "@/prop/GameCenterMiddleProp";
+
 import { onMounted, ref } from 'vue'
 const props = defineProps({
-  itemList: {
-    type: Array<ChatMiddleProp | GameCenterMiddleProp>,
+  middleList: {
+    type: Array<IMiddleProp>,
     default: [],
   },
 });
@@ -87,10 +92,10 @@ const mouseup = () => {
 
 .line {
   height: 100%;
-  width:  5px;
+  width: 5px;
   position: absolute;
   right: 0;
   cursor: col-resize;
   border-right: 1px solid #ccc;
 }
-</style>
+</style>@/props/Props

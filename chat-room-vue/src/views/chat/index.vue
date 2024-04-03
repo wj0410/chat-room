@@ -1,51 +1,56 @@
 <template>
   <div class="chat">
-    <middle :itemList="chatMiddleProp" @middleClick="middleClick" />
-    <chatView :chatViewProp="chatViewPropSelect" />
+    <middle :middleList="chatMiddleListRef" @middleClick="middleClick" />
+    <chatView :chatViewProp="chatViewPropSelect" :chatMiddleProp="chatMiddlePropSelect" />
   </div>
 </template>
 <script setup lang="ts">
 import middle from "@/components/middle.vue";
 import chatView from "./component/chatView.vue";
-import type { ChatMiddleProp, ChatViewProp, MessageProp, HeadProp } from "@/constant/Props";
-import { ChatType } from "@/constant/Enums";
-import { chatUserObj } from "@/Data";
+import { ChatMiddleProp, ChatMiddlePropBuilder } from "@/prop/ChatMiddleProp";
+import ChatViewProp from "@/prop/ChatViewProp";
+import MessageProp from "@/prop/MessageProp";
+import { chatUserMiddle,msg1,msg2 } from "@/Data";
 import { ref } from "vue";
 import useUserStore from "@/store/user";
+import { useChatMiddleCache, useMsgCache } from "@/cache/userCache";
+import { ChatType } from "@/constant/Enums";
+const { getChatMiddle, addChatMiddle, removeChatMiddle } = useChatMiddleCache()
+const { getMsg, addMsg } = useMsgCache()
 const userStore = useUserStore()
-// 获取历史消息
-const getHistoryMessages = (): Array<MessageProp> => {
-  return []
-}
-const buildPublicChat = (): ChatMiddleProp => {
-  const publicChat: ChatMiddleProp = {
-    type: "chat",
-    chatType: ChatType.PUBLIC,
-    avatar: "https://img2.baidu.com/it/u=4085937757,1625118201&fm=253&fmt=auto&app=138&f=JPEG?w=749&h=500",
-    unread: 0,
-    name: "在线聊天室"
-  }
+// 1.构建middleList
+// 1.1先构建在线聊天室middleProp
+const chatMiddleListRef = ref<Array<ChatMiddleProp>>()
+chatMiddleListRef.value = [ChatMiddlePropBuilder.buildOnlineChatRoom()]
+// 1.2从缓存获取其他middleProp
+removeChatMiddle(chatUserMiddle)
+addChatMiddle(chatUserMiddle)
 
-  const publicHeadProp: HeadProp = {
-    title: publicChat.name,
-    userCount: userStore.onlineUserTotal,
-    groupUserList: userStore.onlineUserList
-  }
-  const publicChatViewProp: ChatViewProp = {
-    chatType: publicChat.chatType,
-    headProp: publicHeadProp,
-    MessagePropList: getHistoryMessages()
-  }
-  publicChat.chatViewProp = publicChatViewProp
-  return publicChat
-}
-const chatMiddleProp: Array<ChatMiddleProp> = [buildPublicChat(), chatUserObj];
+chatMiddleListRef.value.push(...getChatMiddle())
+// 2.构建chatView
+const chatMiddlePropSelect = ref<ChatMiddleProp>()
+const chatViewPropSelect = ref<ChatViewProp>()
 
-const chatViewPropSelect = ref<ChatViewProp | undefined>()
-chatViewPropSelect.value = chatMiddleProp[0].chatViewProp;
+addMsg(chatUserMiddle.id, msg1)
+addMsg(chatUserMiddle.id, msg2)
+const getChatViewPropByChatMiddle = (chatMiddle: ChatMiddleProp): ChatViewProp => {
+  console.log(chatMiddle)
+  let msg: Array<MessageProp> = [];
+  if (chatMiddle.chatType === ChatType.PUBLIC) {
+    // 获取在线聊天室历史消息
+    msg = []
+  } else {
+    msg = getMsg(chatMiddle.id)
+  }
+  return new ChatViewProp(chatMiddle.chatType, msg)
+};
+
+chatMiddlePropSelect.value = chatMiddleListRef.value[0]
+chatViewPropSelect.value = getChatViewPropByChatMiddle(chatMiddlePropSelect.value)
 
 const middleClick = (item: ChatMiddleProp) => {
-  chatViewPropSelect.value = item.chatViewProp;
+  chatMiddlePropSelect.value = item;
+  chatViewPropSelect.value = getChatViewPropByChatMiddle(item)
 };
 
 </script>

@@ -1,9 +1,9 @@
 <template>
   <div class="chatView no-copy">
-    <headView :headProp="chatViewProp.headProp" />
+    <headView :middleProp="chatMiddleProp" />
     <div class="chat-message-area" :style="{ height: chatHeight + 'px', position: 'relative' }">
       <div class="chat-content">
-        <template v-for="(item, index) in chatViewProp.MessagePropList" :key="index">
+        <template v-for="(item, index) in chatViewProp.messagePropList" :key="index">
           <div :class="msgStyle(item)" v-if="item.type === 'normal'">
             <div class="head-img">
               <img class="avatar" :src="item.avatar" />
@@ -16,7 +16,7 @@
               <span class="content">{{ item.msg }}</span>
             </div>
           </div>
-          <div v-if="item.type === 'prompt'" class="prompt">{{ item.timestamp }} {{ item.nickName }} {{ item.msg }}
+          <div v-if="item.type === 'prompt'" class="prompt">{{ item.time }} {{ item.nickName }} {{ item.msg }}
           </div>
         </template>
       </div>
@@ -154,7 +154,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import headView from "@/components/headView.vue";
-import type { ChatViewProp } from "@/constant/Props";
+import ChatViewProp from "@/prop/ChatViewProp";
+import ChatMiddleProp from "@/prop/ChatMiddleProp";
 import useUserStore from "@/store/user";
 import { ChatType } from "@/constant/Enums";
 import { usePageLogic, useDrag } from "./hook"
@@ -165,7 +166,11 @@ const { sendTextRef, emojiShowRef, handleCtrlEnter, msgStyle, handlePaste, showE
 const { chatHeight, mousemove, mouseup, mousedown } = useDrag()
 const props = defineProps({
   chatViewProp: {
-    type: Object as () => ChatViewProp,
+    type: ChatViewProp,
+    default: {},
+  },
+  chatMiddleProp: {
+    type: ChatMiddleProp,
     default: {},
   },
 });
@@ -218,3 +223,4 @@ const emoticons = [
   border-top: 1px solid #ccc;
 }
 </style>
+@/props/Props@/prop/interfaces/IProps
