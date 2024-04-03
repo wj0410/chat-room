@@ -166,11 +166,11 @@ const { sendTextRef, emojiShowRef, handleCtrlEnter, msgStyle, handlePaste, showE
 const { chatHeight, mousemove, mouseup, mousedown } = useDrag()
 const props = defineProps({
   chatViewProp: {
-    type: ChatViewProp,
+    type: Object as () => ChatViewProp,
     default: {},
   },
   chatMiddleProp: {
-    type: ChatMiddleProp,
+    type: Object as () => ChatMiddleProp,
     default: {},
   },
 });

@@ -1,7 +1,7 @@
 <template>
   <div class="chat">
     <middle :middleList="chatMiddleListRef" @middleClick="middleClick" />
-    <chatView :chatViewProp="chatViewPropSelect" :chatMiddleProp="chatMiddlePropSelect" />
+    <chatView :chatViewProp="chatViewPropSelect" chatMiddleProp:="chatMiddlePropSelect" />
   </div>
 </template>
 <script setup lang="ts">
@@ -10,7 +10,7 @@ import chatView from "./component/chatView.vue";
 import { ChatMiddleProp, ChatMiddlePropBuilder } from "@/prop/ChatMiddleProp";
 import ChatViewProp from "@/prop/ChatViewProp";
 import MessageProp from "@/prop/MessageProp";
-import { chatUserMiddle,msg1,msg2 } from "@/Data";
+import { chatUserMiddle, msg1, msg2 } from "@/Data";
 import { ref } from "vue";
 import useUserStore from "@/store/user";
 import { useChatMiddleCache, useMsgCache } from "@/cache/userCache";
@@ -25,7 +25,6 @@ chatMiddleListRef.value = [ChatMiddlePropBuilder.buildOnlineChatRoom()]
 // 1.2从缓存获取其他middleProp
 removeChatMiddle(chatUserMiddle)
 addChatMiddle(chatUserMiddle)
-
 chatMiddleListRef.value.push(...getChatMiddle())
 // 2.构建chatView
 const chatMiddlePropSelect = ref<ChatMiddleProp>()
@@ -34,7 +33,6 @@ const chatViewPropSelect = ref<ChatViewProp>()
 addMsg(chatUserMiddle.id, msg1)
 addMsg(chatUserMiddle.id, msg2)
 const getChatViewPropByChatMiddle = (chatMiddle: ChatMiddleProp): ChatViewProp => {
-  console.log(chatMiddle)
   let msg: Array<MessageProp> = [];
   if (chatMiddle.chatType === ChatType.PUBLIC) {
     // 获取在线聊天室历史消息

@@ -16,7 +16,6 @@ const gameObj2 = new GameCenterMiddleProp("game:wuziqi", user.avatar, '五子棋
 const gameListProp = ref([gameObj1, gameObj2]);
 const selectMiddleProp = ref()
 selectMiddleProp.value = gameListProp.value[0]
-console.log(selectMiddleProp.value)
 const middleClick = (item: GameCenterMiddleProp) => {
   selectMiddleProp.value = item
 };

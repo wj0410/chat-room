@@ -34,9 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatMiddleProp } from "@/prop/ChatMiddleProp";
 import type { IMiddleProp } from "@/prop/interfaces/IProps";
-import GameCenterMiddleProp from "@/prop/GameCenterMiddleProp";
 
 import { onMounted, ref } from 'vue'
 const props = defineProps({
@@ -46,7 +44,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["middleClick"])
-const clickItem = (item: ChatMiddleProp | GameCenterMiddleProp) => {
+const clickItem = (item: IMiddleProp) => {
   emit("middleClick", item)
 };
 const middleWidth = ref(240)

@@ -6,20 +6,20 @@ const chatMiddleCacheKey = 'CHAT_MIDDLE'
 const msgCacheKey = 'MSG_CACHE_'
 export const useChatMiddleCache = () => {
     const getChatMiddle = (): Array<ChatMiddleProp> => {
-        return localCache.getJSON(chatMiddleCacheKey) ?? [];
+        return localCache.getJSON(chatMiddleCacheKey) as Array<ChatMiddleProp> ?? [];
     }
     const addChatMiddle = (value: ChatMiddleProp): void => {
-        let cachedData = getChatMiddle()
+        let cachedData: Array<ChatMiddleProp> = getChatMiddle()
         if (cachedData) {
             cachedData.push(value)
         } else {
-            cachedData = [value]
+            cachedData = [value] as Array<ChatMiddleProp>
         }
         localCache.setJSON(chatMiddleCacheKey, cachedData)
     }
     const removeChatMiddle = (value: ChatMiddleProp): void => {
         const cachedData: Array<ChatMiddleProp> = getChatMiddle()
-        const newData = cachedData.filter(item => item.id !== value.id);
+        const newData: Array<ChatMiddleProp> = cachedData.filter(item => item.id !== value.id);
         localCache.setJSON(chatMiddleCacheKey, newData);
     }
     return { getChatMiddle, addChatMiddle, removeChatMiddle }
