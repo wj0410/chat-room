@@ -1,7 +1,7 @@
 <template>
   <div class="chat">
     <middle :middleList="chatMiddleListRef" @middleClick="middleClick" />
-    <chatView :chatViewProp="chatViewPropSelect" chatMiddleProp:="chatMiddlePropSelect" />
+    <chatView :chatViewProp="chatViewPropSelect" :chatMiddleProp="chatMiddlePropSelect" />
   </div>
 </template>
 <script setup lang="ts">
