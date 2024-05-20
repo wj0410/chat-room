@@ -7,7 +7,6 @@ import cn.hutool.core.util.StrUtil;
 import io.github.wj0410.chatroom.common.constant.IpConstants;
 import io.github.wj0410.chatroom.common.entity.*;
 import io.github.wj0410.chatroom.common.enums.Action;
-import io.github.wj0410.chatroom.common.enums.MessageType;
 import io.github.wj0410.chatroom.common.enums.Platform;
 import io.github.wj0410.chatroom.common.enums.UserStatus;
 import io.github.wj0410.chatroom.server.action.ChannelAction;

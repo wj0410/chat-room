@@ -3,7 +3,6 @@ package io.github.wj0410.chatroom.server.factory;
 import io.github.wj0410.chatroom.common.enums.Action;
 import io.github.wj0410.chatroom.server.action.handler.base.ActionHandler;
 import io.github.wj0410.chatroom.server.annotation.DoAction;
-import io.github.wj0410.cloudbox.tools.factory.AbstractSingletonFactory;
 
 /**
  * @author anlingyi

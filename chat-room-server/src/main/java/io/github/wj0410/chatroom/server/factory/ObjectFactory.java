@@ -3,7 +3,6 @@ package io.github.wj0410.chatroom.server.factory;
 
 import io.github.wj0410.chatroom.server.service.AbstractResponseHistoryService;
 import io.github.wj0410.chatroom.server.service.DefaultResponseHistoryService;
-import io.github.wj0410.cloudbox.tools.factory.AbstractSingletonFactory;
 
 /**
  * @author anlingyi
