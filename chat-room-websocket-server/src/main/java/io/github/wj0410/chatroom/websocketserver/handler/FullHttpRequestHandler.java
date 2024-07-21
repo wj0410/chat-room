@@ -1,10 +1,10 @@
 package io.github.wj0410.chatroom.websocketserver.handler;
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
-import io.github.wj0410.chatroom.common.enums.ClientOrigin;
+import io.github.wj0410.chatroom.common.enums.old.ClientOrigin;
 import io.github.wj0410.chatroom.common.message.BindMessage;
 import io.github.wj0410.chatroom.common.util.ServerUtil;
-import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
+import io.github.wj0410.chatroom.websocketserver.holder.HttpAndWebSocketServerHolder;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -44,13 +44,13 @@ public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttp
         }
         // 构造握手响应返回，本机测试
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(
-                "ws://localhost:" + ServerHolder.serverProperties.getServer().getPort(), null, false);
-        ServerHolder.handshaker = wsFactory.newHandshaker(req);
-        if (ServerHolder.handshaker == null) {
+                "ws://localhost:" + HttpAndWebSocketServerHolder.serverProperties.getServer().getPort(), null, false);
+        HttpAndWebSocketServerHolder.handshaker = wsFactory.newHandshaker(req);
+        if (HttpAndWebSocketServerHolder.handshaker == null) {
             WebSocketServerHandshakerFactory
                     .sendUnsupportedVersionResponse(ctx.channel());
         } else {
-            ServerHolder.handshaker.handshake(ctx.channel(), req);
+            HttpAndWebSocketServerHolder.handshaker.handshake(ctx.channel(), req);
         }
         // 客户端上线，绑定clientId
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(req.uri());
@@ -69,7 +69,7 @@ public class FullHttpRequestHandler extends SimpleChannelInboundHandler<FullHttp
         if (params.get(CommonConstants.BIND_AVATAR) != null) {
             bindMessage.setAvatar(params.get(CommonConstants.BIND_AVATAR).get(0));
         }
-        ServerHolder.setClientIdAttr(clientId);
+        HttpAndWebSocketServerHolder.setClientIdAttr(clientId);
         ServerUtil.addClient(ctx, bindMessage, ClientOrigin.WEBSOCKET);
         ctx.pipeline().remove(this);
     }

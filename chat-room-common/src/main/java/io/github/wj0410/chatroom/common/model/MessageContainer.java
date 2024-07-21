@@ -1,6 +1,6 @@
 package io.github.wj0410.chatroom.common.model;
 
-import io.github.wj0410.chatroom.common.enums.MessageContainerType;
+import io.github.wj0410.chatroom.common.enums.old.MessageContainerType;
 import lombok.Data;
 
 /**

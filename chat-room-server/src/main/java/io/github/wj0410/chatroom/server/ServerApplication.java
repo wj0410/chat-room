@@ -3,6 +3,7 @@ package io.github.wj0410.chatroom.server;
 import io.github.wj0410.chatroom.common.conf.ServerProperties;
 import io.github.wj0410.chatroom.common.util.ConfigUtil;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
+import io.github.wj0410.chatroom.server.netty.HttpAndWebSocketServer;
 import io.github.wj0410.chatroom.server.ui.AbstractServerUI;
 import io.github.wj0410.chatroom.server.ui.console.Console;
 
@@ -20,7 +21,13 @@ public class ServerApplication {
     public static void startServer(AbstractServerUI ui) {
         // 加载配置文件
         ServerHolder.serverProperties = ConfigUtil.loadYaml("server.yml", ServerProperties.class);
-        // 运行
-        ui.run();
+        ServerProperties.ServerConfig serverProperties = ServerHolder.serverProperties.getServer();
+//        // java swing客户端服务
+//        ui.run();
+        if (serverProperties.isEnableWebSocket()) {
+            //  ws客户端服务
+            HttpAndWebSocketServer instance = HttpAndWebSocketServer.getInstance(serverProperties.getPort());
+            instance.start();
+        }
     }
 }

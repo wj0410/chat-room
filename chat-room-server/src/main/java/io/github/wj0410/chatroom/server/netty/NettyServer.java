@@ -1,8 +1,8 @@
 package io.github.wj0410.chatroom.server.netty;
 
-import io.github.wj0410.chatroom.server.handler.ServerBindClientHandler;
-import io.github.wj0410.chatroom.server.handler.ServerHandler;
-import io.github.wj0410.chatroom.server.handler.ServerNormalHandler;
+import io.github.wj0410.chatroom.server.handler.old.ServerBindClientHandler;
+import io.github.wj0410.chatroom.server.handler.old.ServerHandler;
+import io.github.wj0410.chatroom.server.handler.old.ServerNormalHandler;
 import io.github.wj0410.chatroom.server.holder.ServerHolder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -78,7 +78,7 @@ public class NettyServer {
         try {
             channelFuture.channel().close().sync();
             ServerHolder.nettyServer = null;
-            ServerHolder.serverUI.printConsole("Server：服务已停止！");
+            ServerHolder.serverUI.printConsole("Netty Server stop！");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

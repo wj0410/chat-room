@@ -2,7 +2,7 @@ package io.github.wj0410.chatroom.common.util;
 
 
 import io.github.wj0410.chatroom.common.constant.CommonConstants;
-import io.github.wj0410.chatroom.common.enums.PromptType;
+import io.github.wj0410.chatroom.common.enums.old.PromptType;
 import io.github.wj0410.chatroom.common.message.NormalMessage;
 import io.github.wj0410.chatroom.common.message.PromptMessage;
 import io.github.wj0410.chatroom.common.model.MessageContainer;

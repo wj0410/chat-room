@@ -2,7 +2,7 @@ package io.github.wj0410.chatroom.websocketserver.handler;
 
 import io.github.wj0410.chatroom.common.model.ClientModel;
 import io.github.wj0410.chatroom.common.util.ServerUtil;
-import io.github.wj0410.chatroom.websocketserver.holder.ServerHolder;
+import io.github.wj0410.chatroom.websocketserver.holder.HttpAndWebSocketServerHolder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.*;
@@ -23,7 +23,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
     protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame frame) {
         // 判断是否是关闭链路的指令
         if (frame instanceof CloseWebSocketFrame) {
-            ServerHolder.handshaker.close(ctx.channel(),
+            HttpAndWebSocketServerHolder.handshaker.close(ctx.channel(),
                     (CloseWebSocketFrame) frame.retain());
             return;
         }
